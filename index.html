@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEC Transactions & Corporate Compliance Tracker</title>
+  <style>
+    /* 100% OFFLINE STYLING - NO INTERNET OR EXTERNAL LIBS NEEDED */
+    :root {
+      --primary: #1e40af;
+      --primary-hover: #1d4ed8;
+      --surface: #ffffff;
+      --background: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #cbd5e1;
+      --border-light: #e2e8f0;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --info: #0284c7;
+      --radius: 8px;
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--background); color: var(--text); padding-bottom: 60px; line-height: 1.5; }
+    
+    /* Header */
+    header { background-color: #0f172a; color: white; padding: 1rem 1.5rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); }
+    .header-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 1rem; }
+    .app-title h1 { font-size: 1.25rem; font-weight: 700; }
+    .app-title p { font-size: 0.75rem; color: #94a3b8; }
+    .header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    
+    /* Layout */
+    .container { max-width: 1300px; margin: 1.5rem auto; padding: 0 1rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    
+    /* Cards */
+    .card { background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); }
+    .stat-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); }
+    .stat-value { font-size: 1.5rem; font-weight: 700; margin-top: 0.25rem; }
+    
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 0.85rem; border-radius: var(--radius); font-size: 0.875rem; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: #334155; color: white; border-color: #475569; }
+    .btn-secondary:hover { background: #475569; }
+    .btn-outline { background: white; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: #f8fafc; }
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
+    
+    /* Period Summary Box */
+    .summary-panel { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
+    .summary-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.75rem; }
+    .period-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+    .summary-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; background: #f8fafc; border: 1px solid var(--border-light); padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.875rem; }
+    
+    /* Filter Bar */
+    .filter-bar { background: var(--surface); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border-light); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+    .search-box { flex: 1; min-width: 250px; }
+    .form-control { width: 100%; padding: 0.5rem 0.75rem; font-size: 0.875rem; border: 1px solid var(--border); border-radius: var(--radius); background-color: #fff; }
+    .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.15); }
+    
+    /* Table */
+    .table-responsive { background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--radius); overflow-x: auto; box-shadow: var(--shadow); }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
+    th { background: #f8fafc; padding: 0.85rem 1rem; font-weight: 600; color: #475569; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-light); vertical-align: top; }
+    tr:hover { background-color: #f8fafc; }
+    
+    /* Badges */
+    .badge { display: inline-block; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.725rem; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
+    .badge-signing { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+    .badge-review { background: #e0f2fe; color: #075985; border-color: #bae6fd; }
+    .badge-payment { background: #f3e8ff; color: #6b21a8; border-color: #e9d5ff; }
+    .badge-approved { background: #ccfbf1; color: #115e59; border-color: #99f6e4; }
+    .badge-submitted { background: #e0e7ff; color: #3730a3; border-color: #c7d2fe; }
+    .badge-completed { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    
+    /* Modal */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
+    .modal-backdrop.hidden { display: none; }
+    .modal-card { background: white; border-radius: 12px; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2); }
+    .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 1.5rem; }
+    .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end; gap: 0.5rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; color: #475569; }
+    .finance-box { background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Offline Header -->
+  <header>
+    <div class="header-container">
+      <div class="app-title">
+        <h1>SEC Client & Transaction Tracker</h1>
+        <p>Offline Corporate Compliance System</p>
+      </div>
+      <div class="header-actions">
+        <!-- Backup & Restore Buttons -->
+        <button onclick="downloadBackup()" class="btn btn-secondary" title="Export full backup file">
+          📥 Backup (Save File)
+        </button>
+        <button onclick="triggerRestore()" class="btn btn-secondary" title="Import backup file">
+          📤 Restore Backup
+        </button>
+        <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="restoreBackup(event)">
+        <button onclick="exportToCSV()" class="btn btn-secondary" title="Export table to Excel CSV">
+          📊 Export CSV
+        </button>
+        <button onclick="openModal()" class="btn btn-primary">
+          ➕ New Transaction
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- KPI / Top Stat Cards -->
+    <div class="grid-4">
+      <div class="card">
+        <div class="stat-title">Total Records</div>
+        <div id="statTotal" class="stat-value">0</div>
+      </div>
+      <div class="card">
+        <div class="stat-title">In Progress / Pending</div>
+        <div id="statActive" class="stat-value" style="color: var(--warning);">0</div>
+      </div>
+      <div class="card">
+        <div class="stat-title">Completed</div>
+        <div id="statCompleted" class="stat-value" style="color: var(--success);">0</div>
+      </div>
+      <div class="card">
+        <div class="stat-title">Total Uncollected Balance</div>
+        <div id="statBalance" class="stat-value" style="color: var(--danger);">₱0.00</div>
+      </div>
+    </div>
+
+    <!-- Dropdown Summary by Week / Month -->
+    <div class="summary-panel">
+      <div class="summary-header">
+        <div>
+          <h3 style="font-size: 1rem; font-weight: 700;">Periodic Summary (Date Accepted)</h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, and collections by timeframe</p>
+        </div>
+        <div class="period-controls">
+          <label style="font-size: 0.8rem; font-weight:600;">Group By:</label>
+          <select id="summaryMode" class="form-control" style="width: auto;" onchange="updateSummarySelectors()">
+            <option value="month">Summary by Month</option>
+            <option value="week">Summary by Week</option>
+          </select>
+          <select id="summaryPeriodSelect" class="form-control" style="width: auto; font-weight:600;" onchange="renderPeriodicSummary()">
+            <!-- Dynamic week or month options -->
+          </select>
+        </div>
+      </div>
+      
+      <div id="summaryResults" class="summary-metrics">
+        <!-- Rendered summary counters -->
+      </div>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="filter-bar">
+      <div class="search-box">
+        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation name or transaction type..." class="form-control">
+      </div>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <select id="filterType" onchange="renderTable()" class="form-control" style="width:auto;">
+          <option value="All">All Types</option>
+          <option value="Registration">Registration</option>
+          <option value="Amendment">Amendment</option>
+          <option value="Increase of Authorized Capital Stock">Increase of Capital Stock</option>
+          <option value="Others">Others</option>
+        </select>
+
+        <select id="filterStatus" onchange="renderTable()" class="form-control" style="width:auto;">
+          <option value="All">All Statuses</option>
+          <option value="For Signing of Documents">For Signing of Documents</option>
+          <option value="Under Review">Under Review</option>
+          <option value="For Payment">For Payment</option>
+          <option value="Approved / For Submission of Hard Copies">Approved / For Submission of Hard Copies</option>
+          <option value="Submitted / Awaiting Certificate">Submitted / Awaiting Certificate</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Records Table -->
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Corporation Name</th>
+            <th>Type of Transaction</th>
+            <th>Dates (Accepted &rarr; Started &rarr; Finished)</th>
+            <th style="text-align: right;">Financials</th>
+            <th style="text-align: center;">Current Status</th>
+            <th style="text-align: center;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="transactionsTbody">
+          <!-- Dynamic Records -->
+        </tbody>
+      </table>
+      <div id="noDataRow" style="text-align:center; padding: 2.5rem; color: #94a3b8; display: none;">
+        No transaction records found. Click <strong>"➕ New Transaction"</strong> to encode.
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Transaction Modal -->
+  <div id="modalOverlay" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modalTitle" style="font-size: 1.15rem; font-weight: 700;">New SEC Transaction</h2>
+        <button onclick="closeModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#64748b;">&times;</button>
+      </div>
+      <form id="recordForm" onsubmit="saveRecord(event)">
+        <div class="modal-body">
+          <input type="hidden" id="recordId">
+
+          <!-- Corporation Name -->
+          <div class="form-group">
+            <label>Name of Corporation *</label>
+            <input type="text" id="corpName" required placeholder="e.g., Summit Peak Commercial Inc." class="form-control">
+          </div>
+
+          <!-- Transaction Type -->
+          <div class="form-group">
+            <label>Type of Transaction *</label>
+            <select id="transType" onchange="handleTypeChange()" required class="form-control">
+              <option value="Registration">Registration</option>
+              <option value="Amendment">Amendment</option>
+              <option value="Increase of Authorized Capital Stock">Increase of Authorized Capital Stock</option>
+              <option value="Others">Others (Please specify)</option>
+            </select>
+          </div>
+
+          <div id="otherTypeGroup" class="form-group" style="display: none;">
+            <label>Please Specify Other Transaction *</label>
+            <input type="text" id="otherTransType" placeholder="e.g. Dissolution, Foreign License" class="form-control">
+          </div>
+
+          <!-- Chronological Dates: Accepted -> Started -> Finished -->
+          <div class="form-grid">
+            <div class="form-group">
+              <label>1. Date Accepted *</label>
+              <input type="date" id="dateAccepted" required class="form-control">
+            </div>
+            <div class="form-group">
+              <label>2. Date Started</label>
+              <input type="date" id="dateStarted" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>3. Finished Date</label>
+              <input type="date" id="finishedDate" class="form-control">
+            </div>
+          </div>
+
+          <!-- Financial Details -->
+          <div class="finance-box">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Assistance Fee (₱) *</label>
+                <input type="number" step="0.01" min="0" id="fee" required oninput="calculateBalance()" placeholder="0.00" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Initial Payment (₱)</label>
+                <input type="number" step="0.01" min="0" id="initialPayment" oninput="calculateBalance()" placeholder="0.00" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Balance (Auto-Computed)</label>
+                <input type="text" id="balanceDisplay" readonly class="form-control" style="background:#e2e8f0; font-weight:bold; color:var(--danger);" value="₱0.00">
+              </div>
+            </div>
+          </div>
+
+          <!-- Current Status -->
+          <div class="form-group">
+            <label>Current Status *</label>
+            <select id="currentStatus" required class="form-control">
+              <option value="For Signing of Documents">For Signing of Documents</option>
+              <option value="Under Review">Under Review</option>
+              <option value="For Payment">For Payment</option>
+              <option value="Approved / For Submission of Hard Copies">Approved / For Submission of Hard Copies</option>
+              <option value="Submitted / Awaiting Certificate">Submitted / Awaiting Certificate</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" onclick="closeModal()" class="btn btn-outline">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Details</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- OFFLINE JAVASCRIPT ENGINE -->
+  <script>
+    const STORAGE_KEY = 'SEC_CLIENT_SYSTEM_DATA_OFFLINE';
+    let records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+    window.onload = function() {
+      updateSummarySelectors();
+      renderTable();
+    };
+
+    // Calculate Balance
+    function calculateBalance() {
+      const fee = parseFloat(document.getElementById('fee').value) || 0;
+      const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
+      const balance = Math.max(0, fee - initial);
+      document.getElementById('balanceDisplay').value = formatPeso(balance);
+    }
+
+    // Toggle custom type input
+    function handleTypeChange() {
+      const isOther = document.getElementById('transType').value === 'Others';
+      const otherGroup = document.getElementById('otherTypeGroup');
+      const otherInput = document.getElementById('otherTransType');
+      otherGroup.style.display = isOther ? 'block' : 'none';
+      otherInput.required = isOther;
+    }
+
+    // Modal Operations
+    function openModal(id = null) {
+      const form = document.getElementById('recordForm');
+      form.reset();
+      document.getElementById('otherTypeGroup').style.display = 'none';
+
+      if (id) {
+        document.getElementById('modalTitle').innerText = 'Edit SEC Transaction Details';
+        const item = records.find(r => r.id === id);
+        if (item) {
+          document.getElementById('recordId').value = item.id;
+          document.getElementById('corpName').value = item.corpName;
+          
+          if (['Registration', 'Amendment', 'Increase of Authorized Capital Stock'].includes(item.transType)) {
+            document.getElementById('transType').value = item.transType;
+          } else {
+            document.getElementById('transType').value = 'Others';
+            document.getElementById('otherTypeGroup').style.display = 'block';
+            document.getElementById('otherTransType').value = item.transType;
+          }
+
+          document.getElementById('dateAccepted').value = item.dateAccepted || '';
+          document.getElementById('dateStarted').value = item.dateStarted || '';
+          document.getElementById('finishedDate').value = item.finishedDate || '';
+          document.getElementById('fee').value = item.fee;
+          document.getElementById('initialPayment').value = item.initialPayment;
+          document.getElementById('currentStatus').value = item.currentStatus;
+          calculateBalance();
+        }
+      } else {
+        document.getElementById('modalTitle').innerText = 'New SEC Transaction';
+        document.getElementById('recordId').value = '';
+        document.getElementById('balanceDisplay').value = '₱0.00';
+      }
+      document.getElementById('modalOverlay').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.add('hidden');
+    }
+
+    // Save or Edit Record
+    function saveRecord(e) {
+      e.preventDefault();
+
+      const id = document.getElementById('recordId').value;
+      const transTypeSelection = document.getElementById('transType').value;
+      const finalTransType = transTypeSelection === 'Others' 
+        ? document.getElementById('otherTransType').value.trim() 
+        : transTypeSelection;
+
+      const fee = parseFloat(document.getElementById('fee').value) || 0;
+      const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
+      const balance = Math.max(0, fee - initial);
+
+      const payload = {
+        id: id ? id : 'SEC-' + Date.now(),
+        corpName: document.getElementById('corpName').value.trim(),
+        transType: finalTransType,
+        dateAccepted: document.getElementById('dateAccepted').value,
+        dateStarted: document.getElementById('dateStarted').value,
+        finishedDate: document.getElementById('finishedDate').value,
+        fee: fee,
+        initialPayment: initial,
+        balance: balance,
+        currentStatus: document.getElementById('currentStatus').value,
+        updatedAt: new Date().toISOString()
+      };
+
+      if (id) {
+        const index = records.findIndex(r => r.id === id);
+        if (index !== -1) records[index] = payload;
+      } else {
+        records.unshift(payload);
+      }
+
+      saveToStorage();
+      closeModal();
+      updateSummarySelectors();
+      renderTable();
+    }
+
+    // Delete Record
+    function deleteRecord(id) {
+      if (confirm('Are you sure you want to delete this client record? This action cannot be undone.')) {
+        records = records.filter(r => r.id !== id);
+        saveToStorage();
+        updateSummarySelectors();
+        renderTable();
+      }
+    }
+
+    function saveToStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    }
+
+    // Helpers: Week & Month Calculation
+    function getMonthKey(dateStr) {
+      if (!dateStr) return 'Unspecified Date';
+      const d = new Date(dateStr);
+      return d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    }
+
+    function getWeekKey(dateStr) {
+      if (!dateStr) return 'Unspecified Date';
+      const d = new Date(dateStr);
+      const startOfYear = new Date(d.getFullYear(), 0, 1);
+      const days = Math.floor((d - startOfYear) / (24 * 60 * 60 * 1000));
+      const weekNumber = Math.ceil((days + startOfYear.getDay() + 1) / 7);
+      return `Week ${weekNumber}, ${d.getFullYear()}`;
+    }
+
+    // Populate Week/Month selector options
+    function updateSummarySelectors() {
+      const mode = document.getElementById('summaryMode').value;
+      const selector = document.getElementById('summaryPeriodSelect');
+      selector.innerHTML = '';
+
+      const periods = new Set();
+      records.forEach(r => {
+        if (mode === 'month') {
+          periods.add(getMonthKey(r.dateAccepted));
+        } else {
+          periods.add(getWeekKey(r.dateAccepted));
+        }
+      });
+
+      if (periods.size === 0) {
+        const opt = document.createElement('option');
+        opt.value = "";
+        opt.innerText = "No data available";
+        selector.appendChild(opt);
+      } else {
+        Array.from(periods).forEach(period => {
+          const opt = document.createElement('option');
+          opt.value = period;
+          opt.innerText = period;
+          selector.appendChild(opt);
+        });
+      }
+
+      renderPeriodicSummary();
+    }
+
+    // Compute & render Periodic Summary Box
+    function renderPeriodicSummary() {
+      const mode = document.getElementById('summaryMode').value;
+      const selectedPeriod = document.getElementById('summaryPeriodSelect').value;
+      const resultsDiv = document.getElementById('summaryResults');
+
+      if (!selectedPeriod || selectedPeriod === "No data available") {
+        resultsDiv.innerHTML = '<span style="color: #64748b;">Encode transactions with "Date Accepted" to view periodic summaries.</span>';
+        return;
+      }
+
+      const periodRecords = records.filter(r => {
+        const key = mode === 'month' ? getMonthKey(r.dateAccepted) : getWeekKey(r.dateAccepted);
+        return key === selectedPeriod;
+      });
+
+      const count = periodRecords.length;
+      const totalFees = periodRecords.reduce((sum, r) => sum + (r.fee || 0), 0);
+      const totalPaid = periodRecords.reduce((sum, r) => sum + (r.initialPayment || 0), 0);
+      const totalBal = periodRecords.reduce((sum, r) => sum + (r.balance || 0), 0);
+      const completedCount = periodRecords.filter(r => r.currentStatus === 'Completed').length;
+
+      resultsDiv.innerHTML = `
+        <div><strong>Total Transactions:</strong> ${count}</div>
+        <div><strong>Total Fees:</strong> ${formatPeso(totalFees)}</div>
+        <div><strong>Total Collected:</strong> <span style="color:var(--success); font-weight:600;">${formatPeso(totalPaid)}</span></div>
+        <div><strong>Outstanding Balance:</strong> <span style="color:var(--danger); font-weight:600;">${formatPeso(totalBal)}</span></div>
+        <div><strong>Completed:</strong> ${completedCount} / ${count}</div>
+      `;
+    }
+
+    // Render Table & Metrics
+    function renderTable() {
+      const tbody = document.getElementById('transactionsTbody');
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const filterType = document.getElementById('filterType').value;
+      const filterStatus = document.getElementById('filterStatus').value;
+
+      tbody.innerHTML = '';
+
+      const filtered = records.filter(r => {
+        const matchesSearch = r.corpName.toLowerCase().includes(search) || 
+                              r.transType.toLowerCase().includes(search);
+        
+        const matchesType = (filterType === 'All') 
+          ? true 
+          : (filterType === 'Others' 
+              ? !['Registration', 'Amendment', 'Increase of Authorized Capital Stock'].includes(r.transType) 
+              : r.transType === filterType);
+
+        const matchesStatus = (filterStatus === 'All') ? true : r.currentStatus === filterStatus;
+
+        return matchesSearch && matchesType && matchesStatus;
+      });
+
+      document.getElementById('noDataRow').style.display = filtered.length === 0 ? 'block' : 'none';
+
+      filtered.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(r.corpName)}</strong></td>
+          <td><span class="badge" style="background:#f1f5f9; color:#334155; border-color:#cbd5e1;">${escapeHtml(r.transType)}</span></td>
+          <td style="font-size:0.775rem; color:#475569;">
+            <div><strong>Accepted:</strong> ${r.dateAccepted || '—'}</div>
+            <div><strong>Started:</strong> ${r.dateStarted || '—'}</div>
+            <div><strong>Finished:</strong> ${r.finishedDate || '—'}</div>
+          </td>
+          <td style="text-align: right; font-size:0.775rem;">
+            <div>Fee: <strong>${formatPeso(r.fee)}</strong></div>
+            <div>Paid: <span style="color:var(--success); font-weight:600;">${formatPeso(r.initialPayment)}</span></div>
+            <div>Bal: <strong style="color:${r.balance > 0 ? 'var(--danger)' : '#64748b'};">${formatPeso(r.balance)}</strong></div>
+          </td>
+          <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
+          <td style="text-align: center; white-space:nowrap;">
+            <button onclick="openModal('${r.id}')" class="btn btn-outline btn-sm">Edit</button>
+            <button onclick="deleteRecord('${r.id}')" class="btn btn-danger btn-sm">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateGlobalMetrics();
+    }
+
+    // Status Badge Component
+    function getStatusBadge(status) {
+      let badgeClass = 'badge-signing';
+      if (status === 'Under Review') badgeClass = 'badge-review';
+      if (status === 'For Payment') badgeClass = 'badge-payment';
+      if (status === 'Approved / For Submission of Hard Copies') badgeClass = 'badge-approved';
+      if (status === 'Submitted / Awaiting Certificate') badgeClass = 'badge-submitted';
+      if (status === 'Completed') badgeClass = 'badge-completed';
+
+      return `<span class="badge ${badgeClass}">${status}</span>`;
+    }
+
+    // Metrics calculation
+    function updateGlobalMetrics() {
+      const total = records.length;
+      const completed = records.filter(r => r.currentStatus === 'Completed').length;
+      const active = records.filter(r => r.currentStatus !== 'Completed').length;
+      const totalBalance = records.reduce((sum, r) => sum + (r.balance || 0), 0);
+
+      document.getElementById('statTotal').innerText = total;
+      document.getElementById('statActive').innerText = active;
+      document.getElementById('statCompleted').innerText = completed;
+      document.getElementById('statBalance').innerText = formatPeso(totalBalance);
+    }
+
+    // Currency Formatter
+    function formatPeso(amount) {
+      return '₱' + Number(amount || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // HTML Sanitizer
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      }[m]));
+    }
+
+    // BACKUP FUNCTIONALITY (JSON)
+    function downloadBackup() {
+      if (records.length === 0) {
+        if (!confirm('You currently have no records. Do you still want to download an empty backup?')) return;
+      }
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(records, null, 2));
+      const downloadAnchor = document.createElement('a');
+      const dateStr = new Date().toISOString().slice(0, 10);
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `SEC_Tracker_Backup_${dateStr}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function triggerRestore() {
+      document.getElementById('restoreFileInput').click();
+    }
+
+    function restoreBackup(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedData = JSON.parse(e.target.result);
+          if (!Array.isArray(importedData)) {
+            alert('Invalid backup file structure.');
+            return;
+          }
+          if (confirm(`Found ${importedData.length} records in backup. Do you want to restore and replace current data?`)) {
+            records = importedData;
+            saveToStorage();
+            updateSummarySelectors();
+            renderTable();
+            alert('Backup successfully restored!');
+          }
+        } catch (err) {
+          alert('Failed to read backup file. Please ensure it is a valid JSON backup from this application.');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = ''; // Reset input
+    }
+
+    // EXPORT TO CSV
+    function exportToCSV() {
+      if (records.length === 0) {
+        alert('No data to export.');
+        return;
+      }
+      let csv = 'Corporation Name,Transaction Type,Date Accepted,Date Started,Finished Date,Assistance Fee,Initial Payment,Balance,Current Status\n';
+      records.forEach(r => {
+        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${r.finishedDate || ''}",${r.fee || 0},${r.initialPayment || 0},${r.balance || 0},"${r.currentStatus}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', `SEC_Clients_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
