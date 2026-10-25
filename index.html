@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SEC Transactions Tracker</title>
+  <title>SEC TRANSACTIONS TRACKER</title>
   <style>
     /* 100% OFFLINE STYLING - NO INTERNET OR EXTERNAL LIBS NEEDED */
     :root {
@@ -25,12 +25,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: var(--background); color: var(--text); padding-bottom: 60px; line-height: 1.5; }
     
-    /* Header */
-    header { background-color: #0f172a; color: white; padding: 1rem 1.5rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); }
-    .header-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 1rem; }
-    .app-title h1 { font-size: 1.25rem; font-weight: 700; }
-    .app-title p { font-size: 0.75rem; color: #94a3b8; }
-    .header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    /* Compact Header (Reduced by 50%) */
+    header { background-color: #0f172a; color: white; padding: 0.45rem 1.25rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); }
+    .header-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .app-title h1 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; }
+    .header-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
     
     /* Layout */
     .container { max-width: 1300px; margin: 1.5rem auto; padding: 0 1rem; }
@@ -42,7 +41,7 @@
     .stat-value { font-size: 1.5rem; font-weight: 700; margin-top: 0.25rem; }
     
     /* Buttons */
-    .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 0.85rem; border-radius: var(--radius); font-size: 0.875rem; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; text-decoration: none; }
+    .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border-radius: var(--radius); font-size: 0.775rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; text-decoration: none; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-hover); }
     .btn-secondary { background: #334155; color: white; border-color: #475569; }
@@ -96,20 +95,18 @@
 </head>
 <body>
 
-  <!-- Top Offline Header -->
+  <!-- Sleek, Compact Header (No subheader, 50% smaller) -->
   <header>
     <div class="header-container">
       <div class="app-title">
-        <h1>SEC Transaction Tracker</h1>
-        <p>Corporate Compliance System</p>
+        <h1>SEC TRANSACTIONS TRACKER</h1>
       </div>
       <div class="header-actions">
-        <!-- Backup & Restore Buttons -->
         <button onclick="downloadBackup()" class="btn btn-secondary" title="Export full backup file">
-          📥 Backup (Save File)
+          📥 Backup
         </button>
         <button onclick="triggerRestore()" class="btn btn-secondary" title="Import backup file">
-          📤 Restore Backup
+          📤 Restore
         </button>
         <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="restoreBackup(event)">
         <button onclick="exportToCSV()" class="btn btn-secondary" title="Export table to Excel CSV">
@@ -148,7 +145,7 @@
     <div class="summary-panel">
       <div class="summary-header">
         <div>
-          <h3 style="font-size: 1rem; font-weight: 700;">Periodic Summary (Date Accepted)</h3>
+          <h3 style="font-size: 0.95rem; font-weight: 700;">Periodic Summary (Date Accepted)</h3>
           <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, and collections by timeframe</p>
         </div>
         <div class="period-controls">
@@ -641,7 +638,7 @@
         }
       };
       reader.readAsText(file);
-      event.target.value = ''; // Reset input
+      event.target.value = '';
     }
 
     // EXPORT TO CSV
