@@ -48,6 +48,8 @@
     .btn-secondary:hover { background: #475569; }
     .btn-outline { background: white; border: 1px solid var(--border); color: var(--text); }
     .btn-outline:hover { background: #f8fafc; }
+    .btn-view { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+    .btn-view:hover { background: #dbeafe; }
     .btn-danger { background: #ef4444; color: white; }
     .btn-danger:hover { background: #dc2626; }
     .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
@@ -83,7 +85,7 @@
     .badge-compliance { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
     .badge-other { background: #f3f4f6; color: #1f2937; border-color: #d1d5db; }
     
-    /* Modal */
+    /* Modals */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
     .modal-backdrop.hidden { display: none; }
     .modal-card { background: white; border-radius: 12px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2); }
@@ -94,18 +96,30 @@
     .form-group { margin-bottom: 1rem; }
     .form-group label { display: block; font-size: 0.725rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; color: #475569; }
     .finance-box { background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; }
+    
+    /* View Summary Modal Specifics */
+    .summary-card-view { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: white; }
+    .view-row { display: flex; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-light); font-size: 0.875rem; }
+    .view-row:last-child { border-bottom: none; }
+    .view-label { font-weight: 600; color: #64748b; font-size: 0.775rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    .view-value { font-weight: 600; color: #0f172a; text-align: right; }
+    
+    @media print {
+      body * { visibility: hidden; }
+      #printableSummary, #printableSummary * { visibility: visible; }
+      #printableSummary { position: absolute; left: 0; top: 0; width: 100%; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Sleek, Compact Header -->
+  <!-- Header -->
   <header>
     <div class="header-container">
       <div class="app-title">
         <h1>SEC TRANSACTIONS TRACKER</h1>
       </div>
       <div class="header-actions">
-        <!-- Guaranteed Blob-based Backup & Restore -->
         <button type="button" onclick="downloadBackup()" class="btn btn-secondary" title="Export full JSON backup file">
           📥 Backup
         </button>
@@ -125,7 +139,7 @@
 
   <div class="container">
 
-    <!-- KPI / Stat Cards -->
+    <!-- KPI / Top Cards -->
     <div class="grid-4">
       <div class="card">
         <div class="stat-title">Total Records</div>
@@ -216,7 +230,60 @@
     </div>
   </div>
 
-  <!-- Add/Edit Transaction Modal -->
+  <!-- VIEW SUMMARY POP-UP MODAL -->
+  <div id="viewModalOverlay" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 style="font-size: 1.05rem; font-weight: 700;">Corporation Transaction Summary</h2>
+        <button type="button" onclick="closeViewModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#64748b;">&times;</button>
+      </div>
+      <div class="modal-body" id="printableSummary">
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; margin-bottom:1.25rem;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;">
+            <div>
+              <span id="viewTransTypeBadge" class="badge" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd; margin-bottom:0.4rem;">Type</span>
+              <h2 id="viewCorpName" style="font-size:1.35rem; font-weight:800; color:#0f172a; margin-top:0.25rem;">Corporation Name</h2>
+            </div>
+            <div id="viewStatusBadgeContainer"></div>
+          </div>
+        </div>
+
+        <div class="summary-card-view">
+          <div class="view-row">
+            <span class="view-label">Date Accepted & Downpayment</span>
+            <span class="view-value" id="viewDateAccepted">—</span>
+          </div>
+          <div class="view-row">
+            <span class="view-label">Date Started</span>
+            <span class="view-value" id="viewDateStarted">—</span>
+          </div>
+          <div class="view-row">
+            <span class="view-label">Date Completed</span>
+            <span class="view-value" id="viewDateCompleted">—</span>
+          </div>
+          <div class="view-row" style="background:#fafafa;">
+            <span class="view-label">Assistance Fee</span>
+            <span class="view-value" id="viewFee" style="font-size:1rem; color:#0f172a;">₱0.00</span>
+          </div>
+          <div class="view-row" style="background:#fafafa;">
+            <span class="view-label">Initial Payment</span>
+            <span class="view-value" id="viewInitialPayment" style="color:var(--success);">₱0.00</span>
+          </div>
+          <div class="view-row" style="background:#fff1f2;">
+            <span class="view-label" style="color:#9f1239;">Remaining Balance</span>
+            <span class="view-value" id="viewBalance" style="font-size:1.1rem; color:var(--danger);">₱0.00</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="printSummarySlip()" class="btn btn-secondary">🖨️ Print Slip</button>
+        <button type="button" onclick="editFromView()" class="btn btn-outline">✏️ Edit Details</button>
+        <button type="button" onclick="closeViewModal()" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT MODAL -->
   <div id="modalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -329,6 +396,7 @@
     ];
 
     let records = [];
+    let activeViewingId = null;
 
     try {
       records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -364,6 +432,52 @@
       otherInput.required = isOther;
     }
 
+    /* -------------------------------------------------------------
+       VIEW SUMMARY MODAL
+    -------------------------------------------------------------- */
+    function viewRecord(id) {
+      const item = records.find(r => r.id === id);
+      if (!item) return;
+
+      activeViewingId = id;
+      document.getElementById('viewCorpName').innerText = item.corpName || 'Unnamed Corporation';
+      document.getElementById('viewTransTypeBadge').innerText = item.transType || 'General';
+      document.getElementById('viewStatusBadgeContainer').innerHTML = getStatusBadge(item.currentStatus);
+
+      document.getElementById('viewDateAccepted').innerText = item.dateAccepted || '—';
+      document.getElementById('viewDateStarted').innerText = item.dateStarted || '—';
+      document.getElementById('viewDateCompleted').innerText = item.dateCompleted || item.finishedDate || '—';
+
+      document.getElementById('viewFee').innerText = formatPeso(item.fee);
+      document.getElementById('viewInitialPayment').innerText = formatPeso(item.initialPayment);
+      
+      const balElem = document.getElementById('viewBalance');
+      balElem.innerText = formatPeso(item.balance);
+      balElem.style.color = item.balance > 0 ? 'var(--danger)' : 'var(--success)';
+
+      document.getElementById('viewModalOverlay').classList.remove('hidden');
+    }
+
+    function closeViewModal() {
+      document.getElementById('viewModalOverlay').classList.add('hidden');
+      activeViewingId = null;
+    }
+
+    function editFromView() {
+      if (activeViewingId) {
+        const id = activeViewingId;
+        closeViewModal();
+        openModal(id);
+      }
+    }
+
+    function printSummarySlip() {
+      window.print();
+    }
+
+    /* -------------------------------------------------------------
+       ADD / EDIT MODAL
+    -------------------------------------------------------------- */
     function openModal(id = null) {
       const form = document.getElementById('recordForm');
       form.reset();
@@ -377,7 +491,6 @@
           document.getElementById('recordId').value = item.id;
           document.getElementById('corpName').value = item.corpName || '';
           
-          // Transaction Type handling
           if (['Registration', 'Amendment', 'Increase of Authorized Capital Stock'].includes(item.transType)) {
             document.getElementById('transType').value = item.transType;
           } else {
@@ -392,9 +505,8 @@
           document.getElementById('fee').value = item.fee;
           document.getElementById('initialPayment').value = item.initialPayment;
 
-          // Status handling (handles standard, migrated, or custom status)
           let currentStatus = item.currentStatus;
-          if (currentStatus === 'Under Review') currentStatus = 'For Review'; // Backward compatibility
+          if (currentStatus === 'Under Review') currentStatus = 'For Review';
 
           if (STANDARD_STATUSES.includes(currentStatus)) {
             document.getElementById('currentStatus').value = currentStatus;
@@ -422,14 +534,11 @@
       e.preventDefault();
 
       const id = document.getElementById('recordId').value;
-      
-      // Transaction Type selection
       const transTypeSelection = document.getElementById('transType').value;
       const finalTransType = transTypeSelection === 'Others' 
         ? document.getElementById('otherTransType').value.trim() 
         : transTypeSelection;
 
-      // Status selection
       const statusSelection = document.getElementById('currentStatus').value;
       const finalStatus = statusSelection === 'Others'
         ? document.getElementById('otherStatus').value.trim()
@@ -609,6 +718,8 @@
           </td>
           <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
           <td style="text-align: center; white-space:nowrap;">
+            <!-- Action Buttons with View Option -->
+            <button type="button" onclick="viewRecord('${r.id}')" class="btn btn-view btn-sm" title="View details">👁️ View</button>
             <button type="button" onclick="openModal('${r.id}')" class="btn btn-outline btn-sm">Edit</button>
             <button type="button" onclick="deleteRecord('${r.id}')" class="btn btn-danger btn-sm">Delete</button>
           </td>
@@ -743,7 +854,7 @@
             alert('Backup successfully restored!');
           }
         } catch (err) {
-          alert('Could not parse JSON file. Please ensure it is a valid backup file from this application.');
+          alert('Could not parse JSON file. Please make sure it is a valid backup file from this application.');
           console.error(err);
         }
       };
