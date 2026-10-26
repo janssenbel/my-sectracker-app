@@ -27,12 +27,12 @@
     
     /* Compact Header */
     header { background-color: #0f172a; color: white; padding: 0.45rem 1.25rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); }
-    .header-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .header-container { max-width: 1350px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
     .app-title h1 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; }
     .header-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
     
     /* Layout */
-    .container { max-width: 1300px; margin: 1.5rem auto; padding: 0 1rem; }
+    .container { max-width: 1350px; margin: 1.5rem auto; padding: 0 1rem; }
     .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
     
     /* Cards */
@@ -73,36 +73,39 @@
     
     /* Badges */
     .badge { display: inline-block; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.725rem; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
+    .badge-prep { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
     .badge-signing { background: #fef3c7; color: #92400e; border-color: #fde68a; }
     .badge-review { background: #e0f2fe; color: #075985; border-color: #bae6fd; }
     .badge-payment { background: #f3e8ff; color: #6b21a8; border-color: #e9d5ff; }
     .badge-approved { background: #ccfbf1; color: #115e59; border-color: #99f6e4; }
     .badge-submitted { background: #e0e7ff; color: #3730a3; border-color: #c7d2fe; }
     .badge-completed { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    .badge-compliance { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+    .badge-other { background: #f3f4f6; color: #1f2937; border-color: #d1d5db; }
     
     /* Modal */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
     .modal-backdrop.hidden { display: none; }
-    .modal-card { background: white; border-radius: 12px; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2); }
+    .modal-card { background: white; border-radius: 12px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2); }
     .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
     .modal-body { padding: 1.5rem; }
     .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end; gap: 0.5rem; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
     .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; color: #475569; }
+    .form-group label { display: block; font-size: 0.725rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; color: #475569; }
     .finance-box { background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Sleek, Compact Header -->
   <header>
     <div class="header-container">
       <div class="app-title">
         <h1>SEC TRANSACTIONS TRACKER</h1>
       </div>
       <div class="header-actions">
-        <!-- Robust Backup & Restore buttons -->
+        <!-- Guaranteed Blob-based Backup & Restore -->
         <button type="button" onclick="downloadBackup()" class="btn btn-secondary" title="Export full JSON backup file">
           📥 Backup
         </button>
@@ -122,7 +125,7 @@
 
   <div class="container">
 
-    <!-- KPI / Top Stat Cards -->
+    <!-- KPI / Stat Cards -->
     <div class="grid-4">
       <div class="card">
         <div class="stat-title">Total Records</div>
@@ -146,7 +149,7 @@
     <div class="summary-panel">
       <div class="summary-header">
         <div>
-          <h3 style="font-size: 0.95rem; font-weight: 700;">Periodic Summary (Date Accepted)</h3>
+          <h3 style="font-size: 0.95rem; font-weight: 700;">Periodic Summary (Date Accepted & Downpayment)</h3>
           <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, and collections by timeframe</p>
         </div>
         <div class="period-controls">
@@ -166,7 +169,7 @@
     <!-- Filter & Search Controls -->
     <div class="filter-bar">
       <div class="search-box">
-        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation name or transaction type..." class="form-control">
+        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation name, type, or custom status..." class="form-control">
       </div>
       <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
         <select id="filterType" onchange="renderTable()" class="form-control" style="width:auto;">
@@ -179,12 +182,15 @@
 
         <select id="filterStatus" onchange="renderTable()" class="form-control" style="width:auto;">
           <option value="All">All Statuses</option>
+          <option value="For Preparation of Documents">For Preparation of Documents</option>
           <option value="For Signing of Documents">For Signing of Documents</option>
-          <option value="Under Review">Under Review</option>
+          <option value="For Review">For Review</option>
           <option value="For Payment">For Payment</option>
           <option value="Approved / For Submission of Hard Copies">Approved / For Submission of Hard Copies</option>
           <option value="Submitted / Awaiting Certificate">Submitted / Awaiting Certificate</option>
           <option value="Completed">Completed</option>
+          <option value="For compliance of Client">For compliance of Client</option>
+          <option value="Others">Others</option>
         </select>
       </div>
     </div>
@@ -196,7 +202,7 @@
           <tr>
             <th>Corporation Name</th>
             <th>Type of Transaction</th>
-            <th>Dates (Accepted &rarr; Started &rarr; Finished)</th>
+            <th>Dates (Accepted & DP &rarr; Started &rarr; Completed)</th>
             <th style="text-align: right;">Financials</th>
             <th style="text-align: center;">Current Status</th>
             <th style="text-align: center;">Actions</th>
@@ -243,19 +249,19 @@
             <input type="text" id="otherTransType" placeholder="e.g. Dissolution, Foreign License" class="form-control">
           </div>
 
-          <!-- Chronological Dates: Accepted -> Started -> Finished -->
+          <!-- Chronological Dates -->
           <div class="form-grid">
             <div class="form-group">
-              <label>1. Date Accepted *</label>
-              <input type="date" id="dateAccepted" required class="form-control">
+              <label>1. Date Accepted & Downpayment *</label>
+              <input type="date" id="dateAccepted" required class="form-control" title="Date Accepted and Received the Downpayment">
             </div>
             <div class="form-group">
               <label>2. Date Started</label>
               <input type="date" id="dateStarted" class="form-control">
             </div>
             <div class="form-group">
-              <label>3. Finished Date</label>
-              <input type="date" id="finishedDate" class="form-control">
+              <label>3. Date Completed</label>
+              <input type="date" id="dateCompleted" class="form-control">
             </div>
           </div>
 
@@ -280,14 +286,23 @@
           <!-- Current Status -->
           <div class="form-group">
             <label>Current Status *</label>
-            <select id="currentStatus" required class="form-control">
+            <select id="currentStatus" onchange="handleStatusChange()" required class="form-control">
+              <option value="For Preparation of Documents">For Preparation of Documents</option>
               <option value="For Signing of Documents">For Signing of Documents</option>
-              <option value="Under Review">Under Review</option>
+              <option value="For Review">For Review</option>
               <option value="For Payment">For Payment</option>
               <option value="Approved / For Submission of Hard Copies">Approved / For Submission of Hard Copies</option>
               <option value="Submitted / Awaiting Certificate">Submitted / Awaiting Certificate</option>
               <option value="Completed">Completed</option>
+              <option value="For compliance of Client">For compliance of Client</option>
+              <option value="Others">Others (please specify)</option>
             </select>
+          </div>
+
+          <!-- Dynamic Other Status Field -->
+          <div id="otherStatusGroup" class="form-group" style="display: none;">
+            <label>Please Specify Other Status *</label>
+            <input type="text" id="otherStatus" placeholder="e.g. SEC Hearing, Securing BIR Tax Clearance" class="form-control">
           </div>
         </div>
 
@@ -302,6 +317,17 @@
   <!-- APPLICATION ENGINE -->
   <script>
     const STORAGE_KEY = 'SEC_CLIENT_SYSTEM_DATA_OFFLINE';
+    const STANDARD_STATUSES = [
+      'For Preparation of Documents',
+      'For Signing of Documents',
+      'For Review',
+      'For Payment',
+      'Approved / For Submission of Hard Copies',
+      'Submitted / Awaiting Certificate',
+      'Completed',
+      'For compliance of Client'
+    ];
+
     let records = [];
 
     try {
@@ -330,18 +356,28 @@
       otherInput.required = isOther;
     }
 
+    function handleStatusChange() {
+      const isOther = document.getElementById('currentStatus').value === 'Others';
+      const otherGroup = document.getElementById('otherStatusGroup');
+      const otherInput = document.getElementById('otherStatus');
+      otherGroup.style.display = isOther ? 'block' : 'none';
+      otherInput.required = isOther;
+    }
+
     function openModal(id = null) {
       const form = document.getElementById('recordForm');
       form.reset();
       document.getElementById('otherTypeGroup').style.display = 'none';
+      document.getElementById('otherStatusGroup').style.display = 'none';
 
       if (id) {
         document.getElementById('modalTitle').innerText = 'Edit SEC Transaction Details';
         const item = records.find(r => r.id === id);
         if (item) {
           document.getElementById('recordId').value = item.id;
-          document.getElementById('corpName').value = item.corpName;
+          document.getElementById('corpName').value = item.corpName || '';
           
+          // Transaction Type handling
           if (['Registration', 'Amendment', 'Increase of Authorized Capital Stock'].includes(item.transType)) {
             document.getElementById('transType').value = item.transType;
           } else {
@@ -352,10 +388,22 @@
 
           document.getElementById('dateAccepted').value = item.dateAccepted || '';
           document.getElementById('dateStarted').value = item.dateStarted || '';
-          document.getElementById('finishedDate').value = item.finishedDate || '';
+          document.getElementById('dateCompleted').value = item.dateCompleted || item.finishedDate || '';
           document.getElementById('fee').value = item.fee;
           document.getElementById('initialPayment').value = item.initialPayment;
-          document.getElementById('currentStatus').value = item.currentStatus;
+
+          // Status handling (handles standard, migrated, or custom status)
+          let currentStatus = item.currentStatus;
+          if (currentStatus === 'Under Review') currentStatus = 'For Review'; // Backward compatibility
+
+          if (STANDARD_STATUSES.includes(currentStatus)) {
+            document.getElementById('currentStatus').value = currentStatus;
+          } else {
+            document.getElementById('currentStatus').value = 'Others';
+            document.getElementById('otherStatusGroup').style.display = 'block';
+            document.getElementById('otherStatus').value = currentStatus;
+          }
+
           calculateBalance();
         }
       } else {
@@ -374,10 +422,18 @@
       e.preventDefault();
 
       const id = document.getElementById('recordId').value;
+      
+      // Transaction Type selection
       const transTypeSelection = document.getElementById('transType').value;
       const finalTransType = transTypeSelection === 'Others' 
         ? document.getElementById('otherTransType').value.trim() 
         : transTypeSelection;
+
+      // Status selection
+      const statusSelection = document.getElementById('currentStatus').value;
+      const finalStatus = statusSelection === 'Others'
+        ? document.getElementById('otherStatus').value.trim()
+        : statusSelection;
 
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
@@ -389,11 +445,11 @@
         transType: finalTransType,
         dateAccepted: document.getElementById('dateAccepted').value,
         dateStarted: document.getElementById('dateStarted').value,
-        finishedDate: document.getElementById('finishedDate').value,
+        dateCompleted: document.getElementById('dateCompleted').value,
         fee: fee,
         initialPayment: initial,
         balance: balance,
-        currentStatus: document.getElementById('currentStatus').value,
+        currentStatus: finalStatus,
         updatedAt: new Date().toISOString()
       };
 
@@ -475,7 +531,7 @@
       const resultsDiv = document.getElementById('summaryResults');
 
       if (!selectedPeriod || selectedPeriod === "No data available") {
-        resultsDiv.innerHTML = '<span style="color: #64748b;">Encode transactions with "Date Accepted" to view periodic summaries.</span>';
+        resultsDiv.innerHTML = '<span style="color: #64748b;">Encode transactions with "Date Accepted and Received the Downpayment" to view periodic summaries.</span>';
         return;
       }
 
@@ -508,8 +564,10 @@
       tbody.innerHTML = '';
 
       const filtered = records.filter(r => {
+        const statusValue = r.currentStatus || '';
         const matchesSearch = (r.corpName || '').toLowerCase().includes(search) || 
-                              (r.transType || '').toLowerCase().includes(search);
+                              (r.transType || '').toLowerCase().includes(search) ||
+                              statusValue.toLowerCase().includes(search);
         
         const matchesType = (filterType === 'All') 
           ? true 
@@ -517,7 +575,16 @@
               ? !['Registration', 'Amendment', 'Increase of Authorized Capital Stock'].includes(r.transType) 
               : r.transType === filterType);
 
-        const matchesStatus = (filterStatus === 'All') ? true : r.currentStatus === filterStatus;
+        let matchesStatus = true;
+        if (filterStatus !== 'All') {
+          if (filterStatus === 'Others') {
+            matchesStatus = !STANDARD_STATUSES.includes(statusValue);
+          } else if (filterStatus === 'For Review') {
+            matchesStatus = statusValue === 'For Review' || statusValue === 'Under Review';
+          } else {
+            matchesStatus = statusValue === filterStatus;
+          }
+        }
 
         return matchesSearch && matchesType && matchesStatus;
       });
@@ -525,14 +592,15 @@
       document.getElementById('noDataRow').style.display = filtered.length === 0 ? 'block' : 'none';
 
       filtered.forEach(r => {
+        const completedDate = r.dateCompleted || r.finishedDate || '—';
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><strong>${escapeHtml(r.corpName)}</strong></td>
           <td><span class="badge" style="background:#f1f5f9; color:#334155; border-color:#cbd5e1;">${escapeHtml(r.transType)}</span></td>
           <td style="font-size:0.775rem; color:#475569;">
-            <div><strong>Accepted:</strong> ${r.dateAccepted || '—'}</div>
+            <div><strong>Accepted & DP:</strong> ${r.dateAccepted || '—'}</div>
             <div><strong>Started:</strong> ${r.dateStarted || '—'}</div>
-            <div><strong>Finished:</strong> ${r.finishedDate || '—'}</div>
+            <div><strong>Completed:</strong> ${completedDate}</div>
           </td>
           <td style="text-align: right; font-size:0.775rem;">
             <div>Fee: <strong>${formatPeso(r.fee)}</strong></div>
@@ -552,14 +620,40 @@
     }
 
     function getStatusBadge(status) {
-      let badgeClass = 'badge-signing';
-      if (status === 'Under Review') badgeClass = 'badge-review';
-      if (status === 'For Payment') badgeClass = 'badge-payment';
-      if (status === 'Approved / For Submission of Hard Copies') badgeClass = 'badge-approved';
-      if (status === 'Submitted / Awaiting Certificate') badgeClass = 'badge-submitted';
-      if (status === 'Completed') badgeClass = 'badge-completed';
+      let badgeClass = 'badge-other';
 
-      return `<span class="badge ${badgeClass}">${status}</span>`;
+      switch(status) {
+        case 'For Preparation of Documents':
+          badgeClass = 'badge-prep';
+          break;
+        case 'For Signing of Documents':
+          badgeClass = 'badge-signing';
+          break;
+        case 'For Review':
+        case 'Under Review':
+          badgeClass = 'badge-review';
+          break;
+        case 'For Payment':
+          badgeClass = 'badge-payment';
+          break;
+        case 'Approved / For Submission of Hard Copies':
+          badgeClass = 'badge-approved';
+          break;
+        case 'Submitted / Awaiting Certificate':
+          badgeClass = 'badge-submitted';
+          break;
+        case 'Completed':
+          badgeClass = 'badge-completed';
+          break;
+        case 'For compliance of Client':
+          badgeClass = 'badge-compliance';
+          break;
+        default:
+          badgeClass = 'badge-other';
+          break;
+      }
+
+      return `<span class="badge ${badgeClass}">${escapeHtml(status || 'Unspecified')}</span>`;
     }
 
     function updateGlobalMetrics() {
@@ -585,7 +679,7 @@
     }
 
     /* -------------------------------------------------------------
-       GUARANTEED BACKUP & RESTORE ENGINE (Blob + FileReader)
+       GUARANTEED OFFLINE BACKUP & RESTORE ENGINE (Blob)
     -------------------------------------------------------------- */
     function downloadBackup() {
       try {
@@ -595,10 +689,7 @@
           }
         }
         
-        // Convert records array to formatted JSON text
         const jsonString = JSON.stringify(records || [], null, 2);
-        
-        // Use native Blob to avoid browser data-URI restrictions
         const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8;' });
         const blobUrl = URL.createObjectURL(blob);
         
@@ -615,7 +706,6 @@
         document.body.appendChild(tempLink);
         tempLink.click();
 
-        // Clean up memory
         setTimeout(() => {
           document.body.removeChild(tempLink);
           URL.revokeObjectURL(blobUrl);
@@ -629,7 +719,7 @@
 
     function triggerRestore() {
       const input = document.getElementById('restoreFileInput');
-      input.value = ''; // Reset input to allow re-selecting same file
+      input.value = '';
       input.click();
     }
 
@@ -653,7 +743,7 @@
             alert('Backup successfully restored!');
           }
         } catch (err) {
-          alert('Could not parse JSON file. Please make sure it is a valid backup file from this application.');
+          alert('Could not parse JSON file. Please ensure it is a valid backup file from this application.');
           console.error(err);
         }
       };
@@ -668,9 +758,10 @@
         alert('No data to export.');
         return;
       }
-      let csv = 'Corporation Name,Transaction Type,Date Accepted,Date Started,Finished Date,Assistance Fee,Initial Payment,Balance,Current Status\n';
+      let csv = 'Corporation Name,Transaction Type,Date Accepted and Received the Downpayment,Date Started,Date Completed,Assistance Fee,Initial Payment,Balance,Current Status\n';
       records.forEach(r => {
-        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${r.finishedDate || ''}",${r.fee || 0},${r.initialPayment || 0},${r.balance || 0},"${r.currentStatus}"\n`;
+        const completed = r.dateCompleted || r.finishedDate || '';
+        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${completed}",${r.fee || 0},${r.initialPayment || 0},${r.balance || 0},"${(r.currentStatus || '').replace(/"/g, '""')}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
