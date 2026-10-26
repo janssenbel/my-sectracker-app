@@ -37,6 +37,7 @@
     
     /* Cards */
     .card { background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); }
+    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
     .stat-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); }
     .stat-value { font-size: 1.5rem; font-weight: 700; margin-top: 0.25rem; }
     
@@ -53,6 +54,8 @@
     .btn-danger { background: #ef4444; color: white; }
     .btn-danger:hover { background: #dc2626; }
     .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
+    .btn-card-view { padding: 0.2rem 0.55rem; font-size: 0.7rem; background: #f8fafc; border: 1px solid var(--border); color: #1e40af; font-weight: 600; border-radius: 6px; }
+    .btn-card-view:hover { background: #eff6ff; border-color: #93c5fd; }
     
     /* Period Summary Box */
     .summary-panel { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
@@ -139,20 +142,33 @@
 
   <div class="container">
 
-    <!-- KPI / Top Cards -->
+    <!-- KPI / Top Cards with VIEW buttons -->
     <div class="grid-4">
       <div class="card">
-        <div class="stat-title">Total Records</div>
+        <div class="card-header-flex">
+          <div class="stat-title">Total Records</div>
+          <button type="button" onclick="openListModal('all')" class="btn btn-card-view" title="View all corporations">
+            👁️ View
+          </button>
+        </div>
         <div id="statTotal" class="stat-value">0</div>
       </div>
+
       <div class="card">
-        <div class="stat-title">In Progress / Pending</div>
+        <div class="card-header-flex">
+          <div class="stat-title">In Progress / Pending</div>
+          <button type="button" onclick="openListModal('active')" class="btn btn-card-view" title="View active corporations">
+            👁️ View
+          </button>
+        </div>
         <div id="statActive" class="stat-value" style="color: var(--warning);">0</div>
       </div>
+
       <div class="card">
         <div class="stat-title">Completed</div>
         <div id="statCompleted" class="stat-value" style="color: var(--success);">0</div>
       </div>
+
       <div class="card">
         <div class="stat-title">Total Uncollected Balance</div>
         <div id="statBalance" class="stat-value" style="color: var(--danger);">₱0.00</div>
@@ -230,7 +246,38 @@
     </div>
   </div>
 
-  <!-- VIEW SUMMARY POP-UP MODAL -->
+  <!-- POPUP: LIST MODAL FOR TOTAL RECORDS / IN PROGRESS -->
+  <div id="listModalOverlay" class="modal-backdrop hidden">
+    <div class="modal-card" style="max-width: 620px;">
+      <div class="modal-header">
+        <div>
+          <h2 id="listModalTitle" style="font-size: 1.1rem; font-weight: 700;">Corporation List</h2>
+          <p id="listModalSubtitle" style="font-size: 0.75rem; color: var(--text-muted);"></p>
+        </div>
+        <button type="button" onclick="closeListModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#64748b;">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 1rem 1.5rem; max-height: 60vh; overflow-y: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-light); text-align: left;">
+              <th style="padding: 0.5rem 0.75rem; color: #475569;">Corporation Name</th>
+              <th style="padding: 0.5rem 0.75rem; text-align: center; color: #475569;">Status</th>
+              <th style="padding: 0.5rem 0.75rem; text-align: center; color: #475569;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="listModalTbody"></tbody>
+        </table>
+        <div id="listModalEmpty" style="display: none; text-align: center; padding: 2.5rem; color: #94a3b8;">
+          No corporations found for this category.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="closeListModal()" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP: VIEW SINGLE TRANSACTION SUMMARY -->
   <div id="viewModalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -283,7 +330,7 @@
     </div>
   </div>
 
-  <!-- ADD / EDIT MODAL -->
+  <!-- POPUP: ADD / EDIT MODAL -->
   <div id="modalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -430,6 +477,64 @@
       const otherInput = document.getElementById('otherStatus');
       otherGroup.style.display = isOther ? 'block' : 'none';
       otherInput.required = isOther;
+    }
+
+    /* -------------------------------------------------------------
+       CARD LIST MODAL (TOTAL RECORDS & IN PROGRESS)
+    -------------------------------------------------------------- */
+    function openListModal(filterCategory) {
+      const modal = document.getElementById('listModalOverlay');
+      const tbody = document.getElementById('listModalTbody');
+      const titleElem = document.getElementById('listModalTitle');
+      const subtitleElem = document.getElementById('listModalSubtitle');
+      const emptyElem = document.getElementById('listModalEmpty');
+
+      tbody.innerHTML = '';
+
+      let filteredList = [];
+      if (filterCategory === 'all') {
+        filteredList = records;
+        titleElem.innerText = `Total Records (${records.length})`;
+        subtitleElem.innerText = 'List of all registered corporations and their current status';
+      } else if (filterCategory === 'active') {
+        filteredList = records.filter(r => r.currentStatus !== 'Completed');
+        titleElem.innerText = `In Progress / Pending (${filteredList.length})`;
+        subtitleElem.innerText = 'Active transactions currently being processed';
+      }
+
+      if (filteredList.length === 0) {
+        emptyElem.style.display = 'block';
+      } else {
+        emptyElem.style.display = 'none';
+        filteredList.forEach(r => {
+          const tr = document.createElement('tr');
+          tr.style.borderBottom = '1px solid var(--border-light)';
+          tr.innerHTML = `
+            <td style="padding: 0.65rem 0.75rem;">
+              <strong style="color: #0f172a;">${escapeHtml(r.corpName)}</strong>
+              <div style="font-size: 0.72rem; color: #64748b;">${escapeHtml(r.transType)}</div>
+            </td>
+            <td style="padding: 0.65rem 0.75rem; text-align: center;">
+              ${getStatusBadge(r.currentStatus)}
+            </td>
+            <td style="padding: 0.65rem 0.75rem; text-align: center; white-space: nowrap;">
+              <button type="button" onclick="viewFromList('${r.id}')" class="btn btn-view btn-sm" title="View details">👁️ Details</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeListModal() {
+      document.getElementById('listModalOverlay').classList.add('hidden');
+    }
+
+    function viewFromList(id) {
+      closeListModal();
+      viewRecord(id);
     }
 
     /* -------------------------------------------------------------
@@ -718,7 +823,6 @@
           </td>
           <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
           <td style="text-align: center; white-space:nowrap;">
-            <!-- Action Buttons with View Option -->
             <button type="button" onclick="viewRecord('${r.id}')" class="btn btn-view btn-sm" title="View details">👁️ View</button>
             <button type="button" onclick="openModal('${r.id}')" class="btn btn-outline btn-sm">Edit</button>
             <button type="button" onclick="deleteRecord('${r.id}')" class="btn btn-danger btn-sm">Delete</button>
