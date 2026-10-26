@@ -25,7 +25,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: var(--background); color: var(--text); padding-bottom: 60px; line-height: 1.5; }
     
-    /* Compact Header (Reduced by 50%) */
+    /* Compact Header */
     header { background-color: #0f172a; color: white; padding: 0.45rem 1.25rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); }
     .header-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
     .app-title h1 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; }
@@ -95,24 +95,25 @@
 </head>
 <body>
 
-  <!-- Sleek, Compact Header (No subheader, 50% smaller) -->
+  <!-- Header -->
   <header>
     <div class="header-container">
       <div class="app-title">
         <h1>SEC TRANSACTIONS TRACKER</h1>
       </div>
       <div class="header-actions">
-        <button onclick="downloadBackup()" class="btn btn-secondary" title="Export full backup file">
+        <!-- Robust Backup & Restore buttons -->
+        <button type="button" onclick="downloadBackup()" class="btn btn-secondary" title="Export full JSON backup file">
           📥 Backup
         </button>
-        <button onclick="triggerRestore()" class="btn btn-secondary" title="Import backup file">
+        <button type="button" onclick="triggerRestore()" class="btn btn-secondary" title="Import JSON backup file">
           📤 Restore
         </button>
-        <input type="file" id="restoreFileInput" accept=".json" style="display:none;" onchange="restoreBackup(event)">
-        <button onclick="exportToCSV()" class="btn btn-secondary" title="Export table to Excel CSV">
+        <input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none;" onchange="restoreBackup(event)">
+        <button type="button" onclick="exportToCSV()" class="btn btn-secondary" title="Export table to Excel CSV">
           📊 Export CSV
         </button>
-        <button onclick="openModal()" class="btn btn-primary">
+        <button type="button" onclick="openModal()" class="btn btn-primary">
           ➕ New Transaction
         </button>
       </div>
@@ -155,14 +156,11 @@
             <option value="week">Summary by Week</option>
           </select>
           <select id="summaryPeriodSelect" class="form-control" style="width: auto; font-weight:600;" onchange="renderPeriodicSummary()">
-            <!-- Dynamic week or month options -->
           </select>
         </div>
       </div>
       
-      <div id="summaryResults" class="summary-metrics">
-        <!-- Rendered summary counters -->
-      </div>
+      <div id="summaryResults" class="summary-metrics"></div>
     </div>
 
     <!-- Filter & Search Controls -->
@@ -204,9 +202,7 @@
             <th style="text-align: center;">Actions</th>
           </tr>
         </thead>
-        <tbody id="transactionsTbody">
-          <!-- Dynamic Records -->
-        </tbody>
+        <tbody id="transactionsTbody"></tbody>
       </table>
       <div id="noDataRow" style="text-align:center; padding: 2.5rem; color: #94a3b8; display: none;">
         No transaction records found. Click <strong>"➕ New Transaction"</strong> to encode.
@@ -219,7 +215,7 @@
     <div class="modal-card">
       <div class="modal-header">
         <h2 id="modalTitle" style="font-size: 1.15rem; font-weight: 700;">New SEC Transaction</h2>
-        <button onclick="closeModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#64748b;">&times;</button>
+        <button type="button" onclick="closeModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#64748b;">&times;</button>
       </div>
       <form id="recordForm" onsubmit="saveRecord(event)">
         <div class="modal-body">
@@ -303,17 +299,22 @@
     </div>
   </div>
 
-  <!-- OFFLINE JAVASCRIPT ENGINE -->
+  <!-- APPLICATION ENGINE -->
   <script>
     const STORAGE_KEY = 'SEC_CLIENT_SYSTEM_DATA_OFFLINE';
-    let records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    let records = [];
+
+    try {
+      records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch(err) {
+      records = [];
+    }
 
     window.onload = function() {
       updateSummarySelectors();
       renderTable();
     };
 
-    // Calculate Balance
     function calculateBalance() {
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
@@ -321,7 +322,6 @@
       document.getElementById('balanceDisplay').value = formatPeso(balance);
     }
 
-    // Toggle custom type input
     function handleTypeChange() {
       const isOther = document.getElementById('transType').value === 'Others';
       const otherGroup = document.getElementById('otherTypeGroup');
@@ -330,7 +330,6 @@
       otherInput.required = isOther;
     }
 
-    // Modal Operations
     function openModal(id = null) {
       const form = document.getElementById('recordForm');
       form.reset();
@@ -371,7 +370,6 @@
       document.getElementById('modalOverlay').classList.add('hidden');
     }
 
-    // Save or Edit Record
     function saveRecord(e) {
       e.preventDefault();
 
@@ -412,9 +410,8 @@
       renderTable();
     }
 
-    // Delete Record
     function deleteRecord(id) {
-      if (confirm('Are you sure you want to delete this client record? This action cannot be undone.')) {
+      if (confirm('Are you sure you want to delete this record?')) {
         records = records.filter(r => r.id !== id);
         saveToStorage();
         updateSummarySelectors();
@@ -426,7 +423,6 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
     }
 
-    // Helpers: Week & Month Calculation
     function getMonthKey(dateStr) {
       if (!dateStr) return 'Unspecified Date';
       const d = new Date(dateStr);
@@ -442,7 +438,6 @@
       return `Week ${weekNumber}, ${d.getFullYear()}`;
     }
 
-    // Populate Week/Month selector options
     function updateSummarySelectors() {
       const mode = document.getElementById('summaryMode').value;
       const selector = document.getElementById('summaryPeriodSelect');
@@ -474,7 +469,6 @@
       renderPeriodicSummary();
     }
 
-    // Compute & render Periodic Summary Box
     function renderPeriodicSummary() {
       const mode = document.getElementById('summaryMode').value;
       const selectedPeriod = document.getElementById('summaryPeriodSelect').value;
@@ -505,7 +499,6 @@
       `;
     }
 
-    // Render Table & Metrics
     function renderTable() {
       const tbody = document.getElementById('transactionsTbody');
       const search = document.getElementById('searchInput').value.toLowerCase();
@@ -515,8 +508,8 @@
       tbody.innerHTML = '';
 
       const filtered = records.filter(r => {
-        const matchesSearch = r.corpName.toLowerCase().includes(search) || 
-                              r.transType.toLowerCase().includes(search);
+        const matchesSearch = (r.corpName || '').toLowerCase().includes(search) || 
+                              (r.transType || '').toLowerCase().includes(search);
         
         const matchesType = (filterType === 'All') 
           ? true 
@@ -548,8 +541,8 @@
           </td>
           <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
           <td style="text-align: center; white-space:nowrap;">
-            <button onclick="openModal('${r.id}')" class="btn btn-outline btn-sm">Edit</button>
-            <button onclick="deleteRecord('${r.id}')" class="btn btn-danger btn-sm">Delete</button>
+            <button type="button" onclick="openModal('${r.id}')" class="btn btn-outline btn-sm">Edit</button>
+            <button type="button" onclick="deleteRecord('${r.id}')" class="btn btn-danger btn-sm">Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -558,7 +551,6 @@
       updateGlobalMetrics();
     }
 
-    // Status Badge Component
     function getStatusBadge(status) {
       let badgeClass = 'badge-signing';
       if (status === 'Under Review') badgeClass = 'badge-review';
@@ -570,7 +562,6 @@
       return `<span class="badge ${badgeClass}">${status}</span>`;
     }
 
-    // Metrics calculation
     function updateGlobalMetrics() {
       const total = records.length;
       const completed = records.filter(r => r.currentStatus === 'Completed').length;
@@ -583,65 +574,95 @@
       document.getElementById('statBalance').innerText = formatPeso(totalBalance);
     }
 
-    // Currency Formatter
     function formatPeso(amount) {
       return '₱' + Number(amount || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    // HTML Sanitizer
     function escapeHtml(str) {
       return String(str || '').replace(/[&<>"']/g, m => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
       }[m]));
     }
 
-    // BACKUP FUNCTIONALITY (JSON)
+    /* -------------------------------------------------------------
+       GUARANTEED BACKUP & RESTORE ENGINE (Blob + FileReader)
+    -------------------------------------------------------------- */
     function downloadBackup() {
-      if (records.length === 0) {
-        if (!confirm('You currently have no records. Do you still want to download an empty backup?')) return;
+      try {
+        if (!records || records.length === 0) {
+          if (!confirm('You currently have 0 records encoded. Do you still want to download an empty backup file?')) {
+            return;
+          }
+        }
+        
+        // Convert records array to formatted JSON text
+        const jsonString = JSON.stringify(records || [], null, 2);
+        
+        // Use native Blob to avoid browser data-URI restrictions
+        const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8;' });
+        const blobUrl = URL.createObjectURL(blob);
+        
+        const now = new Date();
+        const dateStr = now.getFullYear() + '-' +
+          String(now.getMonth() + 1).padStart(2, '0') + '-' +
+          String(now.getDate()).padStart(2, '0');
+
+        const tempLink = document.createElement('a');
+        tempLink.href = blobUrl;
+        tempLink.setAttribute('download', `SEC_Tracker_Backup_${dateStr}.json`);
+        tempLink.style.display = 'none';
+
+        document.body.appendChild(tempLink);
+        tempLink.click();
+
+        // Clean up memory
+        setTimeout(() => {
+          document.body.removeChild(tempLink);
+          URL.revokeObjectURL(blobUrl);
+        }, 300);
+
+      } catch (err) {
+        alert('Failed to generate backup: ' + err.message);
+        console.error(err);
       }
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(records, null, 2));
-      const downloadAnchor = document.createElement('a');
-      const dateStr = new Date().toISOString().slice(0, 10);
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `SEC_Tracker_Backup_${dateStr}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
     }
 
     function triggerRestore() {
-      document.getElementById('restoreFileInput').click();
+      const input = document.getElementById('restoreFileInput');
+      input.value = ''; // Reset input to allow re-selecting same file
+      input.click();
     }
 
     function restoreBackup(event) {
-      const file = event.target.files[0];
+      const file = event.target.files && event.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
       reader.onload = function(e) {
         try {
-          const importedData = JSON.parse(e.target.result);
-          if (!Array.isArray(importedData)) {
-            alert('Invalid backup file structure.');
+          const imported = JSON.parse(e.target.result);
+          if (!Array.isArray(imported)) {
+            alert('Invalid file format: Backup file must contain a list of records.');
             return;
           }
-          if (confirm(`Found ${importedData.length} records in backup. Do you want to restore and replace current data?`)) {
-            records = importedData;
+          if (confirm(`Found ${imported.length} transaction record(s) in this file. Restore and load them now?`)) {
+            records = imported;
             saveToStorage();
             updateSummarySelectors();
             renderTable();
             alert('Backup successfully restored!');
           }
         } catch (err) {
-          alert('Failed to read backup file. Please ensure it is a valid JSON backup from this application.');
+          alert('Could not parse JSON file. Please make sure it is a valid backup file from this application.');
+          console.error(err);
         }
       };
+      reader.onerror = function() {
+        alert('Error reading the selected backup file.');
+      };
       reader.readAsText(file);
-      event.target.value = '';
     }
 
-    // EXPORT TO CSV
     function exportToCSV() {
       if (records.length === 0) {
         alert('No data to export.');
