@@ -15,6 +15,8 @@
       --text-muted: #64748b;
       --border: #cbd5e1;
       --border-light: #e2e8f0;
+      --header-bg: #0f172a;
+      --header-text: #ffffff;
       --success: #059669;
       --warning: #d97706;
       --danger: #dc2626;
@@ -22,59 +24,79 @@
       --radius: 8px;
       --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+    /* DARK MODE VARIABLES */
+    body.dark-mode {
+      --primary: #3b82f6;
+      --primary-hover: #60a5fa;
+      --surface: #1e293b;
+      --background: #0f172a;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --border-light: #1e293b;
+      --header-bg: #090e1a;
+      --header-text: #f8fafc;
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease; }
     body { background-color: var(--background); color: var(--text); padding-bottom: 60px; line-height: 1.5; }
     
     /* Compact Header */
-    header { background-color: #0f172a; color: white; padding: 0.45rem 1.25rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); }
+    header { background-color: var(--header-bg); color: var(--header-text); padding: 0.45rem 1.25rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); border-bottom: 1px solid var(--border); }
     .header-container { max-width: 1350px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-    .app-title h1 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; }
-    .header-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .app-title h1 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; color: #fff; }
+    .header-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
     
     /* Layout */
     .container { max-width: 1350px; margin: 1.5rem auto; padding: 0 1rem; }
     .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
     
     /* Cards */
-    .card { background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); }
     .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
     .stat-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); }
     .stat-value { font-size: 1.5rem; font-weight: 700; margin-top: 0.25rem; }
     
     /* Buttons */
-    .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border-radius: var(--radius); font-size: 0.775rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; text-decoration: none; }
+    .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border-radius: var(--radius); font-size: 0.775rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; text-decoration: none; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-hover); }
     .btn-secondary { background: #334155; color: white; border-color: #475569; }
     .btn-secondary:hover { background: #475569; }
-    .btn-outline { background: white; border: 1px solid var(--border); color: var(--text); }
-    .btn-outline:hover { background: #f8fafc; }
+    .btn-theme { background: #1e293b; color: #f8fafc; border-color: #475569; }
+    body.dark-mode .btn-theme { background: #334155; color: #fde047; border-color: #64748b; }
+    .btn-outline { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+    .btn-outline:hover { background: var(--background); }
     .btn-view { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
     .btn-view:hover { background: #dbeafe; }
+    body.dark-mode .btn-view { background: #1e3a8a; color: #bfdbfe; border-color: #1e40af; }
     .btn-danger { background: #ef4444; color: white; }
     .btn-danger:hover { background: #dc2626; }
     .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
-    .btn-card-view { padding: 0.2rem 0.55rem; font-size: 0.7rem; background: #f8fafc; border: 1px solid var(--border); color: #1e40af; font-weight: 600; border-radius: 6px; }
-    .btn-card-view:hover { background: #eff6ff; border-color: #93c5fd; }
+    .btn-card-view { padding: 0.2rem 0.55rem; font-size: 0.7rem; background: var(--surface); border: 1px solid var(--border); color: var(--primary); font-weight: 600; border-radius: 6px; }
+    .btn-card-view:hover { background: var(--background); }
     
     /* Period Summary Box */
-    .summary-panel { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
-    .summary-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.75rem; }
+    .summary-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
+    .summary-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
     .period-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
-    .summary-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; background: #f8fafc; border: 1px solid var(--border-light); padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.875rem; }
+    .summary-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; background: var(--background); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.875rem; }
     
     /* Filter Bar */
-    .filter-bar { background: var(--surface); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border-light); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+    .filter-bar { background: var(--surface); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
     .search-box { flex: 1; min-width: 250px; }
-    .form-control { width: 100%; padding: 0.5rem 0.75rem; font-size: 0.875rem; border: 1px solid var(--border); border-radius: var(--radius); background-color: #fff; }
-    .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.15); }
+    .form-control { width: 100%; padding: 0.5rem 0.75rem; font-size: 0.875rem; border: 1px solid var(--border); border-radius: var(--radius); background-color: var(--surface); color: var(--text); }
+    .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25); }
+    body.dark-mode select.form-control option { background-color: #1e293b; color: #f8fafc; }
     
     /* Table */
-    .table-responsive { background: var(--surface); border: 1px solid var(--border-light); border-radius: var(--radius); overflow-x: auto; box-shadow: var(--shadow); }
+    .table-responsive { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; box-shadow: var(--shadow); }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
-    th { background: #f8fafc; padding: 0.85rem 1rem; font-weight: 600; color: #475569; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-light); vertical-align: top; }
-    tr:hover { background-color: #f8fafc; }
+    th { background: var(--background); padding: 0.85rem 1rem; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:hover { background-color: rgba(148, 163, 184, 0.08); }
     
     /* Badges */
     .badge { display: inline-block; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.725rem; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
@@ -88,29 +110,42 @@
     .badge-compliance { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
     .badge-other { background: #f3f4f6; color: #1f2937; border-color: #d1d5db; }
     
+    /* Badges Dark Mode */
+    body.dark-mode .badge-prep { background: #334155; color: #cbd5e1; border-color: #475569; }
+    body.dark-mode .badge-signing { background: #451a03; color: #fde68a; border-color: #78350f; }
+    body.dark-mode .badge-review { background: #082f49; color: #bae6fd; border-color: #0369a1; }
+    body.dark-mode .badge-payment { background: #3b0764; color: #e9d5ff; border-color: #6b21a8; }
+    body.dark-mode .badge-approved { background: #042f2e; color: #99f6e4; border-color: #115e59; }
+    body.dark-mode .badge-submitted { background: #1e1b4b; color: #c7d2fe; border-color: #3730a3; }
+    body.dark-mode .badge-completed { background: #052e16; color: #86efac; border-color: #166534; }
+    body.dark-mode .badge-compliance { background: #450a0a; color: #fca5a5; border-color: #991b1b; }
+    body.dark-mode .badge-other { background: #334155; color: #f1f5f9; border-color: #475569; }
+
     /* Modals */
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
     .modal-backdrop.hidden { display: none; }
-    .modal-card { background: white; border-radius: 12px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2); }
-    .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
+    .modal-card { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4); }
+    .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .modal-body { padding: 1.5rem; }
-    .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end; gap: 0.5rem; }
+    .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 0.5rem; }
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
     .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.725rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; color: #475569; }
-    .finance-box { background: #f8fafc; border: 1px solid var(--border-light); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.725rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; color: var(--text-muted); }
+    .finance-box { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; }
     
     /* View Summary Modal Specifics */
-    .summary-card-view { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: white; }
-    .view-row { display: flex; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-light); font-size: 0.875rem; }
+    .summary-card-view { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+    .view-row { display: flex; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
     .view-row:last-child { border-bottom: none; }
-    .view-label { font-weight: 600; color: #64748b; font-size: 0.775rem; text-transform: uppercase; letter-spacing: 0.03em; }
-    .view-value { font-weight: 600; color: #0f172a; text-align: right; }
+    .view-label { font-weight: 600; color: var(--text-muted); font-size: 0.775rem; text-transform: uppercase; letter-spacing: 0.03em; }
+    .view-value { font-weight: 600; color: var(--text); text-align: right; }
+    .view-finance-row { background: var(--background); }
+    .view-balance-row { background: rgba(220, 38, 38, 0.08); }
     
     @media print {
       body * { visibility: hidden; }
       #printableSummary, #printableSummary * { visibility: visible; }
-      #printableSummary { position: absolute; left: 0; top: 0; width: 100%; }
+      #printableSummary { position: absolute; left: 0; top: 0; width: 100%; color: #000 !important; background: #fff !important; }
     }
   </style>
 </head>
@@ -123,6 +158,11 @@
         <h1>SEC TRANSACTIONS TRACKER</h1>
       </div>
       <div class="header-actions">
+        <!-- Dark Mode Toggle Switch -->
+        <button type="button" onclick="toggleDarkMode()" id="themeToggleBtn" class="btn btn-theme" title="Switch between Dark and Light mode">
+          🌙 Dark
+        </button>
+
         <button type="button" onclick="downloadBackup()" class="btn btn-secondary" title="Export full JSON backup file">
           📥 Backup
         </button>
@@ -165,12 +205,16 @@
       </div>
 
       <div class="card">
-        <div class="stat-title">Completed</div>
+        <div class="card-header-flex">
+          <div class="stat-title">Completed</div>
+        </div>
         <div id="statCompleted" class="stat-value" style="color: var(--success);">0</div>
       </div>
 
       <div class="card">
-        <div class="stat-title">Total Uncollected Balance</div>
+        <div class="card-header-flex">
+          <div class="stat-title">Total Uncollected Balance</div>
+        </div>
         <div id="statBalance" class="stat-value" style="color: var(--danger);">₱0.00</div>
       </div>
     </div>
@@ -183,7 +227,7 @@
           <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, and collections by timeframe</p>
         </div>
         <div class="period-controls">
-          <label style="font-size: 0.8rem; font-weight:600;">Group By:</label>
+          <label style="font-size: 0.8rem; font-weight:600; color: var(--text-muted);">Group By:</label>
           <select id="summaryMode" class="form-control" style="width: auto;" onchange="updateSummarySelectors()">
             <option value="month">Summary by Month</option>
             <option value="week">Summary by Week</option>
@@ -240,7 +284,7 @@
         </thead>
         <tbody id="transactionsTbody"></tbody>
       </table>
-      <div id="noDataRow" style="text-align:center; padding: 2.5rem; color: #94a3b8; display: none;">
+      <div id="noDataRow" style="text-align:center; padding: 2.5rem; color: var(--text-muted); display: none;">
         No transaction records found. Click <strong>"➕ New Transaction"</strong> to encode.
       </div>
     </div>
@@ -254,20 +298,20 @@
           <h2 id="listModalTitle" style="font-size: 1.1rem; font-weight: 700;">Corporation List</h2>
           <p id="listModalSubtitle" style="font-size: 0.75rem; color: var(--text-muted);"></p>
         </div>
-        <button type="button" onclick="closeListModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#64748b;">&times;</button>
+        <button type="button" onclick="closeListModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
       </div>
       <div class="modal-body" style="padding: 1rem 1.5rem; max-height: 60vh; overflow-y: auto;">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
           <thead>
-            <tr style="border-bottom: 2px solid var(--border-light); text-align: left;">
-              <th style="padding: 0.5rem 0.75rem; color: #475569;">Corporation Name</th>
-              <th style="padding: 0.5rem 0.75rem; text-align: center; color: #475569;">Status</th>
-              <th style="padding: 0.5rem 0.75rem; text-align: center; color: #475569;">Action</th>
+            <tr style="border-bottom: 2px solid var(--border); text-align: left;">
+              <th style="padding: 0.5rem 0.75rem; color: var(--text-muted);">Corporation Name</th>
+              <th style="padding: 0.5rem 0.75rem; text-align: center; color: var(--text-muted);">Status</th>
+              <th style="padding: 0.5rem 0.75rem; text-align: center; color: var(--text-muted);">Action</th>
             </tr>
           </thead>
           <tbody id="listModalTbody"></tbody>
         </table>
-        <div id="listModalEmpty" style="display: none; text-align: center; padding: 2.5rem; color: #94a3b8;">
+        <div id="listModalEmpty" style="display: none; text-align: center; padding: 2.5rem; color: var(--text-muted);">
           No corporations found for this category.
         </div>
       </div>
@@ -282,14 +326,14 @@
     <div class="modal-card">
       <div class="modal-header">
         <h2 style="font-size: 1.05rem; font-weight: 700;">Corporation Transaction Summary</h2>
-        <button type="button" onclick="closeViewModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#64748b;">&times;</button>
+        <button type="button" onclick="closeViewModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
       </div>
       <div class="modal-body" id="printableSummary">
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; margin-bottom:1.25rem;">
+        <div style="background:var(--background); border:1px solid var(--border); border-radius:8px; padding:1.25rem; margin-bottom:1.25rem;">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;">
             <div>
               <span id="viewTransTypeBadge" class="badge" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd; margin-bottom:0.4rem;">Type</span>
-              <h2 id="viewCorpName" style="font-size:1.35rem; font-weight:800; color:#0f172a; margin-top:0.25rem;">Corporation Name</h2>
+              <h2 id="viewCorpName" style="font-size:1.35rem; font-weight:800; color:var(--text); margin-top:0.25rem;">Corporation Name</h2>
             </div>
             <div id="viewStatusBadgeContainer"></div>
           </div>
@@ -308,16 +352,16 @@
             <span class="view-label">Date Completed</span>
             <span class="view-value" id="viewDateCompleted">—</span>
           </div>
-          <div class="view-row" style="background:#fafafa;">
+          <div class="view-row view-finance-row">
             <span class="view-label">Assistance Fee</span>
-            <span class="view-value" id="viewFee" style="font-size:1rem; color:#0f172a;">₱0.00</span>
+            <span class="view-value" id="viewFee" style="font-size:1rem;">₱0.00</span>
           </div>
-          <div class="view-row" style="background:#fafafa;">
+          <div class="view-row view-finance-row">
             <span class="view-label">Initial Payment</span>
             <span class="view-value" id="viewInitialPayment" style="color:var(--success);">₱0.00</span>
           </div>
-          <div class="view-row" style="background:#fff1f2;">
-            <span class="view-label" style="color:#9f1239;">Remaining Balance</span>
+          <div class="view-row view-balance-row">
+            <span class="view-label" style="color:var(--danger);">Remaining Balance</span>
             <span class="view-value" id="viewBalance" style="font-size:1.1rem; color:var(--danger);">₱0.00</span>
           </div>
         </div>
@@ -335,7 +379,7 @@
     <div class="modal-card">
       <div class="modal-header">
         <h2 id="modalTitle" style="font-size: 1.15rem; font-weight: 700;">New SEC Transaction</h2>
-        <button type="button" onclick="closeModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#64748b;">&times;</button>
+        <button type="button" onclick="closeModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
       </div>
       <form id="recordForm" onsubmit="saveRecord(event)">
         <div class="modal-body">
@@ -392,7 +436,7 @@
               </div>
               <div class="form-group">
                 <label>Balance (Auto-Computed)</label>
-                <input type="text" id="balanceDisplay" readonly class="form-control" style="background:#e2e8f0; font-weight:bold; color:var(--danger);" value="₱0.00">
+                <input type="text" id="balanceDisplay" readonly class="form-control" style="background:var(--border); font-weight:bold; color:var(--danger);" value="₱0.00">
               </div>
             </div>
           </div>
@@ -431,6 +475,7 @@
   <!-- APPLICATION ENGINE -->
   <script>
     const STORAGE_KEY = 'SEC_CLIENT_SYSTEM_DATA_OFFLINE';
+    const THEME_KEY = 'SEC_TRACKER_DARK_MODE';
     const STANDARD_STATUSES = [
       'For Preparation of Documents',
       'For Signing of Documents',
@@ -451,10 +496,38 @@
       records = [];
     }
 
+    // Initialize Theme & App on Load
     window.onload = function() {
+      initTheme();
       updateSummarySelectors();
       renderTable();
     };
+
+    /* -------------------------------------------------------------
+       DARK MODE ENGINE (OFFLINE & PERSISTENT)
+    -------------------------------------------------------------- */
+    function initTheme() {
+      const isDark = localStorage.getItem(THEME_KEY) === 'true';
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+      }
+      updateThemeButton();
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem(THEME_KEY, isDark);
+      updateThemeButton();
+    }
+
+    function updateThemeButton() {
+      const btn = document.getElementById('themeToggleBtn');
+      if (btn) {
+        const isDark = document.body.classList.contains('dark-mode');
+        btn.innerHTML = isDark ? '☀️ Light' : '🌙 Dark';
+        btn.title = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+      }
+    }
 
     function calculateBalance() {
       const fee = parseFloat(document.getElementById('fee').value) || 0;
@@ -508,11 +581,11 @@
         emptyElem.style.display = 'none';
         filteredList.forEach(r => {
           const tr = document.createElement('tr');
-          tr.style.borderBottom = '1px solid var(--border-light)';
+          tr.style.borderBottom = '1px solid var(--border)';
           tr.innerHTML = `
             <td style="padding: 0.65rem 0.75rem;">
-              <strong style="color: #0f172a;">${escapeHtml(r.corpName)}</strong>
-              <div style="font-size: 0.72rem; color: #64748b;">${escapeHtml(r.transType)}</div>
+              <strong style="color: var(--text);">${escapeHtml(r.corpName)}</strong>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(r.transType)}</div>
             </td>
             <td style="padding: 0.65rem 0.75rem; text-align: center;">
               ${getStatusBadge(r.currentStatus)}
@@ -745,7 +818,7 @@
       const resultsDiv = document.getElementById('summaryResults');
 
       if (!selectedPeriod || selectedPeriod === "No data available") {
-        resultsDiv.innerHTML = '<span style="color: #64748b;">Encode transactions with "Date Accepted and Received the Downpayment" to view periodic summaries.</span>';
+        resultsDiv.innerHTML = '<span style="color: var(--text-muted);">Encode transactions with "Date Accepted and Received the Downpayment" to view periodic summaries.</span>';
         return;
       }
 
@@ -809,17 +882,17 @@
         const completedDate = r.dateCompleted || r.finishedDate || '—';
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><strong>${escapeHtml(r.corpName)}</strong></td>
-          <td><span class="badge" style="background:#f1f5f9; color:#334155; border-color:#cbd5e1;">${escapeHtml(r.transType)}</span></td>
-          <td style="font-size:0.775rem; color:#475569;">
-            <div><strong>Accepted & DP:</strong> ${r.dateAccepted || '—'}</div>
-            <div><strong>Started:</strong> ${r.dateStarted || '—'}</div>
-            <div><strong>Completed:</strong> ${completedDate}</div>
+          <td><strong style="color:var(--text);">${escapeHtml(r.corpName)}</strong></td>
+          <td><span class="badge badge-prep">${escapeHtml(r.transType)}</span></td>
+          <td style="font-size:0.775rem; color:var(--text-muted);">
+            <div><strong style="color:var(--text);">Accepted & DP:</strong> ${r.dateAccepted || '—'}</div>
+            <div><strong style="color:var(--text);">Started:</strong> ${r.dateStarted || '—'}</div>
+            <div><strong style="color:var(--text);">Completed:</strong> ${completedDate}</div>
           </td>
           <td style="text-align: right; font-size:0.775rem;">
-            <div>Fee: <strong>${formatPeso(r.fee)}</strong></div>
+            <div>Fee: <strong style="color:var(--text);">${formatPeso(r.fee)}</strong></div>
             <div>Paid: <span style="color:var(--success); font-weight:600;">${formatPeso(r.initialPayment)}</span></div>
-            <div>Bal: <strong style="color:${r.balance > 0 ? 'var(--danger)' : '#64748b'};">${formatPeso(r.balance)}</strong></div>
+            <div>Bal: <strong style="color:${r.balance > 0 ? 'var(--danger)' : 'var(--text-muted)'};">${formatPeso(r.balance)}</strong></div>
           </td>
           <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
           <td style="text-align: center; white-space:nowrap;">
