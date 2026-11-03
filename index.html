@@ -45,19 +45,19 @@
     
     /* Compact Header */
     header { background-color: var(--header-bg); color: var(--header-text); padding: 0.45rem 1.25rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); border-bottom: 1px solid var(--border); }
-    .header-container { max-width: 1350px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .header-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
     .app-title h1 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; color: #fff; }
     .header-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
     
     /* Layout */
-    .container { max-width: 1350px; margin: 1.5rem auto; padding: 0 1rem; }
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .container { max-width: 1400px; margin: 1.5rem auto; padding: 0 1rem; }
+    .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
     
     /* Cards */
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); }
     .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
     .stat-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); }
-    .stat-value { font-size: 1.5rem; font-weight: 700; margin-top: 0.25rem; }
+    .stat-value { font-size: 1.4rem; font-weight: 700; margin-top: 0.25rem; }
     
     /* Buttons & Toggles */
     .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border-radius: var(--radius); font-size: 0.775rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; text-decoration: none; user-select: none; }
@@ -78,7 +78,6 @@
     .btn-card-view { padding: 0.2rem 0.55rem; font-size: 0.7rem; background: var(--surface); border: 1px solid var(--border); color: var(--primary); font-weight: 600; border-radius: 6px; }
     .btn-card-view:hover { background: var(--background); }
     
-    /* Toggle switch pill in header */
     .toggle-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.65rem; background: #1e293b; border: 1px solid #475569; border-radius: var(--radius); font-size: 0.75rem; color: #f1f5f9; cursor: pointer; user-select: none; font-weight: 600; }
     .toggle-pill input { cursor: pointer; accent-color: var(--primary); width: 14px; height: 14px; }
     body.dark-mode .toggle-pill { background: #334155; border-color: #64748b; }
@@ -87,7 +86,7 @@
     .summary-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
     .summary-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
     .period-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
-    .summary-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; background: var(--background); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.875rem; }
+    .summary-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; background: var(--background); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.85rem; }
     
     /* Filter Bar */
     .filter-bar { background: var(--surface); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
@@ -115,7 +114,6 @@
     .badge-compliance { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
     .badge-other { background: #f3f4f6; color: #1f2937; border-color: #d1d5db; }
     
-    /* Badges Dark Mode */
     body.dark-mode .badge-prep { background: #334155; color: #cbd5e1; border-color: #475569; }
     body.dark-mode .badge-signing { background: #451a03; color: #fde68a; border-color: #78350f; }
     body.dark-mode .badge-review { background: #082f49; color: #bae6fd; border-color: #0369a1; }
@@ -129,23 +127,24 @@
     /* Modals */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
     .modal-backdrop.hidden { display: none; }
-    .modal-card { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4); }
+    .modal-card { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 720px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4); }
     .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .modal-body { padding: 1.5rem; }
     .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
-    .form-group { margin-bottom: 1rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem; }
+    .form-group { margin-bottom: 0.9rem; }
     .form-group label { display: block; font-size: 0.725rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; color: var(--text-muted); }
-    .finance-box { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; }
+    .finance-box { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.9rem; }
     
     /* View Summary Modal Specifics */
     .summary-card-view { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
-    .view-row { display: flex; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+    .view-row { display: flex; justify-content: space-between; padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
     .view-row:last-child { border-bottom: none; }
     .view-label { font-weight: 600; color: var(--text-muted); font-size: 0.775rem; text-transform: uppercase; letter-spacing: 0.03em; }
     .view-value { font-weight: 600; color: var(--text); text-align: right; }
     .view-finance-row { background: var(--background); }
     .view-balance-row { background: rgba(220, 38, 38, 0.08); }
+    .view-net-row { background: rgba(5, 150, 105, 0.08); }
     
     @media print {
       body * { visibility: hidden; }
@@ -163,13 +162,13 @@
         <h1>SEC TRANSACTIONS TRACKER</h1>
       </div>
       <div class="header-actions">
-        <!-- Auto-Backup Toggle Switch (Enabled by default) -->
+        <!-- Auto-Backup Toggle -->
         <label class="toggle-pill" title="Automatically downloads a fresh backup file every time you save or edit a transaction">
           <input type="checkbox" id="headerAutoBackupToggle" onchange="toggleAutoBackup(this.checked)" checked>
           <span>Auto-Backup</span>
         </label>
 
-        <!-- Dark Mode Toggle Switch -->
+        <!-- Dark Mode Toggle -->
         <button type="button" onclick="toggleDarkMode()" id="themeToggleBtn" class="btn btn-theme" title="Switch between Dark and Light mode">
           🌙 Dark
         </button>
@@ -193,8 +192,8 @@
 
   <div class="container">
 
-    <!-- KPI / Top Cards with VIEW buttons -->
-    <div class="grid-4">
+    <!-- KPI / Top Cards (Now includes TOTAL EXPENSES) -->
+    <div class="grid-5">
       <div class="card">
         <div class="card-header-flex">
           <div class="stat-title">Total Records</div>
@@ -228,6 +227,13 @@
         </div>
         <div id="statBalance" class="stat-value" style="color: var(--danger);">₱0.00</div>
       </div>
+
+      <div class="card">
+        <div class="card-header-flex">
+          <div class="stat-title">Total Expenses</div>
+        </div>
+        <div id="statExpenses" class="stat-value" style="color: #ea580c;">₱0.00</div>
+      </div>
     </div>
 
     <!-- Dropdown Summary by Week / Month -->
@@ -235,7 +241,7 @@
       <div class="summary-header">
         <div>
           <h3 style="font-size: 0.95rem; font-weight: 700;">Periodic Summary (Date Accepted & Downpayment)</h3>
-          <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, and collections by timeframe</p>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, expenses, collections, and net profit by timeframe</p>
         </div>
         <div class="period-controls">
           <label style="font-size: 0.8rem; font-weight:600; color: var(--text-muted);">Group By:</label>
@@ -254,7 +260,7 @@
     <!-- Filter & Search Controls -->
     <div class="filter-bar">
       <div class="search-box">
-        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation name, type, or custom status..." class="form-control">
+        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation name, type, status, or expenses..." class="form-control">
       </div>
       <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
         <select id="filterType" onchange="renderTable()" class="form-control" style="width:auto;">
@@ -288,7 +294,7 @@
             <th>Corporation Name</th>
             <th>Type of Transaction</th>
             <th>Dates (Accepted & DP &rarr; Started &rarr; Completed)</th>
-            <th style="text-align: right;">Financials</th>
+            <th style="text-align: right;">Financials & Expenses</th>
             <th style="text-align: center;">Current Status</th>
             <th style="text-align: center;">Actions</th>
           </tr>
@@ -332,7 +338,7 @@
     </div>
   </div>
 
-  <!-- POPUP: VIEW SINGLE TRANSACTION SUMMARY -->
+  <!-- POPUP: VIEW SINGLE TRANSACTION SUMMARY (Includes Expenses) -->
   <div id="viewModalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -373,7 +379,19 @@
           </div>
           <div class="view-row view-balance-row">
             <span class="view-label" style="color:var(--danger);">Remaining Balance</span>
-            <span class="view-value" id="viewBalance" style="font-size:1.1rem; color:var(--danger);">₱0.00</span>
+            <span class="view-value" id="viewBalance" style="font-size:1rem; color:var(--danger);">₱0.00</span>
+          </div>
+          <div class="view-row" style="background: rgba(234, 88, 12, 0.08);">
+            <span class="view-label" style="color: #ea580c;">Corporation Expenses</span>
+            <span class="view-value" id="viewExpenses" style="font-size:1rem; color: #ea580c;">₱0.00</span>
+          </div>
+          <div class="view-row" id="viewExpenseRemarksRow" style="display: none; background: rgba(234, 88, 12, 0.04);">
+            <span class="view-label" style="color: #ea580c;">Expense Description</span>
+            <span class="view-value" id="viewExpenseRemarks" style="font-size:0.85rem; font-weight: 500;">—</span>
+          </div>
+          <div class="view-row view-net-row">
+            <span class="view-label" style="color:var(--success);">Net Profit (Fee &minus; Expenses)</span>
+            <span class="view-value" id="viewNetProfit" style="font-size:1.1rem; color:var(--success);">₱0.00</span>
           </div>
         </div>
       </div>
@@ -385,7 +403,7 @@
     </div>
   </div>
 
-  <!-- POPUP: ADD / EDIT MODAL -->
+  <!-- POPUP: ADD / EDIT MODAL (With Corporation Expenses) -->
   <div id="modalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -434,21 +452,42 @@
             </div>
           </div>
 
-          <!-- Financial Details -->
+          <!-- Financial Details & Corporation Expenses -->
           <div class="finance-box">
+            <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.75rem;">
+              Financials &amp; Expenses Breakdown
+            </div>
+
             <div class="form-grid">
               <div class="form-group">
                 <label>Assistance Fee (₱) *</label>
-                <input type="number" step="0.01" min="0" id="fee" required oninput="calculateBalance()" placeholder="0.00" class="form-control">
+                <input type="number" step="0.01" min="0" id="fee" required oninput="calculateFinancials()" placeholder="0.00" class="form-control">
               </div>
               <div class="form-group">
                 <label>Initial Payment (₱)</label>
-                <input type="number" step="0.01" min="0" id="initialPayment" oninput="calculateBalance()" placeholder="0.00" class="form-control">
+                <input type="number" step="0.01" min="0" id="initialPayment" oninput="calculateFinancials()" placeholder="0.00" class="form-control">
               </div>
               <div class="form-group">
                 <label>Balance (Auto-Computed)</label>
                 <input type="text" id="balanceDisplay" readonly class="form-control" style="background:var(--border); font-weight:bold; color:var(--danger);" value="₱0.00">
               </div>
+            </div>
+
+            <!-- Expenses Row -->
+            <div class="form-grid" style="margin-top: 0.25rem;">
+              <div class="form-group">
+                <label style="color: #ea580c;">Expenses (₱)</label>
+                <input type="number" step="0.01" min="0" id="expenses" oninput="calculateFinancials()" placeholder="0.00" class="form-control">
+              </div>
+              <div class="form-group" style="grid-column: span 2;">
+                <label>Expense Description / Breakdown (Optional)</label>
+                <input type="text" id="expenseRemarks" placeholder="e.g. SEC Filing Fee ₱3,500, Notary ₱1,000, Courier ₱300" class="form-control">
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border); padding-top:0.6rem; margin-top:0.25rem;">
+              <span style="font-size:0.775rem; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Estimated Net Profit (Fee &minus; Expenses):</span>
+              <span id="netProfitDisplay" style="font-size:1.05rem; font-weight:800; color:var(--success);">₱0.00</span>
             </div>
           </div>
 
@@ -476,10 +515,10 @@
         </div>
 
         <div class="modal-footer">
-          <!-- Synchronized Auto-Backup Toggle inside Modal -->
+          <!-- Auto-Backup Checkbox -->
           <label style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.775rem; color: var(--text-muted); cursor: pointer; user-select: none;">
             <input type="checkbox" id="modalAutoBackupToggle" onchange="toggleAutoBackup(this.checked)" checked style="cursor:pointer; accent-color: var(--primary);">
-            <span>Auto-download backup file on save</span>
+            <span>Auto-download backup on save</span>
           </label>
 
           <div style="display: flex; gap: 0.5rem;">
@@ -526,10 +565,9 @@
     };
 
     /* -------------------------------------------------------------
-       AUTO-BACKUP TOGGLE ENGINE (DEFAULT ENABLED)
+       AUTO-BACKUP ENGINE
     -------------------------------------------------------------- */
     function initAutoBackupSetting() {
-      // Default to true if not set
       const isEnabled = localStorage.getItem(AUTO_BACKUP_KEY) !== 'false';
       syncAutoBackupCheckboxes(isEnabled);
     }
@@ -580,7 +618,7 @@
     }
 
     /* -------------------------------------------------------------
-       DARK MODE ENGINE (OFFLINE & PERSISTENT)
+       DARK MODE ENGINE
     -------------------------------------------------------------- */
     function initTheme() {
       const isDark = localStorage.getItem(THEME_KEY) === 'true';
@@ -605,11 +643,22 @@
       }
     }
 
-    function calculateBalance() {
+    /* -------------------------------------------------------------
+       CALCULATION LOGIC (Balance & Net Profit)
+    -------------------------------------------------------------- */
+    function calculateFinancials() {
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
+      const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+
       const balance = Math.max(0, fee - initial);
+      const netProfit = fee - expenses;
+
       document.getElementById('balanceDisplay').value = formatPeso(balance);
+      
+      const netDisplay = document.getElementById('netProfitDisplay');
+      netDisplay.innerText = formatPeso(netProfit);
+      netDisplay.style.color = netProfit >= 0 ? 'var(--success)' : 'var(--danger)';
     }
 
     function handleTypeChange() {
@@ -629,7 +678,7 @@
     }
 
     /* -------------------------------------------------------------
-       CARD LIST MODAL (TOTAL RECORDS & IN PROGRESS)
+       CARD LIST MODAL
     -------------------------------------------------------------- */
     function openListModal(filterCategory) {
       const modal = document.getElementById('listModalOverlay');
@@ -687,7 +736,7 @@
     }
 
     /* -------------------------------------------------------------
-       VIEW SUMMARY MODAL
+       VIEW SUMMARY MODAL (Includes Expenses)
     -------------------------------------------------------------- */
     function viewRecord(id) {
       const item = records.find(r => r.id === id);
@@ -708,6 +757,23 @@
       const balElem = document.getElementById('viewBalance');
       balElem.innerText = formatPeso(item.balance);
       balElem.style.color = item.balance > 0 ? 'var(--danger)' : 'var(--success)';
+
+      // Expenses & Net Margin
+      const expenses = item.expenses || 0;
+      document.getElementById('viewExpenses').innerText = formatPeso(expenses);
+      
+      const remarksRow = document.getElementById('viewExpenseRemarksRow');
+      if (item.expenseRemarks && item.expenseRemarks.trim() !== '') {
+        remarksRow.style.display = 'flex';
+        document.getElementById('viewExpenseRemarks').innerText = item.expenseRemarks;
+      } else {
+        remarksRow.style.display = 'none';
+      }
+
+      const netProfit = (item.fee || 0) - expenses;
+      const netElem = document.getElementById('viewNetProfit');
+      netElem.innerText = formatPeso(netProfit);
+      netElem.style.color = netProfit >= 0 ? 'var(--success)' : 'var(--danger)';
 
       document.getElementById('viewModalOverlay').classList.remove('hidden');
     }
@@ -738,7 +804,6 @@
       document.getElementById('otherTypeGroup').style.display = 'none';
       document.getElementById('otherStatusGroup').style.display = 'none';
 
-      // Keep auto-backup state synced
       syncAutoBackupCheckboxes(isAutoBackupActive());
 
       if (id) {
@@ -761,6 +826,8 @@
           document.getElementById('dateCompleted').value = item.dateCompleted || item.finishedDate || '';
           document.getElementById('fee').value = item.fee;
           document.getElementById('initialPayment').value = item.initialPayment;
+          document.getElementById('expenses').value = item.expenses || '';
+          document.getElementById('expenseRemarks').value = item.expenseRemarks || '';
 
           let currentStatus = item.currentStatus;
           if (currentStatus === 'Under Review') currentStatus = 'For Review';
@@ -773,12 +840,13 @@
             document.getElementById('otherStatus').value = currentStatus;
           }
 
-          calculateBalance();
+          calculateFinancials();
         }
       } else {
         document.getElementById('modalTitle').innerText = 'New SEC Transaction';
         document.getElementById('recordId').value = '';
         document.getElementById('balanceDisplay').value = '₱0.00';
+        document.getElementById('netProfitDisplay').innerText = '₱0.00';
       }
       document.getElementById('modalOverlay').classList.remove('hidden');
     }
@@ -803,7 +871,9 @@
 
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
+      const expenses = parseFloat(document.getElementById('expenses').value) || 0;
       const balance = Math.max(0, fee - initial);
+      const netProfit = fee - expenses;
 
       const payload = {
         id: id ? id : 'SEC-' + Date.now(),
@@ -814,7 +884,10 @@
         dateCompleted: document.getElementById('dateCompleted').value,
         fee: fee,
         initialPayment: initial,
+        expenses: expenses,
+        expenseRemarks: document.getElementById('expenseRemarks').value.trim(),
         balance: balance,
+        netProfit: netProfit,
         currentStatus: finalStatus,
         updatedAt: new Date().toISOString()
       };
@@ -826,13 +899,11 @@
         records.unshift(payload);
       }
 
-      // 1. Save data locally
       saveToStorage();
       closeModal();
       updateSummarySelectors();
       renderTable();
 
-      // 2. Automatically download backup file if feature is toggled ON
       if (isAutoBackupActive()) {
         triggerAutoBackupDownload();
       }
@@ -919,14 +990,18 @@
       const count = periodRecords.length;
       const totalFees = periodRecords.reduce((sum, r) => sum + (r.fee || 0), 0);
       const totalPaid = periodRecords.reduce((sum, r) => sum + (r.initialPayment || 0), 0);
+      const totalExpenses = periodRecords.reduce((sum, r) => sum + (r.expenses || 0), 0);
       const totalBal = periodRecords.reduce((sum, r) => sum + (r.balance || 0), 0);
+      const netProfit = totalFees - totalExpenses;
       const completedCount = periodRecords.filter(r => r.currentStatus === 'Completed').length;
 
       resultsDiv.innerHTML = `
-        <div><strong>Total Transactions:</strong> ${count}</div>
-        <div><strong>Total Fees:</strong> ${formatPeso(totalFees)}</div>
-        <div><strong>Total Collected:</strong> <span style="color:var(--success); font-weight:600;">${formatPeso(totalPaid)}</span></div>
-        <div><strong>Outstanding Balance:</strong> <span style="color:var(--danger); font-weight:600;">${formatPeso(totalBal)}</span></div>
+        <div><strong>Transactions:</strong> ${count}</div>
+        <div><strong>Fees:</strong> ${formatPeso(totalFees)}</div>
+        <div><strong>Collected:</strong> <span style="color:var(--success); font-weight:600;">${formatPeso(totalPaid)}</span></div>
+        <div><strong>Expenses:</strong> <span style="color:#ea580c; font-weight:600;">${formatPeso(totalExpenses)}</span></div>
+        <div><strong>Net Margin:</strong> <span style="color:var(--success); font-weight:700;">${formatPeso(netProfit)}</span></div>
+        <div><strong>Balance:</strong> <span style="color:var(--danger); font-weight:600;">${formatPeso(totalBal)}</span></div>
         <div><strong>Completed:</strong> ${completedCount} / ${count}</div>
       `;
     }
@@ -941,9 +1016,11 @@
 
       const filtered = records.filter(r => {
         const statusValue = r.currentStatus || '';
+        const remarksValue = r.expenseRemarks || '';
         const matchesSearch = (r.corpName || '').toLowerCase().includes(search) || 
                               (r.transType || '').toLowerCase().includes(search) ||
-                              statusValue.toLowerCase().includes(search);
+                              statusValue.toLowerCase().includes(search) ||
+                              remarksValue.toLowerCase().includes(search);
         
         const matchesType = (filterType === 'All') 
           ? true 
@@ -969,9 +1046,15 @@
 
       filtered.forEach(r => {
         const completedDate = r.dateCompleted || r.finishedDate || '—';
+        const expenses = r.expenses || 0;
+        const netProfit = (r.fee || 0) - expenses;
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><strong style="color:var(--text);">${escapeHtml(r.corpName)}</strong></td>
+          <td>
+            <strong style="color:var(--text);">${escapeHtml(r.corpName)}</strong>
+            ${r.expenseRemarks ? `<div style="font-size:0.7rem; color:var(--text-muted); margin-top:2px;"><em>Expenses: ${escapeHtml(r.expenseRemarks)}</em></div>` : ''}
+          </td>
           <td><span class="badge badge-prep">${escapeHtml(r.transType)}</span></td>
           <td style="font-size:0.775rem; color:var(--text-muted);">
             <div><strong style="color:var(--text);">Accepted & DP:</strong> ${r.dateAccepted || '—'}</div>
@@ -982,6 +1065,8 @@
             <div>Fee: <strong style="color:var(--text);">${formatPeso(r.fee)}</strong></div>
             <div>Paid: <span style="color:var(--success); font-weight:600;">${formatPeso(r.initialPayment)}</span></div>
             <div>Bal: <strong style="color:${r.balance > 0 ? 'var(--danger)' : 'var(--text-muted)'};">${formatPeso(r.balance)}</strong></div>
+            <div>Exp: <span style="color:#ea580c; font-weight:600;">${formatPeso(expenses)}</span></div>
+            <div style="border-top:1px dashed var(--border); margin-top:2px; padding-top:2px;">Net: <strong style="color:${netProfit >= 0 ? 'var(--success)' : 'var(--danger)'};">${formatPeso(netProfit)}</strong></div>
           </td>
           <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
           <td style="text-align: center; white-space:nowrap;">
@@ -1038,11 +1123,13 @@
       const completed = records.filter(r => r.currentStatus === 'Completed').length;
       const active = records.filter(r => r.currentStatus !== 'Completed').length;
       const totalBalance = records.reduce((sum, r) => sum + (r.balance || 0), 0);
+      const totalExpenses = records.reduce((sum, r) => sum + (r.expenses || 0), 0);
 
       document.getElementById('statTotal').innerText = total;
       document.getElementById('statActive').innerText = active;
       document.getElementById('statCompleted').innerText = completed;
       document.getElementById('statBalance').innerText = formatPeso(totalBalance);
+      document.getElementById('statExpenses').innerText = formatPeso(totalExpenses);
     }
 
     function formatPeso(amount) {
@@ -1111,7 +1198,11 @@
             return;
           }
           if (confirm(`Found ${imported.length} transaction record(s) in this file. Restore and load them now?`)) {
-            records = imported;
+            records = imported.map(r => ({
+              ...r,
+              expenses: r.expenses || 0,
+              expenseRemarks: r.expenseRemarks || ''
+            }));
             saveToStorage();
             updateSummarySelectors();
             renderTable();
@@ -1133,10 +1224,12 @@
         alert('No data to export.');
         return;
       }
-      let csv = 'Corporation Name,Transaction Type,Date Accepted and Received the Downpayment,Date Started,Date Completed,Assistance Fee,Initial Payment,Balance,Current Status\n';
+      let csv = 'Corporation Name,Transaction Type,Date Accepted and Received the Downpayment,Date Started,Date Completed,Assistance Fee,Initial Payment,Balance,Expenses,Expense Description,Net Profit,Current Status\n';
       records.forEach(r => {
         const completed = r.dateCompleted || r.finishedDate || '';
-        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${completed}",${r.fee || 0},${r.initialPayment || 0},${r.balance || 0},"${(r.currentStatus || '').replace(/"/g, '""')}"\n`;
+        const expenses = r.expenses || 0;
+        const netProfit = (r.fee || 0) - expenses;
+        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${completed}",${r.fee || 0},${r.initialPayment || 0},${r.balance || 0},${expenses},"${(r.expenseRemarks || '').replace(/"/g, '""')}",${netProfit},"${(r.currentStatus || '').replace(/"/g, '""')}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
