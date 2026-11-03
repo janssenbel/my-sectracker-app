@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SEC TRANSACTIONS TRACKER</title>
   <style>
-    /* 100% OFFLINE STYLING - NO INTERNET OR EXTERNAL LIBS NEEDED */
+    /* 100% OFFLINE STYLING - NO EXTERNAL LIBRARIES OR INTERNET REQUIRED */
     :root {
       --primary: #1e40af;
       --primary-hover: #1d4ed8;
@@ -25,7 +25,7 @@
       --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     }
 
-    /* DARK MODE VARIABLES */
+    /* DARK THEME */
     body.dark-mode {
       --primary: #3b82f6;
       --primary-hover: #60a5fa;
@@ -42,24 +42,24 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease; }
     body { background-color: var(--background); color: var(--text); padding-bottom: 60px; line-height: 1.5; }
-    
+
     /* Compact Header */
     header { background-color: var(--header-bg); color: var(--header-text); padding: 0.45rem 1.25rem; position: sticky; top: 0; z-index: 30; box-shadow: var(--shadow); border-bottom: 1px solid var(--border); }
     .header-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
     .app-title h1 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; color: #fff; }
     .header-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
-    
+
     /* Layout */
     .container { max-width: 1400px; margin: 1.5rem auto; padding: 0 1rem; }
     .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-    
+
     /* Cards */
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; box-shadow: var(--shadow); }
     .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
     .stat-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); }
     .stat-value { font-size: 1.4rem; font-weight: 700; margin-top: 0.25rem; }
-    
-    /* Buttons & Toggles */
+
+    /* Buttons */
     .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border-radius: var(--radius); font-size: 0.775rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; text-decoration: none; user-select: none; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-hover); }
@@ -77,7 +77,7 @@
     .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
     .btn-card-view { padding: 0.2rem 0.55rem; font-size: 0.7rem; background: var(--surface); border: 1px solid var(--border); color: var(--primary); font-weight: 600; border-radius: 6px; }
     .btn-card-view:hover { background: var(--background); }
-    
+
     .toggle-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.65rem; background: #1e293b; border: 1px solid #475569; border-radius: var(--radius); font-size: 0.75rem; color: #f1f5f9; cursor: pointer; user-select: none; font-weight: 600; }
     .toggle-pill input { cursor: pointer; accent-color: var(--primary); width: 14px; height: 14px; }
     body.dark-mode .toggle-pill { background: #334155; border-color: #64748b; }
@@ -87,22 +87,22 @@
     .summary-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
     .period-controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
     .summary-metrics { display: flex; gap: 1.5rem; flex-wrap: wrap; background: var(--background); border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.85rem; }
-    
+
     /* Filter Bar */
     .filter-bar { background: var(--surface); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border); display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
     .search-box { flex: 1; min-width: 250px; }
     .form-control { width: 100%; padding: 0.5rem 0.75rem; font-size: 0.875rem; border: 1px solid var(--border); border-radius: var(--radius); background-color: var(--surface); color: var(--text); }
     .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25); }
     body.dark-mode select.form-control option { background-color: #1e293b; color: #f8fafc; }
-    
+
     /* Table */
     .table-responsive { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; box-shadow: var(--shadow); }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; }
     th { background: var(--background); padding: 0.85rem 1rem; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
     td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
     tr:hover { background-color: rgba(148, 163, 184, 0.08); }
-    
-    /* Badges */
+
+    /* Status Badges */
     .badge { display: inline-block; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.725rem; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
     .badge-prep { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
     .badge-signing { background: #fef3c7; color: #92400e; border-color: #fde68a; }
@@ -113,7 +113,7 @@
     .badge-completed { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
     .badge-compliance { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
     .badge-other { background: #f3f4f6; color: #1f2937; border-color: #d1d5db; }
-    
+
     body.dark-mode .badge-prep { background: #334155; color: #cbd5e1; border-color: #475569; }
     body.dark-mode .badge-signing { background: #451a03; color: #fde68a; border-color: #78350f; }
     body.dark-mode .badge-review { background: #082f49; color: #bae6fd; border-color: #0369a1; }
@@ -127,7 +127,7 @@
     /* Modals */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
     .modal-backdrop.hidden { display: none; }
-    .modal-card { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 720px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4); }
+    .modal-card { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 740px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4); }
     .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .modal-body { padding: 1.5rem; }
     .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
@@ -135,8 +135,8 @@
     .form-group { margin-bottom: 0.9rem; }
     .form-group label { display: block; font-size: 0.725rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem; color: var(--text-muted); }
     .finance-box { background: var(--background); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.9rem; }
-    
-    /* View Summary Modal Specifics */
+
+    /* View Modal Summary Rows */
     .summary-card-view { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
     .view-row { display: flex; justify-content: space-between; padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
     .view-row:last-child { border-bottom: none; }
@@ -145,7 +145,10 @@
     .view-finance-row { background: var(--background); }
     .view-balance-row { background: rgba(220, 38, 38, 0.08); }
     .view-net-row { background: rgba(5, 150, 105, 0.08); }
-    
+
+    /* Multiple Expenses Item Row */
+    .expense-item-row { display: grid; grid-template-columns: 1fr 140px 36px; gap: 0.5rem; align-items: center; margin-bottom: 0.4rem; }
+
     @media print {
       body * { visibility: hidden; }
       #printableSummary, #printableSummary * { visibility: visible; }
@@ -192,7 +195,7 @@
 
   <div class="container">
 
-    <!-- KPI / Top Cards (Now includes TOTAL EXPENSES) -->
+    <!-- KPI Cards (Includes TOTAL EXPENSES) -->
     <div class="grid-5">
       <div class="card">
         <div class="card-header-flex">
@@ -241,7 +244,7 @@
       <div class="summary-header">
         <div>
           <h3 style="font-size: 0.95rem; font-weight: 700;">Periodic Summary (Date Accepted & Downpayment)</h3>
-          <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, expenses, collections, and net profit by timeframe</p>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, multiple expenses, collections, and net margin by timeframe</p>
         </div>
         <div class="period-controls">
           <label style="font-size: 0.8rem; font-weight:600; color: var(--text-muted);">Group By:</label>
@@ -260,7 +263,7 @@
     <!-- Filter & Search Controls -->
     <div class="filter-bar">
       <div class="search-box">
-        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation name, type, status, or expenses..." class="form-control">
+        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation name, type, status, or expense item..." class="form-control">
       </div>
       <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
         <select id="filterType" onchange="renderTable()" class="form-control" style="width:auto;">
@@ -338,7 +341,7 @@
     </div>
   </div>
 
-  <!-- POPUP: VIEW SINGLE TRANSACTION SUMMARY (Includes Expenses) -->
+  <!-- POPUP: VIEW SINGLE TRANSACTION SUMMARY (With Full Multiple Expenses Table) -->
   <div id="viewModalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -381,17 +384,36 @@
             <span class="view-label" style="color:var(--danger);">Remaining Balance</span>
             <span class="view-value" id="viewBalance" style="font-size:1rem; color:var(--danger);">₱0.00</span>
           </div>
+
+          <!-- Total Expenses Row -->
           <div class="view-row" style="background: rgba(234, 88, 12, 0.08);">
-            <span class="view-label" style="color: #ea580c;">Corporation Expenses</span>
-            <span class="view-value" id="viewExpenses" style="font-size:1rem; color: #ea580c;">₱0.00</span>
+            <span class="view-label" style="color: #ea580c;">Total Corporation Expenses</span>
+            <span class="view-value" id="viewTotalExpenses" style="font-size:1.05rem; color: #ea580c;">₱0.00</span>
           </div>
-          <div class="view-row" id="viewExpenseRemarksRow" style="display: none; background: rgba(234, 88, 12, 0.04);">
-            <span class="view-label" style="color: #ea580c;">Expense Description</span>
-            <span class="view-value" id="viewExpenseRemarks" style="font-size:0.85rem; font-weight: 500;">—</span>
+
+          <!-- Itemized Multiple Expenses Breakdown Table -->
+          <div style="padding: 0.75rem 1rem; background: var(--surface); border-top: 1px solid var(--border);">
+            <div style="font-size: 0.725rem; font-weight: 700; text-transform: uppercase; color: #ea580c; margin-bottom: 0.4rem;">
+              Itemized Expenses Breakdown
+            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.825rem;">
+              <thead>
+                <tr style="border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 0.75rem;">
+                  <th style="padding: 0.35rem 0.5rem; text-align: left;">Item Description</th>
+                  <th style="padding: 0.35rem 0.5rem; text-align: right; width: 140px;">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="viewExpensesListTbody"></tbody>
+            </table>
+            <div id="viewNoExpensesMsg" style="font-size: 0.8rem; color: var(--text-muted); font-style: italic; padding: 0.5rem 0; display: none;">
+              No expenses recorded for this transaction.
+            </div>
           </div>
+
+          <!-- Net Margin -->
           <div class="view-row view-net-row">
-            <span class="view-label" style="color:var(--success);">Net Profit (Fee &minus; Expenses)</span>
-            <span class="view-value" id="viewNetProfit" style="font-size:1.1rem; color:var(--success);">₱0.00</span>
+            <span class="view-label" style="color:var(--success);">Net Margin / Profit (Fee &minus; Expenses)</span>
+            <span class="view-value" id="viewNetProfit" style="font-size:1.15rem; color:var(--success);">₱0.00</span>
           </div>
         </div>
       </div>
@@ -403,7 +425,7 @@
     </div>
   </div>
 
-  <!-- POPUP: ADD / EDIT MODAL (With Corporation Expenses) -->
+  <!-- POPUP: ADD / EDIT MODAL (Multiple Itemized Expenses) -->
   <div id="modalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -452,10 +474,10 @@
             </div>
           </div>
 
-          <!-- Financial Details & Corporation Expenses -->
+          <!-- Financial Details & MULTIPLE Expenses Section -->
           <div class="finance-box">
             <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:0.75rem;">
-              Financials &amp; Expenses Breakdown
+              Financials &amp; Payments
             </div>
 
             <div class="form-grid">
@@ -473,21 +495,38 @@
               </div>
             </div>
 
-            <!-- Expenses Row -->
-            <div class="form-grid" style="margin-top: 0.25rem;">
-              <div class="form-group">
-                <label style="color: #ea580c;">Expenses (₱)</label>
-                <input type="number" step="0.01" min="0" id="expenses" oninput="calculateFinancials()" placeholder="0.00" class="form-control">
+            <!-- Dynamic Multiple Expenses Builder -->
+            <div style="margin-top: 1rem; border-top: 1px dashed var(--border); padding-top: 0.85rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+                <div>
+                  <span style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color: #ea580c;">
+                    Itemized Corporation Expenses
+                  </span>
+                  <div style="font-size:0.7rem; color:var(--text-muted);">Add filing fees, legal research fee, notary, courier, etc.</div>
+                </div>
+                <button type="button" onclick="addExpenseRow()" class="btn btn-outline btn-sm" style="color: #ea580c; border-color: #fdba74;">
+                  ➕ Add Expense Item
+                </button>
               </div>
-              <div class="form-group" style="grid-column: span 2;">
-                <label>Expense Description / Breakdown (Optional)</label>
-                <input type="text" id="expenseRemarks" placeholder="e.g. SEC Filing Fee ₱3,500, Notary ₱1,000, Courier ₱300" class="form-control">
-              </div>
-            </div>
 
-            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border); padding-top:0.6rem; margin-top:0.25rem;">
-              <span style="font-size:0.775rem; font-weight:700; text-transform:uppercase; color:var(--text-muted);">Estimated Net Profit (Fee &minus; Expenses):</span>
-              <span id="netProfitDisplay" style="font-size:1.05rem; font-weight:800; color:var(--success);">₱0.00</span>
+              <!-- List of Dynamic Expense Inputs -->
+              <div id="expenseItemsContainer" style="display: flex; flex-direction: column; gap: 0.45rem;"></div>
+
+              <div id="noExpensesNotice" style="font-size: 0.775rem; color: var(--text-muted); font-style: italic; padding: 0.4rem 0;">
+                No expenses encoded yet. Click <strong>"➕ Add Expense Item"</strong> to add SEC fees, notary, logistics, etc.
+              </div>
+
+              <!-- Expense Totals Footer inside box -->
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--border); margin-top: 0.8rem; padding-top: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                <div>
+                  <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">TOTAL EXPENSES:</span>
+                  <span id="totalExpensesDisplay" style="font-size: 0.95rem; font-weight: 800; color: #ea580c; margin-left: 0.25rem;">₱0.00</span>
+                </div>
+                <div>
+                  <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">ESTIMATED NET MARGIN:</span>
+                  <span id="netProfitDisplay" style="font-size: 1.05rem; font-weight: 800; color: var(--success); margin-left: 0.25rem;">₱0.00</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -556,7 +595,7 @@
       records = [];
     }
 
-    // Initialize Settings & App on Load
+    // Initialize App
     window.onload = function() {
       initTheme();
       initAutoBackupSetting();
@@ -644,18 +683,73 @@
     }
 
     /* -------------------------------------------------------------
-       CALCULATION LOGIC (Balance & Net Profit)
+       MULTIPLE EXPENSES DYNAMIC BUILDER
     -------------------------------------------------------------- */
+    function addExpenseRow(desc = '', amount = '') {
+      const container = document.getElementById('expenseItemsContainer');
+      const row = document.createElement('div');
+      row.className = 'expense-item-row';
+
+      row.innerHTML = `
+        <input type="text" placeholder="e.g. SEC Filing Fee, LRF, Notary" value="${escapeHtml(desc)}" class="form-control expense-item-desc" style="padding: 0.35rem 0.6rem; font-size: 0.8rem;">
+        <input type="number" step="0.01" min="0" placeholder="0.00" value="${amount !== '' ? amount : ''}" oninput="calculateFinancials()" class="form-control expense-item-amount" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; text-align: right;">
+        <button type="button" onclick="removeExpenseRow(this)" title="Remove item" class="btn btn-danger btn-sm" style="padding: 0.35rem; width: 100%; justify-content: center; font-size: 0.8rem;">✕</button>
+      `;
+
+      container.appendChild(row);
+      updateExpensesNotice();
+      calculateFinancials();
+    }
+
+    function removeExpenseRow(buttonElem) {
+      const row = buttonElem.closest('.expense-item-row');
+      if (row) {
+        row.remove();
+        updateExpensesNotice();
+        calculateFinancials();
+      }
+    }
+
+    function updateExpensesNotice() {
+      const container = document.getElementById('expenseItemsContainer');
+      const notice = document.getElementById('noExpensesNotice');
+      if (container.children.length === 0) {
+        notice.style.display = 'block';
+      } else {
+        notice.style.display = 'none';
+      }
+    }
+
+    function getExpenseItemsFromModal() {
+      const rows = document.querySelectorAll('#expenseItemsContainer .expense-item-row');
+      const items = [];
+      rows.forEach(r => {
+        const desc = r.querySelector('.expense-item-desc').value.trim();
+        const amount = parseFloat(r.querySelector('.expense-item-amount').value) || 0;
+        if (desc || amount > 0) {
+          items.push({ description: desc || 'General Expense', amount: amount });
+        }
+      });
+      return items;
+    }
+
     function calculateFinancials() {
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
-      const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+
+      // Sum all multiple expense rows
+      let totalExpenses = 0;
+      const amountInputs = document.querySelectorAll('#expenseItemsContainer .expense-item-amount');
+      amountInputs.forEach(input => {
+        totalExpenses += parseFloat(input.value) || 0;
+      });
 
       const balance = Math.max(0, fee - initial);
-      const netProfit = fee - expenses;
+      const netProfit = fee - totalExpenses;
 
       document.getElementById('balanceDisplay').value = formatPeso(balance);
-      
+      document.getElementById('totalExpensesDisplay').innerText = formatPeso(totalExpenses);
+
       const netDisplay = document.getElementById('netProfitDisplay');
       netDisplay.innerText = formatPeso(netProfit);
       netDisplay.style.color = netProfit >= 0 ? 'var(--success)' : 'var(--danger)';
@@ -736,7 +830,7 @@
     }
 
     /* -------------------------------------------------------------
-       VIEW SUMMARY MODAL (Includes Expenses)
+       VIEW SUMMARY MODAL (Multiple Expenses Display)
     -------------------------------------------------------------- */
     function viewRecord(id) {
       const item = records.find(r => r.id === id);
@@ -753,24 +847,47 @@
 
       document.getElementById('viewFee').innerText = formatPeso(item.fee);
       document.getElementById('viewInitialPayment').innerText = formatPeso(item.initialPayment);
-      
+
       const balElem = document.getElementById('viewBalance');
       balElem.innerText = formatPeso(item.balance);
       balElem.style.color = item.balance > 0 ? 'var(--danger)' : 'var(--success)';
 
-      // Expenses & Net Margin
-      const expenses = item.expenses || 0;
-      document.getElementById('viewExpenses').innerText = formatPeso(expenses);
-      
-      const remarksRow = document.getElementById('viewExpenseRemarksRow');
-      if (item.expenseRemarks && item.expenseRemarks.trim() !== '') {
-        remarksRow.style.display = 'flex';
-        document.getElementById('viewExpenseRemarks').innerText = item.expenseRemarks;
+      // Calculate Total Expenses & Render Multiple Items
+      const expenseList = item.expenseItems || [];
+      const totalExpenses = (expenseList.length > 0)
+        ? expenseList.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0)
+        : (parseFloat(item.expenses) || 0);
+
+      document.getElementById('viewTotalExpenses').innerText = formatPeso(totalExpenses);
+
+      const expensesTbody = document.getElementById('viewExpensesListTbody');
+      const noExpensesMsg = document.getElementById('viewNoExpensesMsg');
+      expensesTbody.innerHTML = '';
+
+      if (expenseList.length > 0) {
+        noExpensesMsg.style.display = 'none';
+        expenseList.forEach(e => {
+          const row = document.createElement('tr');
+          row.style.borderBottom = '1px solid var(--border-light)';
+          row.innerHTML = `
+            <td style="padding: 0.35rem 0.5rem; color: var(--text);">${escapeHtml(e.description || 'Expense')}</td>
+            <td style="padding: 0.35rem 0.5rem; text-align: right; font-weight: 600; color: #ea580c;">${formatPeso(e.amount)}</td>
+          `;
+          expensesTbody.appendChild(row);
+        });
+      } else if (item.expenses > 0) {
+        noExpensesMsg.style.display = 'none';
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="padding: 0.35rem 0.5rem; color: var(--text);">${escapeHtml(item.expenseRemarks || 'General Expenses')}</td>
+          <td style="padding: 0.35rem 0.5rem; text-align: right; font-weight: 600; color: #ea580c;">${formatPeso(item.expenses)}</td>
+        `;
+        expensesTbody.appendChild(row);
       } else {
-        remarksRow.style.display = 'none';
+        noExpensesMsg.style.display = 'block';
       }
 
-      const netProfit = (item.fee || 0) - expenses;
+      const netProfit = (item.fee || 0) - totalExpenses;
       const netElem = document.getElementById('viewNetProfit');
       netElem.innerText = formatPeso(netProfit);
       netElem.style.color = netProfit >= 0 ? 'var(--success)' : 'var(--danger)';
@@ -803,6 +920,7 @@
       form.reset();
       document.getElementById('otherTypeGroup').style.display = 'none';
       document.getElementById('otherStatusGroup').style.display = 'none';
+      document.getElementById('expenseItemsContainer').innerHTML = '';
 
       syncAutoBackupCheckboxes(isAutoBackupActive());
 
@@ -812,7 +930,7 @@
         if (item) {
           document.getElementById('recordId').value = item.id;
           document.getElementById('corpName').value = item.corpName || '';
-          
+
           if (['Registration', 'Amendment', 'Increase of Authorized Capital Stock'].includes(item.transType)) {
             document.getElementById('transType').value = item.transType;
           } else {
@@ -826,8 +944,16 @@
           document.getElementById('dateCompleted').value = item.dateCompleted || item.finishedDate || '';
           document.getElementById('fee').value = item.fee;
           document.getElementById('initialPayment').value = item.initialPayment;
-          document.getElementById('expenses').value = item.expenses || '';
-          document.getElementById('expenseRemarks').value = item.expenseRemarks || '';
+
+          // Populate multiple expenses
+          if (Array.isArray(item.expenseItems) && item.expenseItems.length > 0) {
+            item.expenseItems.forEach(exp => {
+              addExpenseRow(exp.description, exp.amount);
+            });
+          } else if (item.expenses > 0) {
+            // Backward compatibility for single expense format
+            addExpenseRow(item.expenseRemarks || 'General Expense', item.expenses);
+          }
 
           let currentStatus = item.currentStatus;
           if (currentStatus === 'Under Review') currentStatus = 'For Review';
@@ -846,8 +972,11 @@
         document.getElementById('modalTitle').innerText = 'New SEC Transaction';
         document.getElementById('recordId').value = '';
         document.getElementById('balanceDisplay').value = '₱0.00';
+        document.getElementById('totalExpensesDisplay').innerText = '₱0.00';
         document.getElementById('netProfitDisplay').innerText = '₱0.00';
       }
+
+      updateExpensesNotice();
       document.getElementById('modalOverlay').classList.remove('hidden');
     }
 
@@ -871,9 +1000,11 @@
 
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
-      const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+      const expenseItems = getExpenseItemsFromModal();
+      const totalExpenses = expenseItems.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+
       const balance = Math.max(0, fee - initial);
-      const netProfit = fee - expenses;
+      const netProfit = fee - totalExpenses;
 
       const payload = {
         id: id ? id : 'SEC-' + Date.now(),
@@ -884,8 +1015,8 @@
         dateCompleted: document.getElementById('dateCompleted').value,
         fee: fee,
         initialPayment: initial,
-        expenses: expenses,
-        expenseRemarks: document.getElementById('expenseRemarks').value.trim(),
+        expenses: totalExpenses,
+        expenseItems: expenseItems,
         balance: balance,
         netProfit: netProfit,
         currentStatus: finalStatus,
@@ -990,7 +1121,7 @@
       const count = periodRecords.length;
       const totalFees = periodRecords.reduce((sum, r) => sum + (r.fee || 0), 0);
       const totalPaid = periodRecords.reduce((sum, r) => sum + (r.initialPayment || 0), 0);
-      const totalExpenses = periodRecords.reduce((sum, r) => sum + (r.expenses || 0), 0);
+      const totalExpenses = periodRecords.reduce((sum, r) => sum + (getRecordTotalExpenses(r)), 0);
       const totalBal = periodRecords.reduce((sum, r) => sum + (r.balance || 0), 0);
       const netProfit = totalFees - totalExpenses;
       const completedCount = periodRecords.filter(r => r.currentStatus === 'Completed').length;
@@ -1006,6 +1137,13 @@
       `;
     }
 
+    function getRecordTotalExpenses(r) {
+      if (Array.isArray(r.expenseItems) && r.expenseItems.length > 0) {
+        return r.expenseItems.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
+      }
+      return parseFloat(r.expenses) || 0;
+    }
+
     function renderTable() {
       const tbody = document.getElementById('transactionsTbody');
       const search = document.getElementById('searchInput').value.toLowerCase();
@@ -1016,12 +1154,15 @@
 
       const filtered = records.filter(r => {
         const statusValue = r.currentStatus || '';
-        const remarksValue = r.expenseRemarks || '';
+        const expenseSearchStr = Array.isArray(r.expenseItems)
+          ? r.expenseItems.map(e => e.description).join(' ').toLowerCase()
+          : (r.expenseRemarks || '').toLowerCase();
+
         const matchesSearch = (r.corpName || '').toLowerCase().includes(search) || 
                               (r.transType || '').toLowerCase().includes(search) ||
                               statusValue.toLowerCase().includes(search) ||
-                              remarksValue.toLowerCase().includes(search);
-        
+                              expenseSearchStr.includes(search);
+
         const matchesType = (filterType === 'All') 
           ? true 
           : (filterType === 'Others' 
@@ -1046,14 +1187,15 @@
 
       filtered.forEach(r => {
         const completedDate = r.dateCompleted || r.finishedDate || '—';
-        const expenses = r.expenses || 0;
-        const netProfit = (r.fee || 0) - expenses;
+        const totalExpenses = getRecordTotalExpenses(r);
+        const netProfit = (r.fee || 0) - totalExpenses;
+        const itemsCount = Array.isArray(r.expenseItems) ? r.expenseItems.length : (r.expenses > 0 ? 1 : 0);
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>
             <strong style="color:var(--text);">${escapeHtml(r.corpName)}</strong>
-            ${r.expenseRemarks ? `<div style="font-size:0.7rem; color:var(--text-muted); margin-top:2px;"><em>Expenses: ${escapeHtml(r.expenseRemarks)}</em></div>` : ''}
+            ${itemsCount > 0 ? `<div style="font-size:0.7rem; color:#ea580c; margin-top:2px;">📁 ${itemsCount} expense item(s) recorded</div>` : ''}
           </td>
           <td><span class="badge badge-prep">${escapeHtml(r.transType)}</span></td>
           <td style="font-size:0.775rem; color:var(--text-muted);">
@@ -1065,7 +1207,7 @@
             <div>Fee: <strong style="color:var(--text);">${formatPeso(r.fee)}</strong></div>
             <div>Paid: <span style="color:var(--success); font-weight:600;">${formatPeso(r.initialPayment)}</span></div>
             <div>Bal: <strong style="color:${r.balance > 0 ? 'var(--danger)' : 'var(--text-muted)'};">${formatPeso(r.balance)}</strong></div>
-            <div>Exp: <span style="color:#ea580c; font-weight:600;">${formatPeso(expenses)}</span></div>
+            <div>Exp: <span style="color:#ea580c; font-weight:600;">${formatPeso(totalExpenses)}</span></div>
             <div style="border-top:1px dashed var(--border); margin-top:2px; padding-top:2px;">Net: <strong style="color:${netProfit >= 0 ? 'var(--success)' : 'var(--danger)'};">${formatPeso(netProfit)}</strong></div>
           </td>
           <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
@@ -1123,7 +1265,7 @@
       const completed = records.filter(r => r.currentStatus === 'Completed').length;
       const active = records.filter(r => r.currentStatus !== 'Completed').length;
       const totalBalance = records.reduce((sum, r) => sum + (r.balance || 0), 0);
-      const totalExpenses = records.reduce((sum, r) => sum + (r.expenses || 0), 0);
+      const totalExpenses = records.reduce((sum, r) => sum + getRecordTotalExpenses(r), 0);
 
       document.getElementById('statTotal').innerText = total;
       document.getElementById('statActive').innerText = active;
@@ -1152,11 +1294,11 @@
             return;
           }
         }
-        
+
         const jsonString = JSON.stringify(records || [], null, 2);
         const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8;' });
         const blobUrl = URL.createObjectURL(blob);
-        
+
         const now = new Date();
         const dateStr = now.toISOString().slice(0, 10);
 
@@ -1200,8 +1342,8 @@
           if (confirm(`Found ${imported.length} transaction record(s) in this file. Restore and load them now?`)) {
             records = imported.map(r => ({
               ...r,
-              expenses: r.expenses || 0,
-              expenseRemarks: r.expenseRemarks || ''
+              expenses: getRecordTotalExpenses(r),
+              expenseItems: Array.isArray(r.expenseItems) ? r.expenseItems : (r.expenses > 0 ? [{ description: r.expenseRemarks || 'General Expense', amount: r.expenses }] : [])
             }));
             saveToStorage();
             updateSummarySelectors();
@@ -1224,12 +1366,20 @@
         alert('No data to export.');
         return;
       }
-      let csv = 'Corporation Name,Transaction Type,Date Accepted and Received the Downpayment,Date Started,Date Completed,Assistance Fee,Initial Payment,Balance,Expenses,Expense Description,Net Profit,Current Status\n';
+      let csv = 'Corporation Name,Transaction Type,Date Accepted and Received the Downpayment,Date Started,Date Completed,Assistance Fee,Initial Payment,Balance,Total Expenses,Itemized Expenses Breakdown,Net Profit,Current Status\n';
       records.forEach(r => {
         const completed = r.dateCompleted || r.finishedDate || '';
-        const expenses = r.expenses || 0;
-        const netProfit = (r.fee || 0) - expenses;
-        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${completed}",${r.fee || 0},${r.initialPayment || 0},${r.balance || 0},${expenses},"${(r.expenseRemarks || '').replace(/"/g, '""')}",${netProfit},"${(r.currentStatus || '').replace(/"/g, '""')}"\n`;
+        const totalExpenses = getRecordTotalExpenses(r);
+        const netProfit = (r.fee || 0) - totalExpenses;
+        
+        let itemizedBreakdown = '';
+        if (Array.isArray(r.expenseItems) && r.expenseItems.length > 0) {
+          itemizedBreakdown = r.expenseItems.map(e => `${e.description}: ₱${e.amount}`).join('; ');
+        } else if (r.expenseRemarks) {
+          itemizedBreakdown = r.expenseRemarks;
+        }
+
+        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${completed}",${r.fee || 0},${r.initialPayment || 0},${r.balance || 0},${totalExpenses},"${itemizedBreakdown.replace(/"/g, '""')}",${netProfit},"${(r.currentStatus || '').replace(/"/g, '""')}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
