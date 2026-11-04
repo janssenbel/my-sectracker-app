@@ -72,6 +72,9 @@
     .btn-view { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
     .btn-view:hover { background: #dbeafe; }
     body.dark-mode .btn-view { background: #1e3a8a; color: #bfdbfe; border-color: #1e40af; }
+    .btn-settle { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    .btn-settle:hover { background: #bbf7d0; }
+    body.dark-mode .btn-settle { background: #052e16; color: #86efac; border-color: #166534; }
     .btn-danger { background: #ef4444; color: white; }
     .btn-danger:hover { background: #dc2626; }
     .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
@@ -127,7 +130,7 @@
     /* Modals */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
     .modal-backdrop.hidden { display: none; }
-    .modal-card { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 740px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4); }
+    .modal-card { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 750px; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.4); }
     .modal-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .modal-body { padding: 1.5rem; }
     .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
@@ -144,6 +147,7 @@
     .view-value { font-weight: 600; color: var(--text); text-align: right; }
     .view-finance-row { background: var(--background); }
     .view-balance-row { background: rgba(220, 38, 38, 0.08); }
+    .view-paid-row { background: rgba(5, 150, 105, 0.08); }
     .view-net-row { background: rgba(5, 150, 105, 0.08); }
 
     /* Multiple Expenses Item Row */
@@ -195,7 +199,7 @@
 
   <div class="container">
 
-    <!-- KPI Cards (Includes TOTAL EXPENSES) -->
+    <!-- KPI Cards -->
     <div class="grid-5">
       <div class="card">
         <div class="card-header-flex">
@@ -239,7 +243,7 @@
       </div>
     </div>
 
-    <!-- Dropdown Summary by Year, Month, Week, or Total All Transactions -->
+    <!-- Dropdown Summary by Year, Month, Week, or All-Time Total -->
     <div class="summary-panel">
       <div class="summary-header">
         <div>
@@ -265,7 +269,7 @@
     <!-- Filter & Search Controls -->
     <div class="filter-bar">
       <div class="search-box">
-        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation name, type, status, or expense item..." class="form-control">
+        <input type="text" id="searchInput" oninput="renderTable()" placeholder="Search Corporation, status, 'fully paid', 'unpaid', or expenses..." class="form-control">
       </div>
       <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
         <select id="filterType" onchange="renderTable()" class="form-control" style="width:auto;">
@@ -379,12 +383,20 @@
             <span class="view-value" id="viewFee" style="font-size:1rem;">₱0.00</span>
           </div>
           <div class="view-row view-finance-row">
-            <span class="view-label">Initial Payment</span>
+            <span class="view-label">Initial Payment (Downpayment)</span>
             <span class="view-value" id="viewInitialPayment" style="color:var(--success);">₱0.00</span>
           </div>
-          <div class="view-row view-balance-row">
-            <span class="view-label" style="color:var(--danger);">Remaining Balance</span>
-            <span class="view-value" id="viewBalance" style="font-size:1rem; color:var(--danger);">₱0.00</span>
+          <div class="view-row view-finance-row" id="viewFinalPaymentRow" style="display: none;">
+            <span class="view-label">Final Payment (Balance Settled)</span>
+            <span class="view-value" id="viewFinalPayment" style="color:var(--success); font-weight:700;">₱0.00</span>
+          </div>
+          <div class="view-row" id="viewDateFullyPaidRow" style="display: none; background: rgba(5, 150, 105, 0.05);">
+            <span class="view-label" style="color: var(--success);">Date Fully Paid</span>
+            <span class="view-value" id="viewDateFullyPaid" style="color: var(--success); font-weight:700;">—</span>
+          </div>
+          <div class="view-row" id="viewBalanceRow">
+            <span class="view-label" id="viewBalanceLabel">Remaining Balance</span>
+            <span class="view-value" id="viewBalance" style="font-size:1rem;">₱0.00</span>
           </div>
 
           <!-- Total Expenses Row -->
@@ -427,7 +439,7 @@
     </div>
   </div>
 
-  <!-- POPUP: ADD / EDIT MODAL (Multiple Itemized Expenses) -->
+  <!-- POPUP: ADD / EDIT MODAL -->
   <div id="modalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -494,6 +506,26 @@
               <div class="form-group">
                 <label>Balance (Auto-Computed)</label>
                 <input type="text" id="balanceDisplay" readonly class="form-control" style="background:var(--border); font-weight:bold; color:var(--danger);" value="₱0.00">
+              </div>
+            </div>
+
+            <!-- Fully Paid Checkbox & Details -->
+            <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.65rem 0.85rem; margin-top: 0.4rem;">
+              <label style="display: flex; align-items: center; gap: 0.45rem; font-size: 0.825rem; font-weight: 700; color: var(--success); cursor: pointer; user-select: none;">
+                <input type="checkbox" id="isFullyPaid" onchange="toggleFullyPaid(this.checked)" style="width: 16px; height: 16px; accent-color: var(--success); cursor: pointer;">
+                <span>Remaining balance is fully paid</span>
+              </label>
+
+              <!-- Dynamic Settlement Fields (visible when fully paid is checked) -->
+              <div id="fullyPaidDetailsGroup" class="form-grid" style="display: none; margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px dashed var(--border);">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label style="color: var(--success);">Final Payment Amount (₱)</label>
+                  <input type="number" step="0.01" min="0" id="finalPayment" oninput="calculateFinancials()" placeholder="0.00" class="form-control" style="font-weight: 600;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label style="color: var(--success);">Date Fully Paid</label>
+                  <input type="date" id="dateFullyPaid" class="form-control">
+                </div>
               </div>
             </div>
 
@@ -735,9 +767,41 @@
       return items;
     }
 
+    /* -------------------------------------------------------------
+       FULLY PAID & FINANCIAL CALCULATIONS
+    -------------------------------------------------------------- */
+    function toggleFullyPaid(checked) {
+      const fee = parseFloat(document.getElementById('fee').value) || 0;
+      const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
+      const diff = Math.max(0, fee - initial);
+      
+      const detailsGroup = document.getElementById('fullyPaidDetailsGroup');
+      const finalPayInput = document.getElementById('finalPayment');
+      const datePayInput = document.getElementById('dateFullyPaid');
+
+      if (checked) {
+        detailsGroup.style.display = 'grid';
+        if (!finalPayInput.value || parseFloat(finalPayInput.value) === 0) {
+          finalPayInput.value = diff > 0 ? diff.toFixed(2) : '0.00';
+        }
+        if (!datePayInput.value) {
+          datePayInput.value = new Date().toISOString().slice(0, 10);
+        }
+      } else {
+        detailsGroup.style.display = 'none';
+        finalPayInput.value = '';
+        datePayInput.value = '';
+      }
+      calculateFinancials();
+    }
+
     function calculateFinancials() {
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
+      const isPaid = document.getElementById('isFullyPaid').checked;
+      const finalPay = isPaid ? (parseFloat(document.getElementById('finalPayment').value) || 0) : 0;
+
+      const balance = isPaid ? 0 : Math.max(0, fee - (initial + finalPay));
 
       let totalExpenses = 0;
       const amountInputs = document.querySelectorAll('#expenseItemsContainer .expense-item-amount');
@@ -745,15 +809,58 @@
         totalExpenses += parseFloat(input.value) || 0;
       });
 
-      const balance = Math.max(0, fee - initial);
       const netProfit = fee - totalExpenses;
 
-      document.getElementById('balanceDisplay').value = formatPeso(balance);
+      const balDisplay = document.getElementById('balanceDisplay');
+      if (isPaid || balance === 0) {
+        balDisplay.value = '₱0.00 (Fully Paid)';
+        balDisplay.style.color = 'var(--success)';
+      } else {
+        balDisplay.value = formatPeso(balance);
+        balDisplay.style.color = 'var(--danger)';
+      }
+
       document.getElementById('totalExpensesDisplay').innerText = formatPeso(totalExpenses);
 
       const netDisplay = document.getElementById('netProfitDisplay');
       netDisplay.innerText = formatPeso(netProfit);
       netDisplay.style.color = netProfit >= 0 ? 'var(--success)' : 'var(--danger)';
+    }
+
+    function quickSettleBalance(id) {
+      const item = records.find(r => r.id === id);
+      if (!item) return;
+
+      const currentBalance = getRecordBalance(item);
+      const today = new Date().toISOString().slice(0, 10);
+
+      if (confirm(`Mark "${item.corpName}" as Fully Paid?\n\nRemaining balance of ${formatPeso(currentBalance)} will be recorded as settled on ${today}.`)) {
+        item.isFullyPaid = true;
+        item.finalPayment = currentBalance;
+        item.dateFullyPaid = today;
+        item.balance = 0;
+        
+        saveToStorage();
+        updateSummarySelectors();
+        renderTable();
+
+        if (isAutoBackupActive()) {
+          triggerAutoBackupDownload();
+        }
+      }
+    }
+
+    function getRecordTotalPaid(r) {
+      const initial = parseFloat(r.initialPayment) || 0;
+      const finalPay = parseFloat(r.finalPayment) || (r.isFullyPaid ? Math.max(0, (r.fee || 0) - initial) : 0);
+      return initial + finalPay;
+    }
+
+    function getRecordBalance(r) {
+      if (r.isFullyPaid) return 0;
+      const fee = parseFloat(r.fee) || 0;
+      const paid = getRecordTotalPaid(r);
+      return Math.max(0, fee - paid);
     }
 
     function handleTypeChange() {
@@ -831,7 +938,7 @@
     }
 
     /* -------------------------------------------------------------
-       VIEW SUMMARY MODAL (Multiple Expenses Display)
+       VIEW SUMMARY MODAL (Includes Full Settlement Details)
     -------------------------------------------------------------- */
     function viewRecord(id) {
       const item = records.find(r => r.id === id);
@@ -849,9 +956,44 @@
       document.getElementById('viewFee').innerText = formatPeso(item.fee);
       document.getElementById('viewInitialPayment').innerText = formatPeso(item.initialPayment);
 
+      // Final payment and settled details
+      const finalPayRow = document.getElementById('viewFinalPaymentRow');
+      const dateFullyPaidRow = document.getElementById('viewDateFullyPaidRow');
+      const balRow = document.getElementById('viewBalanceRow');
+      const balLabel = document.getElementById('viewBalanceLabel');
       const balElem = document.getElementById('viewBalance');
-      balElem.innerText = formatPeso(item.balance);
-      balElem.style.color = item.balance > 0 ? 'var(--danger)' : 'var(--success)';
+
+      const isPaid = item.isFullyPaid || getRecordBalance(item) === 0;
+
+      if (item.finalPayment > 0 || (isPaid && (item.fee > item.initialPayment))) {
+        finalPayRow.style.display = 'flex';
+        document.getElementById('viewFinalPayment').innerText = formatPeso(item.finalPayment || (item.fee - item.initialPayment));
+      } else {
+        finalPayRow.style.display = 'none';
+      }
+
+      if (isPaid && item.dateFullyPaid) {
+        dateFullyPaidRow.style.display = 'flex';
+        document.getElementById('viewDateFullyPaid').innerText = item.dateFullyPaid;
+      } else {
+        dateFullyPaidRow.style.display = 'none';
+      }
+
+      if (isPaid) {
+        balRow.className = 'view-row view-paid-row';
+        balLabel.innerText = 'Payment Status';
+        balLabel.style.color = 'var(--success)';
+        balElem.innerText = '✔ PAID IN FULL (₱0.00)';
+        balElem.style.color = 'var(--success)';
+        balElem.style.fontWeight = '800';
+      } else {
+        balRow.className = 'view-row view-balance-row';
+        balLabel.innerText = 'Remaining Balance';
+        balLabel.style.color = 'var(--danger)';
+        balElem.innerText = formatPeso(getRecordBalance(item));
+        balElem.style.color = 'var(--danger)';
+        balElem.style.fontWeight = '700';
+      }
 
       // Calculate Total Expenses & Render Multiple Items
       const expenseList = item.expenseItems || [];
@@ -922,6 +1064,7 @@
       document.getElementById('otherTypeGroup').style.display = 'none';
       document.getElementById('otherStatusGroup').style.display = 'none';
       document.getElementById('expenseItemsContainer').innerHTML = '';
+      document.getElementById('fullyPaidDetailsGroup').style.display = 'none';
 
       syncAutoBackupCheckboxes(isAutoBackupActive());
 
@@ -945,6 +1088,17 @@
           document.getElementById('dateCompleted').value = item.dateCompleted || item.finishedDate || '';
           document.getElementById('fee').value = item.fee;
           document.getElementById('initialPayment').value = item.initialPayment;
+
+          // Check if fully paid
+          const isPaid = item.isFullyPaid || (item.fee > 0 && getRecordBalance(item) === 0);
+          const cb = document.getElementById('isFullyPaid');
+          cb.checked = isPaid;
+
+          if (isPaid) {
+            document.getElementById('fullyPaidDetailsGroup').style.display = 'grid';
+            document.getElementById('finalPayment').value = item.finalPayment || Math.max(0, (item.fee - item.initialPayment)).toFixed(2);
+            document.getElementById('dateFullyPaid').value = item.dateFullyPaid || '';
+          }
 
           // Populate multiple expenses
           if (Array.isArray(item.expenseItems) && item.expenseItems.length > 0) {
@@ -1000,10 +1154,14 @@
 
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
+      const isPaid = document.getElementById('isFullyPaid').checked;
+      const finalPay = isPaid ? (parseFloat(document.getElementById('finalPayment').value) || 0) : 0;
+      const dateFullyPaid = isPaid ? document.getElementById('dateFullyPaid').value : '';
+
       const expenseItems = getExpenseItemsFromModal();
       const totalExpenses = expenseItems.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
 
-      const balance = Math.max(0, fee - initial);
+      const balance = isPaid ? 0 : Math.max(0, fee - (initial + finalPay));
       const netProfit = fee - totalExpenses;
 
       const payload = {
@@ -1015,6 +1173,9 @@
         dateCompleted: document.getElementById('dateCompleted').value,
         fee: fee,
         initialPayment: initial,
+        finalPayment: finalPay,
+        isFullyPaid: isPaid || balance === 0,
+        dateFullyPaid: dateFullyPaid,
         expenses: totalExpenses,
         expenseItems: expenseItems,
         balance: balance,
@@ -1058,7 +1219,7 @@
     }
 
     /* -------------------------------------------------------------
-       DATE GROUPING HELPERS (YEAR, MONTH, WEEK)
+       DATE GROUPING HELPERS
     -------------------------------------------------------------- */
     function getYearKey(dateStr) {
       if (!dateStr) return 'Unspecified Date';
@@ -1115,7 +1276,6 @@
         opt.innerText = "No data available";
         selector.appendChild(opt);
       } else {
-        // Sort periods in descending order
         const sortedPeriods = Array.from(periods).sort((a, b) => b.localeCompare(a));
         sortedPeriods.forEach(period => {
           const opt = document.createElement('option');
@@ -1157,9 +1317,9 @@
 
       const count = periodRecords.length;
       const totalFees = periodRecords.reduce((sum, r) => sum + (r.fee || 0), 0);
-      const totalPaid = periodRecords.reduce((sum, r) => sum + (r.initialPayment || 0), 0);
-      const totalExpenses = periodRecords.reduce((sum, r) => sum + (getRecordTotalExpenses(r)), 0);
-      const totalBal = periodRecords.reduce((sum, r) => sum + (r.balance || 0), 0);
+      const totalPaid = periodRecords.reduce((sum, r) => sum + getRecordTotalPaid(r), 0);
+      const totalExpenses = periodRecords.reduce((sum, r) => sum + getRecordTotalExpenses(r), 0);
+      const totalBal = periodRecords.reduce((sum, r) => sum + getRecordBalance(r), 0);
       const netProfit = totalFees - totalExpenses;
       const completedCount = periodRecords.filter(r => r.currentStatus === 'Completed').length;
 
@@ -1192,6 +1352,9 @@
 
       const filtered = records.filter(r => {
         const statusValue = r.currentStatus || '';
+        const isPaid = r.isFullyPaid || getRecordBalance(r) === 0;
+        const paidStatusStr = isPaid ? 'fully paid paid settled' : 'unpaid balance balance due';
+
         const expenseSearchStr = Array.isArray(r.expenseItems)
           ? r.expenseItems.map(e => e.description).join(' ').toLowerCase()
           : (r.expenseRemarks || '').toLowerCase();
@@ -1199,6 +1362,7 @@
         const matchesSearch = (r.corpName || '').toLowerCase().includes(search) || 
                               (r.transType || '').toLowerCase().includes(search) ||
                               statusValue.toLowerCase().includes(search) ||
+                              paidStatusStr.includes(search) ||
                               expenseSearchStr.includes(search);
 
         const matchesType = (filterType === 'All') 
@@ -1229,11 +1393,15 @@
         const netProfit = (r.fee || 0) - totalExpenses;
         const itemsCount = Array.isArray(r.expenseItems) ? r.expenseItems.length : (r.expenses > 0 ? 1 : 0);
 
+        const totalPaid = getRecordTotalPaid(r);
+        const balance = getRecordBalance(r);
+        const isPaid = r.isFullyPaid || balance === 0;
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>
             <strong style="color:var(--text);">${escapeHtml(r.corpName)}</strong>
-            ${itemsCount > 0 ? `<div style="font-size:0.7rem; color:#ea580c; margin-top:2px;">📁 ${itemsCount} expense item(s) recorded</div>` : ''}
+            ${itemsCount > 0 ? `<div style="font-size:0.7rem; color:#ea580c; margin-top:2px;">📁 ${itemsCount} expense item(s)</div>` : ''}
           </td>
           <td><span class="badge badge-prep">${escapeHtml(r.transType)}</span></td>
           <td style="font-size:0.775rem; color:var(--text-muted);">
@@ -1243,16 +1411,17 @@
           </td>
           <td style="text-align: right; font-size:0.775rem;">
             <div>Fee: <strong style="color:var(--text);">${formatPeso(r.fee)}</strong></div>
-            <div>Paid: <span style="color:var(--success); font-weight:600;">${formatPeso(r.initialPayment)}</span></div>
-            <div>Bal: <strong style="color:${r.balance > 0 ? 'var(--danger)' : 'var(--text-muted)'};">${formatPeso(r.balance)}</strong></div>
+            <div>Paid: <span style="color:var(--success); font-weight:600;">${formatPeso(totalPaid)}</span>${isPaid ? ' <span class="badge badge-completed" style="font-size:0.62rem; padding:1px 5px;">✔ PAID</span>' : ''}</div>
+            <div>Bal: <strong style="color:${balance > 0 ? 'var(--danger)' : 'var(--success)'};">${balance > 0 ? formatPeso(balance) : '₱0.00'}</strong></div>
             <div>Exp: <span style="color:#ea580c; font-weight:600;">${formatPeso(totalExpenses)}</span></div>
             <div style="border-top:1px dashed var(--border); margin-top:2px; padding-top:2px;">Net: <strong style="color:${netProfit >= 0 ? 'var(--success)' : 'var(--danger)'};">${formatPeso(netProfit)}</strong></div>
           </td>
           <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
           <td style="text-align: center; white-space:nowrap;">
             <button type="button" onclick="viewRecord('${r.id}')" class="btn btn-view btn-sm" title="View details">👁️ View</button>
-            <button type="button" onclick="openModal('${r.id}')" class="btn btn-outline btn-sm">Edit</button>
-            <button type="button" onclick="deleteRecord('${r.id}')" class="btn btn-danger btn-sm">Delete</button>
+            <button type="button" onclick="openModal('${r.id}')" class="btn btn-outline btn-sm" title="Edit record">Edit</button>
+            ${!isPaid && balance > 0 ? `<button type="button" onclick="quickSettleBalance('${r.id}')" class="btn btn-settle btn-sm" title="Mark remaining balance as fully paid">💵 Settle</button>` : ''}
+            <button type="button" onclick="deleteRecord('${r.id}')" class="btn btn-danger btn-sm" title="Delete record">Delete</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1302,7 +1471,7 @@
       const total = records.length;
       const completed = records.filter(r => r.currentStatus === 'Completed').length;
       const active = records.filter(r => r.currentStatus !== 'Completed').length;
-      const totalBalance = records.reduce((sum, r) => sum + (r.balance || 0), 0);
+      const totalBalance = records.reduce((sum, r) => sum + getRecordBalance(r), 0);
       const totalExpenses = records.reduce((sum, r) => sum + getRecordTotalExpenses(r), 0);
 
       document.getElementById('statTotal').innerText = total;
@@ -1380,6 +1549,9 @@
           if (confirm(`Found ${imported.length} transaction record(s) in this file. Restore and load them now?`)) {
             records = imported.map(r => ({
               ...r,
+              isFullyPaid: Boolean(r.isFullyPaid || (r.balance === 0 && r.fee > 0)),
+              finalPayment: parseFloat(r.finalPayment) || 0,
+              dateFullyPaid: r.dateFullyPaid || '',
               expenses: getRecordTotalExpenses(r),
               expenseItems: Array.isArray(r.expenseItems) ? r.expenseItems : (r.expenses > 0 ? [{ description: r.expenseRemarks || 'General Expense', amount: r.expenses }] : [])
             }));
@@ -1404,12 +1576,15 @@
         alert('No data to export.');
         return;
       }
-      let csv = 'Corporation Name,Transaction Type,Date Accepted and Received the Downpayment,Date Started,Date Completed,Assistance Fee,Initial Payment,Balance,Total Expenses,Itemized Expenses Breakdown,Net Profit,Current Status\n';
+      let csv = 'Corporation Name,Transaction Type,Date Accepted and Received the Downpayment,Date Started,Date Completed,Assistance Fee,Initial Payment,Final Payment,Total Paid,Date Fully Paid,Balance,Payment Status,Total Expenses,Itemized Expenses Breakdown,Net Profit,Current Status\n';
       records.forEach(r => {
         const completed = r.dateCompleted || r.finishedDate || '';
         const totalExpenses = getRecordTotalExpenses(r);
         const netProfit = (r.fee || 0) - totalExpenses;
-        
+        const totalPaid = getRecordTotalPaid(r);
+        const balance = getRecordBalance(r);
+        const isPaid = r.isFullyPaid || balance === 0;
+
         let itemizedBreakdown = '';
         if (Array.isArray(r.expenseItems) && r.expenseItems.length > 0) {
           itemizedBreakdown = r.expenseItems.map(e => `${e.description}: ₱${e.amount}`).join('; ');
@@ -1417,7 +1592,7 @@
           itemizedBreakdown = r.expenseRemarks;
         }
 
-        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${completed}",${r.fee || 0},${r.initialPayment || 0},${r.balance || 0},${totalExpenses},"${itemizedBreakdown.replace(/"/g, '""')}",${netProfit},"${(r.currentStatus || '').replace(/"/g, '""')}"\n`;
+        csv += `"${(r.corpName || '').replace(/"/g, '""')}","${(r.transType || '').replace(/"/g, '""')}","${r.dateAccepted || ''}","${r.dateStarted || ''}","${completed}",${r.fee || 0},${r.initialPayment || 0},${r.finalPayment || 0},${totalPaid},"${r.dateFullyPaid || ''}",${balance},"${isPaid ? 'Fully Paid' : 'With Balance'}",${totalExpenses},"${itemizedBreakdown.replace(/"/g, '""')}",${netProfit},"${(r.currentStatus || '').replace(/"/g, '""')}"\n`;
       });
 
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
