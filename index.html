@@ -239,16 +239,18 @@
       </div>
     </div>
 
-    <!-- Dropdown Summary by Week / Month -->
+    <!-- Dropdown Summary by Year, Month, Week, or Total All Transactions -->
     <div class="summary-panel">
       <div class="summary-header">
         <div>
           <h3 style="font-size: 0.95rem; font-weight: 700;">Periodic Summary (Date Accepted & Downpayment)</h3>
-          <p style="font-size: 0.75rem; color: var(--text-muted);">Aggregate volume, fees, multiple expenses, collections, and net margin by timeframe</p>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">View totals by year, month, week, or all-time summary</p>
         </div>
         <div class="period-controls">
           <label style="font-size: 0.8rem; font-weight:600; color: var(--text-muted);">Group By:</label>
           <select id="summaryMode" class="form-control" style="width: auto;" onchange="updateSummarySelectors()">
+            <option value="all">Total Summary (All Transactions)</option>
+            <option value="year">Summary by Year</option>
             <option value="month">Summary by Month</option>
             <option value="week">Summary by Week</option>
           </select>
@@ -341,7 +343,7 @@
     </div>
   </div>
 
-  <!-- POPUP: VIEW SINGLE TRANSACTION SUMMARY (With Full Multiple Expenses Table) -->
+  <!-- POPUP: VIEW SINGLE TRANSACTION SUMMARY -->
   <div id="viewModalOverlay" class="modal-backdrop hidden">
     <div class="modal-card">
       <div class="modal-header">
@@ -737,7 +739,6 @@
       const fee = parseFloat(document.getElementById('fee').value) || 0;
       const initial = parseFloat(document.getElementById('initialPayment').value) || 0;
 
-      // Sum all multiple expense rows
       let totalExpenses = 0;
       const amountInputs = document.querySelectorAll('#expenseItemsContainer .expense-item-amount');
       amountInputs.forEach(input => {
@@ -951,7 +952,6 @@
               addExpenseRow(exp.description, exp.amount);
             });
           } else if (item.expenses > 0) {
-            // Backward compatibility for single expense format
             addExpenseRow(item.expenseRemarks || 'General Expense', item.expenses);
           }
 
@@ -1057,31 +1057,54 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
     }
 
+    /* -------------------------------------------------------------
+       DATE GROUPING HELPERS (YEAR, MONTH, WEEK)
+    -------------------------------------------------------------- */
+    function getYearKey(dateStr) {
+      if (!dateStr) return 'Unspecified Date';
+      const d = new Date(dateStr);
+      return isNaN(d.getTime()) ? 'Unspecified Date' : `${d.getFullYear()}`;
+    }
+
     function getMonthKey(dateStr) {
       if (!dateStr) return 'Unspecified Date';
       const d = new Date(dateStr);
-      return d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      return isNaN(d.getTime()) ? 'Unspecified Date' : d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
     }
 
     function getWeekKey(dateStr) {
       if (!dateStr) return 'Unspecified Date';
       const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return 'Unspecified Date';
       const startOfYear = new Date(d.getFullYear(), 0, 1);
       const days = Math.floor((d - startOfYear) / (24 * 60 * 60 * 1000));
       const weekNumber = Math.ceil((days + startOfYear.getDay() + 1) / 7);
       return `Week ${weekNumber}, ${d.getFullYear()}`;
     }
 
+    /* -------------------------------------------------------------
+       PERIODIC & ALL-TIME SUMMARY ENGINE
+    -------------------------------------------------------------- */
     function updateSummarySelectors() {
       const mode = document.getElementById('summaryMode').value;
       const selector = document.getElementById('summaryPeriodSelect');
       selector.innerHTML = '';
 
+      if (mode === 'all') {
+        selector.style.display = 'none';
+        renderPeriodicSummary();
+        return;
+      }
+
+      selector.style.display = 'inline-block';
       const periods = new Set();
+      
       records.forEach(r => {
-        if (mode === 'month') {
+        if (mode === 'year') {
+          periods.add(getYearKey(r.dateAccepted));
+        } else if (mode === 'month') {
           periods.add(getMonthKey(r.dateAccepted));
-        } else {
+        } else if (mode === 'week') {
           periods.add(getWeekKey(r.dateAccepted));
         }
       });
@@ -1092,7 +1115,9 @@
         opt.innerText = "No data available";
         selector.appendChild(opt);
       } else {
-        Array.from(periods).forEach(period => {
+        // Sort periods in descending order
+        const sortedPeriods = Array.from(periods).sort((a, b) => b.localeCompare(a));
+        sortedPeriods.forEach(period => {
           const opt = document.createElement('option');
           opt.value = period;
           opt.innerText = period;
@@ -1108,15 +1133,27 @@
       const selectedPeriod = document.getElementById('summaryPeriodSelect').value;
       const resultsDiv = document.getElementById('summaryResults');
 
-      if (!selectedPeriod || selectedPeriod === "No data available") {
-        resultsDiv.innerHTML = '<span style="color: var(--text-muted);">Encode transactions with "Date Accepted and Received the Downpayment" to view periodic summaries.</span>';
-        return;
-      }
+      let periodRecords = [];
+      let labelContext = '';
 
-      const periodRecords = records.filter(r => {
-        const key = mode === 'month' ? getMonthKey(r.dateAccepted) : getWeekKey(r.dateAccepted);
-        return key === selectedPeriod;
-      });
+      if (mode === 'all') {
+        periodRecords = records;
+        labelContext = '<strong>Scope:</strong> Total All-Time Transactions';
+      } else {
+        if (!selectedPeriod || selectedPeriod === "No data available") {
+          resultsDiv.innerHTML = '<span style="color: var(--text-muted);">Encode transactions with "Date Accepted and Received the Downpayment" to view periodic summaries.</span>';
+          return;
+        }
+
+        periodRecords = records.filter(r => {
+          if (mode === 'year') return getYearKey(r.dateAccepted) === selectedPeriod;
+          if (mode === 'month') return getMonthKey(r.dateAccepted) === selectedPeriod;
+          if (mode === 'week') return getWeekKey(r.dateAccepted) === selectedPeriod;
+          return false;
+        });
+
+        labelContext = `<strong>Period:</strong> ${escapeHtml(selectedPeriod)}`;
+      }
 
       const count = periodRecords.length;
       const totalFees = periodRecords.reduce((sum, r) => sum + (r.fee || 0), 0);
@@ -1127,11 +1164,12 @@
       const completedCount = periodRecords.filter(r => r.currentStatus === 'Completed').length;
 
       resultsDiv.innerHTML = `
+        <div>${labelContext}</div>
         <div><strong>Transactions:</strong> ${count}</div>
-        <div><strong>Fees:</strong> ${formatPeso(totalFees)}</div>
+        <div><strong>Total Fees:</strong> ${formatPeso(totalFees)}</div>
         <div><strong>Collected:</strong> <span style="color:var(--success); font-weight:600;">${formatPeso(totalPaid)}</span></div>
         <div><strong>Expenses:</strong> <span style="color:#ea580c; font-weight:600;">${formatPeso(totalExpenses)}</span></div>
-        <div><strong>Net Margin:</strong> <span style="color:var(--success); font-weight:700;">${formatPeso(netProfit)}</span></div>
+        <div><strong>Net Margin:</strong> <span style="color:${netProfit >= 0 ? 'var(--success)' : 'var(--danger)'}; font-weight:700;">${formatPeso(netProfit)}</span></div>
         <div><strong>Balance:</strong> <span style="color:var(--danger); font-weight:600;">${formatPeso(totalBal)}</span></div>
         <div><strong>Completed:</strong> ${completedCount} / ${count}</div>
       `;
