@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>SEC TRANSACTIONS TRACKER</title>
 
-  <!-- iOS PWA & SAFARI METAS -->
+  <!-- iOS PWA METAS -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -12,12 +12,111 @@
   <meta name="apple-mobile-web-app-title" content="SEC Tracker">
   <meta name="theme-color" content="#0f172a">
 
-  <!-- EMBEDDED RETINA HOME SCREEN ICON -->
-  <link rel="apple-touch-icon" id="appleTouchIcon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180' width='180' height='180'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%231e3a8a'/%3E%3Cstop offset='100%25' stop-color='%230f172a'/%3E%3C/linearGradient%3E%3ClinearGradient id='gold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23fbbf24'/%3E%3Cstop offset='100%25' stop-color='%23d97706'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='180' height='180' rx='40' fill='url(%23bg)'/%3E%3Cpath d='M90 28 L142 50 L142 98 C142 128 90 152 90 152 C90 152 38 128 38 98 L38 50 Z' fill='none' stroke='url(%23gold)' stroke-width='6' stroke-linejoin='round'/%3E%3Cpath d='M62 76 L118 76 M90 65 L90 120 M70 120 L110 120' stroke='%23ffffff' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='70' cy='95' r='10' fill='none' stroke='url(%23gold)' stroke-width='4'/%3E%3Ccircle cx='110' cy='95' r='10' fill='none' stroke='url(%23gold)' stroke-width='4'/%3E%3Ctext x='90' y='142' font-family='-apple-system, system-ui, sans-serif' font-size='15' font-weight='900' fill='url(%23gold)' text-anchor='middle' letter-spacing='2'%3ESEC%3C/text%3E%3C/svg%3E">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230f172a'/%3E%3Ctext x='90' y='108' font-family='system-ui' font-size='70' font-weight='900' fill='%23fbbf24' text-anchor='middle'%3E§%3C/text%3E%3C/svg%3E">
+  <!-- DYNAMIC RETINA PNG ICONS FOR iOS HOME SCREEN -->
+  <link rel="apple-touch-icon" id="appleTouchIcon" sizes="180x180">
+  <link rel="apple-touch-icon-precomposed" id="appleTouchIconPre" sizes="180x180">
+  <link rel="icon" id="appFavicon" type="image/png">
+
+  <!-- INSTANT INLINE RETINA 180x180 PNG GENERATOR (Prevents the letter "S" fallback) -->
+  <script>
+    (function generateRetinaIOSIcon() {
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = 180;
+        canvas.height = 180;
+        var ctx = canvas.getContext('2d');
+
+        // 1. Navy Gradient Squircle Background
+        var bgGrad = ctx.createLinearGradient(0, 0, 180, 180);
+        bgGrad.addColorStop(0, '#1e3a8a');
+        bgGrad.addColorStop(1, '#090e1a');
+        ctx.fillStyle = bgGrad;
+        
+        var r = 40; // iOS Squircle Radius
+        ctx.beginPath();
+        ctx.moveTo(r, 0);
+        ctx.lineTo(180 - r, 0);
+        ctx.quadraticCurveTo(180, 0, 180, r);
+        ctx.lineTo(180, 180 - r);
+        ctx.quadraticCurveTo(180, 180, 180 - r, 180);
+        ctx.lineTo(r, 180);
+        ctx.quadraticCurveTo(0, 180, 0, 180 - r);
+        ctx.lineTo(0, r);
+        ctx.quadraticCurveTo(0, 0, r, 0);
+        ctx.closePath();
+        ctx.fill();
+
+        // 2. Gold Shield
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 5;
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(90, 26);
+        ctx.lineTo(142, 48);
+        ctx.lineTo(142, 96);
+        ctx.bezierCurveTo(142, 126, 90, 150, 90, 150);
+        ctx.bezierCurveTo(90, 150, 38, 126, 38, 96);
+        ctx.lineTo(38, 48);
+        ctx.closePath();
+        ctx.stroke();
+
+        // 3. Central Scales of Justice Pillar
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 4;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(60, 68);
+        ctx.lineTo(120, 68); // Top crossbeam
+        ctx.moveTo(90, 56);
+        ctx.lineTo(90, 116); // Pillar
+        ctx.moveTo(74, 116);
+        ctx.lineTo(106, 116); // Base
+        ctx.stroke();
+
+        // 4. Gold Scales
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 3;
+        // Left Pan
+        ctx.beginPath();
+        ctx.moveTo(60, 68);
+        ctx.lineTo(48, 88);
+        ctx.lineTo(72, 88);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(60, 93, 11, 0, Math.PI, false);
+        ctx.stroke();
+
+        // Right Pan
+        ctx.beginPath();
+        ctx.moveTo(120, 68);
+        ctx.lineTo(108, 88);
+        ctx.lineTo(132, 88);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(120, 93, 11, 0, Math.PI, false);
+        ctx.stroke();
+
+        // 5. Bold "SEC" Monogram
+        ctx.fillStyle = '#fbbf24';
+        ctx.font = '900 24px -apple-system, system-ui, BlinkMacSystemFont, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('SEC', 90, 134);
+
+        var pngUrl = canvas.toDataURL('image/png');
+        document.getElementById('appleTouchIcon').href = pngUrl;
+        document.getElementById('appleTouchIconPre').href = pngUrl;
+        document.getElementById('appFavicon').href = pngUrl;
+      } catch (err) {
+        console.error('Retina Icon generation error:', err);
+      }
+    })();
+  </script>
 
   <style>
-    /* 100% OFFLINE STYLING WITH iOS SAFE-AREA SUPPORT */
+    /* 100% OFFLINE STYLING - iOS SAFE-AREA COMPATIBLE */
     :root {
       --primary: #1e40af;
       --primary-hover: #1d4ed8;
@@ -55,17 +154,17 @@
     body { 
       background-color: var(--background); 
       color: var(--text); 
-      padding-bottom: calc(70px + env(safe-area-inset-bottom, 20px)); 
+      padding-bottom: calc(75px + env(safe-area-inset-bottom, 20px)); 
       line-height: 1.4;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* iOS Safe Notch Header */
+    /* iOS Notch Header */
     header { 
       background-color: var(--header-bg); 
       color: var(--header-text); 
-      padding-top: calc(0.55rem + env(safe-area-inset-top, 0px));
-      padding-bottom: 0.55rem;
+      padding-top: calc(0.6rem + env(safe-area-inset-top, 0px));
+      padding-bottom: 0.6rem;
       padding-left: calc(1rem + env(safe-area-inset-left, 0px));
       padding-right: calc(1rem + env(safe-area-inset-right, 0px));
       position: sticky; 
@@ -74,36 +173,31 @@
       box-shadow: var(--shadow); 
       border-bottom: 1px solid var(--border); 
     }
-    .header-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-    .app-title h1 { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.04em; color: #fff; display: flex; align-items: center; gap: 0.4rem; }
-    .header-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+    
+    .header-container { max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.55rem; }
+    .header-row-primary { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+    .header-row-secondary { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
 
-    /* iOS Home Screen Install Helper Banner */
-    #iosInstallBanner {
-      display: none;
-      background: linear-gradient(135deg, #1e3a8a, #0f172a);
-      color: #fff;
-      padding: 0.65rem 1rem;
-      border-radius: var(--radius);
-      margin: 0.75rem 1rem 0;
-      font-size: 0.775rem;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      border: 1px solid rgba(251, 191, 36, 0.3);
+    .app-title h1 { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.04em; color: #fff; display: flex; align-items: center; gap: 0.45rem; }
+
+    /* Touch-friendly buttons (minimum 40px height for mobile fingers) */
+    .btn { 
+      display: inline-flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 0.35rem; 
+      min-height: 38px;
+      padding: 0.4rem 0.75rem; 
+      border-radius: var(--radius); 
+      font-size: 0.8rem; 
+      font-weight: 700; 
+      cursor: pointer; 
+      border: 1px solid transparent; 
+      text-decoration: none; 
+      touch-action: manipulation; /* Removes 300ms mobile tap delay */
     }
+    .btn:active { transform: scale(0.96); opacity: 0.88; }
 
-    .container { max-width: 1400px; margin: 1rem auto; padding: 0 1rem; }
-    .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
-
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; box-shadow: var(--shadow); }
-    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem; }
-    .stat-title { font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); letter-spacing: 0.03em; }
-    .stat-value { font-size: 1.35rem; font-weight: 800; margin-top: 0.2rem; }
-
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; padding: 0.4rem 0.75rem; border-radius: var(--radius); font-size: 0.775rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; text-decoration: none; user-select: none; }
-    .btn:active { transform: scale(0.97); opacity: 0.9; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-secondary { background: #334155; color: white; border-color: #475569; }
     .btn-theme { background: #1e293b; color: #f8fafc; border-color: #475569; }
@@ -114,12 +208,50 @@
     .btn-settle { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
     body.dark-mode .btn-settle { background: #052e16; color: #86efac; border-color: #166534; }
     .btn-danger { background: #ef4444; color: white; }
-    .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.725rem; }
-    .btn-card-view { padding: 0.2rem 0.55rem; font-size: 0.7rem; background: var(--surface); border: 1px solid var(--border); color: var(--primary); font-weight: 700; border-radius: 6px; }
+    .btn-sm { min-height: 32px; padding: 0.25rem 0.55rem; font-size: 0.75rem; }
+    .btn-card-view { min-height: 28px; padding: 0.2rem 0.55rem; font-size: 0.7rem; background: var(--surface); border: 1px solid var(--border); color: var(--primary); font-weight: 700; border-radius: 6px; }
 
-    .toggle-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.65rem; background: #1e293b; border: 1px solid #475569; border-radius: var(--radius); font-size: 0.75rem; color: #f1f5f9; cursor: pointer; font-weight: 600; }
-    .toggle-pill input { cursor: pointer; accent-color: var(--primary); width: 15px; height: 15px; }
+    .toggle-pill { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 0.45rem; 
+      min-height: 38px;
+      padding: 0.35rem 0.7rem; 
+      background: #1e293b; 
+      border: 1px solid #475569; 
+      border-radius: var(--radius); 
+      font-size: 0.75rem; 
+      color: #f1f5f9; 
+      cursor: pointer; 
+      font-weight: 700; 
+      touch-action: manipulation;
+    }
+    .toggle-pill input { cursor: pointer; accent-color: var(--primary); width: 16px; height: 16px; }
     body.dark-mode .toggle-pill { background: #334155; border-color: #64748b; }
+
+    /* iOS Install Tip Banner */
+    #iosInstallBanner {
+      display: none;
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      margin: 0.75rem 1rem 0;
+      font-size: 0.8rem;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+    }
+
+    .container { max-width: 1400px; margin: 1rem auto; padding: 0 1rem; }
+    .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; box-shadow: var(--shadow); }
+    .card-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem; }
+    .stat-title { font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); letter-spacing: 0.03em; }
+    .stat-value { font-size: 1.35rem; font-weight: 800; margin-top: 0.2rem; }
 
     .summary-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; margin-bottom: 1.25rem; }
     .summary-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.85rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
@@ -129,7 +261,7 @@
     .filter-bar { background: var(--surface); padding: 0.85rem 1rem; border-radius: var(--radius); border: 1px solid var(--border); display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; box-shadow: var(--shadow); }
     .search-box { flex: 1; min-width: 240px; }
     
-    /* 16px min size on inputs prevents iOS Safari from zooming the screen on tap */
+    /* 16px minimum prevents iOS Safari from automatically zooming the page */
     .form-control { width: 100%; padding: 0.55rem 0.75rem; font-size: 16px; border: 1px solid var(--border); border-radius: var(--radius); background-color: var(--surface); color: var(--text); }
     @media (min-width: 768px) {
       .form-control { font-size: 0.875rem; }
@@ -164,7 +296,7 @@
     body.dark-mode .badge-compliance { background: #450a0a; color: #fca5a5; border-color: #991b1b; }
     body.dark-mode .badge-other { background: #334155; color: #f1f5f9; border-color: #475569; }
 
-    /* Modals with iOS safe bottom clearance */
+    /* Modals with iOS safe-area handling */
     .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
     .modal-backdrop.hidden { display: none; }
     .modal-card { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 14px; width: 100%; max-width: 750px; max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch; box-shadow: 0 25px 35px -5px rgb(0 0 0 / 0.5); }
@@ -186,7 +318,7 @@
     .view-paid-row { background: rgba(5, 150, 105, 0.08); }
     .view-net-row { background: rgba(5, 150, 105, 0.08); }
 
-    .expense-item-row { display: grid; grid-template-columns: 1fr 130px 36px; gap: 0.4rem; align-items: center; margin-bottom: 0.4rem; }
+    .expense-item-row { display: grid; grid-template-columns: 1fr 130px 38px; gap: 0.4rem; align-items: center; margin-bottom: 0.4rem; }
 
     @media print {
       body * { visibility: hidden; }
@@ -197,34 +329,44 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Touch-Optimized Header -->
   <header>
     <div class="header-container">
-      <div class="app-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        <h1>SEC TRANSACTIONS TRACKER</h1>
+      <!-- Tier 1: Title & Main Actions -->
+      <div class="header-row-primary">
+        <div class="app-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <h1>SEC TRANSACTIONS TRACKER</h1>
+        </div>
+        <div style="display: flex; gap: 0.4rem; align-items: center;">
+          <button type="button" onclick="toggleDarkMode()" id="themeToggleBtn" class="btn btn-theme">🌙 Dark</button>
+          <button type="button" onclick="openModal()" class="btn btn-primary" style="font-weight: 800;">➕ New</button>
+        </div>
       </div>
-      <div class="header-actions">
+
+      <!-- Tier 2: Management & Tool Actions (40px touch targets) -->
+      <div class="header-row-secondary">
         <label class="toggle-pill" title="Auto downloads backup upon save">
           <input type="checkbox" id="headerAutoBackupToggle" onchange="toggleAutoBackup(this.checked)" checked>
           <span>Auto-Backup</span>
         </label>
-        <button type="button" onclick="toggleDarkMode()" id="themeToggleBtn" class="btn btn-theme">🌙 Dark</button>
-        <button type="button" onclick="downloadBackup()" class="btn btn-secondary" title="Export JSON backup">📥 Backup</button>
-        <button type="button" onclick="triggerRestore()" class="btn btn-secondary" title="Import JSON backup">📤 Restore</button>
-        <input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none;" onchange="restoreBackup(event)">
+        <button type="button" onclick="downloadBackup()" class="btn btn-secondary">📥 Backup</button>
+        <!-- Native file input label (works 100% on iOS Safari) -->
+        <label class="btn btn-secondary" style="position: relative; overflow: hidden; cursor: pointer;">
+          📤 Restore
+          <input type="file" id="restoreFileInput" accept=".json,application/json" onchange="restoreBackup(event)" style="position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer;">
+        </label>
         <button type="button" onclick="exportToCSV()" class="btn btn-secondary">📊 CSV</button>
-        <button type="button" onclick="openModal()" class="btn btn-primary">➕ New</button>
       </div>
     </div>
   </header>
 
-  <!-- iOS Home Screen Helper Tip -->
+  <!-- iOS Home Screen Install Helper Tip -->
   <div id="iosInstallBanner">
     <div>
-      <strong>📲 Install as iOS App:</strong> Tap the <strong>Share button</strong> (square with arrow 📤) at the bottom, then choose <strong>"Add to Home Screen"</strong> (➕).
+      <strong>📲 Install as iOS App:</strong> Tap the <strong>Share icon</strong> (square with arrow 📤) in Safari, then choose <strong>"Add to Home Screen"</strong> (➕).
     </div>
-    <button onclick="dismissInstallBanner()" style="background:none; border:none; color:#fbbf24; font-size:1.2rem; cursor:pointer; padding:0 0.25rem;">&times;</button>
+    <button onclick="dismissInstallBanner()" style="background:none; border:none; color:#fbbf24; font-size:1.4rem; cursor:pointer; padding:0 0.4rem; line-height: 1;">&times;</button>
   </div>
 
   <div class="container">
@@ -335,7 +477,7 @@
         <tbody id="transactionsTbody"></tbody>
       </table>
       <div id="noDataRow" style="text-align:center; padding: 2.5rem; color: var(--text-muted); display: none;">
-        No transaction records found. Click <strong>"➕ New Transaction"</strong> to encode.
+        No transaction records found. Click <strong>"➕ New"</strong> to encode.
       </div>
     </div>
   </div>
@@ -569,7 +711,7 @@
     </div>
   </div>
 
-  <!-- APPLICATION LOGIC -->
+  <!-- APPLICATION ENGINE -->
   <script>
     const STORAGE_KEY = 'SEC_CLIENT_SYSTEM_DATA_OFFLINE';
     const THEME_KEY = 'SEC_TRACKER_DARK_MODE';
@@ -587,47 +729,43 @@
       'For compliance of Client'
     ];
 
+    // Safe Storage Wrappers (Prevents iOS private browsing crashes)
+    function safeGetStorage(key, defaultVal) {
+      try {
+        const val = localStorage.getItem(key);
+        return val !== null ? val : defaultVal;
+      } catch (e) {
+        return defaultVal;
+      }
+    }
+
+    function safeSetStorage(key, val) {
+      try {
+        localStorage.setItem(key, val);
+      } catch (e) {}
+    }
+
     let records = [];
     let activeViewingId = null;
 
     try {
-      records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      records = JSON.parse(safeGetStorage(STORAGE_KEY, '[]')) || [];
     } catch(err) {
       records = [];
     }
 
     window.onload = function() {
       initTheme();
-      initIOSAppFeatures();
+      checkIOSBanner();
       initAutoBackupSetting();
       updateSummarySelectors();
       renderTable();
     };
 
-    /* -------------------------------------------------------------
-       iOS APP PWA & ICON CONVERTER (PNG CANVAS CACHE)
-    -------------------------------------------------------------- */
-    function initIOSAppFeatures() {
-      // 1. Generate high-res 180x180 PNG from SVG for older iOS versions
-      try {
-        const svgIcon = document.getElementById('appleTouchIcon').getAttribute('href');
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          canvas.width = 180;
-          canvas.height = 180;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
-          const pngUrl = canvas.toDataURL('image/png');
-          document.getElementById('appleTouchIcon').setAttribute('href', pngUrl);
-        };
-        img.src = svgIcon;
-      } catch (e) {}
-
-      // 2. Detect if running in iOS browser and prompt installation
+    function checkIOSBanner() {
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       const isStandalone = window.navigator.standalone === true;
-      const isDismissed = localStorage.getItem(BANNER_DISMISSED_KEY) === 'true';
+      const isDismissed = safeGetStorage(BANNER_DISMISSED_KEY, 'false') === 'true';
 
       if (isIOS && !isStandalone && !isDismissed) {
         document.getElementById('iosInstallBanner').style.display = 'flex';
@@ -636,19 +774,19 @@
 
     function dismissInstallBanner() {
       document.getElementById('iosInstallBanner').style.display = 'none';
-      localStorage.setItem(BANNER_DISMISSED_KEY, 'true');
+      safeSetStorage(BANNER_DISMISSED_KEY, 'true');
     }
 
     /* -------------------------------------------------------------
        AUTO-BACKUP & PERSISTENCE
     -------------------------------------------------------------- */
     function initAutoBackupSetting() {
-      const isEnabled = localStorage.getItem(AUTO_BACKUP_KEY) !== 'false';
+      const isEnabled = safeGetStorage(AUTO_BACKUP_KEY, 'true') !== 'false';
       syncAutoBackupCheckboxes(isEnabled);
     }
 
     function toggleAutoBackup(checked) {
-      localStorage.setItem(AUTO_BACKUP_KEY, checked);
+      safeSetStorage(AUTO_BACKUP_KEY, checked);
       syncAutoBackupCheckboxes(checked);
     }
 
@@ -660,7 +798,7 @@
     }
 
     function isAutoBackupActive() {
-      return localStorage.getItem(AUTO_BACKUP_KEY) !== 'false';
+      return safeGetStorage(AUTO_BACKUP_KEY, 'true') !== 'false';
     }
 
     function triggerAutoBackupDownload() {
@@ -686,17 +824,17 @@
         setTimeout(() => {
           document.body.removeChild(tempLink);
           URL.revokeObjectURL(blobUrl);
-        }, 300);
+        }, 1000);
       } catch (err) {
         console.error('Auto backup failed:', err);
       }
     }
 
     /* -------------------------------------------------------------
-       DARK MODE ENGINE
+       DARK MODE
     -------------------------------------------------------------- */
     function initTheme() {
-      const isDark = localStorage.getItem(THEME_KEY) === 'true';
+      const isDark = safeGetStorage(THEME_KEY, 'false') === 'true';
       if (isDark) {
         document.body.classList.add('dark-mode');
       }
@@ -705,7 +843,7 @@
 
     function toggleDarkMode() {
       const isDark = document.body.classList.toggle('dark-mode');
-      localStorage.setItem(THEME_KEY, isDark);
+      safeSetStorage(THEME_KEY, isDark);
       updateThemeButton();
     }
 
@@ -726,8 +864,8 @@
       row.className = 'expense-item-row';
 
       row.innerHTML = `
-        <input type="text" placeholder="e.g. SEC Filing, LRF, Notary" value="${escapeHtml(desc)}" class="form-control expense-item-desc" style="padding: 0.35rem 0.5rem; font-size: 0.8rem;">
-        <input type="number" step="0.01" min="0" placeholder="0.00" value="${amount !== '' ? amount : ''}" oninput="calculateFinancials()" class="form-control expense-item-amount" style="padding: 0.35rem 0.5rem; font-size: 0.8rem; text-align: right;">
+        <input type="text" placeholder="e.g. SEC Filing, LRF, Notary" value="${escapeHtml(desc)}" class="form-control expense-item-desc" style="padding: 0.35rem 0.5rem; font-size: 16px;">
+        <input type="number" step="0.01" min="0" placeholder="0.00" value="${amount !== '' ? amount : ''}" oninput="calculateFinancials()" class="form-control expense-item-amount" style="padding: 0.35rem 0.5rem; font-size: 16px; text-align: right;">
         <button type="button" onclick="removeExpenseRow(this)" title="Remove item" class="btn btn-danger btn-sm" style="padding: 0.35rem; width: 100%; justify-content: center; font-size: 0.8rem;">✕</button>
       `;
 
@@ -765,7 +903,7 @@
     }
 
     /* -------------------------------------------------------------
-       FINANCIALS & FULLY PAID CALCULATIONS
+       FINANCIAL CALCULATIONS & SETTLEMENT
     -------------------------------------------------------------- */
     function toggleFullyPaid(checked) {
       const fee = parseFloat(document.getElementById('fee').value) || 0;
@@ -1208,7 +1346,7 @@
     }
 
     function saveToStorage() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+      safeSetStorage(STORAGE_KEY, JSON.stringify(records));
     }
 
     /* -------------------------------------------------------------
@@ -1370,4 +1508,34 @@
         const completedDate = r.dateCompleted || r.finishedDate || '—';
         const totalExpenses = getRecordTotalExpenses(r);
         const netProfit = (r.fee || 0) - totalExpenses;
-        const
+        const itemsCount = Array.isArray(r.expenseItems) ? r.expenseItems.length : (r.expenses > 0 ? 1 : 0);
+
+        const totalPaid = getRecordTotalPaid(r);
+        const balance = getRecordBalance(r);
+        const isPaid = r.isFullyPaid || balance === 0;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <strong style="color:var(--text); font-size:0.9rem;">${escapeHtml(r.corpName)}</strong>
+            ${itemsCount > 0 ? `<div style="font-size:0.7rem; color:#ea580c; margin-top:2px;">📁 ${itemsCount} expense item(s)</div>` : ''}
+          </td>
+          <td><span class="badge badge-prep">${escapeHtml(r.transType)}</span></td>
+          <td style="font-size:0.775rem; color:var(--text-muted);">
+            <div><strong style="color:var(--text);">Accepted & DP:</strong> ${r.dateAccepted || '—'}</div>
+            <div><strong style="color:var(--text);">Started:</strong> ${r.dateStarted || '—'}</div>
+            <div><strong style="color:var(--text);">Completed:</strong> ${completedDate}</div>
+          </td>
+          <td style="text-align: right; font-size:0.775rem;">
+            <div>Fee: <strong style="color:var(--text);">${formatPeso(r.fee)}</strong></div>
+            <div>Paid: <span style="color:var(--success); font-weight:700;">${formatPeso(totalPaid)}</span>${isPaid ? ' <span class="badge badge-completed" style="font-size:0.62rem; padding:1px 5px;">✔ PAID</span>' : ''}</div>
+            <div>Bal: <strong style="color:${balance > 0 ? 'var(--danger)' : 'var(--success)'};">${balance > 0 ? formatPeso(balance) : '₱0.00'}</strong></div>
+            <div>Exp: <span style="color:#ea580c; font-weight:600;">${formatPeso(totalExpenses)}</span></div>
+            <div style="border-top:1px dashed var(--border); margin-top:2px; padding-top:2px;">Net: <strong style="color:${netProfit >= 0 ? 'var(--success)' : 'var(--danger)'};">${formatPeso(netProfit)}</strong></div>
+          </td>
+          <td style="text-align: center;">${getStatusBadge(r.currentStatus)}</td>
+          <td style="text-align: center; white-space:nowrap;">
+            <button type="button" onclick="viewRecord('${r.id}')" class="btn btn-view btn-sm">👁️ View</button>
+            <button type="button" onclick="openModal('${r.id}')" class="btn btn-outline btn-sm">Edit</button>
+            ${!isPaid && balance > 0 ? `<button type="button" onclick="quickSettleBalance('${r.id}')" class="btn btn-settle btn-sm">💵 Settle</button>` : ''}
+            <but
