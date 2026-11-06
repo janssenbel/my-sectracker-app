@@ -5,88 +5,182 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SEC TRANSACTIONS TRACKER</title>
 
-  <!-- iOS "Add to Home Screen" Web App & Icon Settings -->
+  <!-- PWA & iOS Home Screen Settings -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SEC Tracker">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#0f172a">
+  <meta name="application-name" content="SEC Tracker">
 
-  <!-- Apple Touch Icon & Favicon Links (Embedded Offline PNG) -->
-  <link id="appleTouchIcon" rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAAM0lEQVRYhe3OQQ0AIAwEsHMCF/jXDCBwEhdIaR922Xb7eup6AYC7B4DkAQBA8gAAIHkAAJA8/YUA77WnIukAAAAASUVORK5CYII=">
-  <link id="appleTouchPrecomposed" rel="apple-touch-icon-precomposed" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAAM0lEQVRYhe3OQQ0AIAwEsHMCF/jXDCBwEhdIaR922Xb7eup6AYC7B4DkAQBA8gAAIHkAAJA8/YUA77WnIukAAAAASUVORK5CYII=">
-  <link id="appFavicon" rel="icon" type="image/png" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAAM0lEQVRYhe3OQQ0AIAwEsHMCF/jXDCBwEhdIaR922Xb7eup6AYC7B4DkAQBA8gAAIHkAAJA8/YUA77WnIukAAAAASUVORK5CYII=">
-  <link id="appManifest" rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22SEC%20Transactions%20Tracker%22%2C%22short_name%22%3A%22SEC%20Tracker%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%7D">
+  <!-- Apple Touch & Favicon Links -->
+  <link id="appleTouchIcon" rel="apple-touch-icon" sizes="180x180" href="">
+  <link id="appleTouchPrecomposed" rel="apple-touch-icon-precomposed" sizes="180x180" href="">
+  <link id="appFavicon" rel="icon" type="image/png" sizes="192x192" href="">
+  <link id="appManifest" rel="manifest" href="">
 
-  <!-- Immediate High-Resolution iOS Touch Icon Generator -->
+  <!-- Book with Pencil Icon Generator (Embedded, 100% Offline) -->
   <script>
-    (function generateIOSAppIcon() {
+    (function generateBookPencilAppIcon() {
       try {
         var canvas = document.createElement('canvas');
-        canvas.width = 180;
-        canvas.height = 180;
+        canvas.width = 512;
+        canvas.height = 512;
         var ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        // 1. Solid opaque navy gradient (Solid background prevents iOS from rendering black boxes)
-        var bg = ctx.createLinearGradient(0, 0, 180, 180);
-        bg.addColorStop(0, '#0f172a');
-        bg.addColorStop(0.5, '#1e293b');
+        // 1. Solid background gradient (Deep executive navy)
+        var bg = ctx.createLinearGradient(0, 0, 512, 512);
+        bg.addColorStop(0, '#090e1a');
+        bg.addColorStop(0.5, '#0f172a');
         bg.addColorStop(1, '#1e3a8a');
         ctx.fillStyle = bg;
-        ctx.fillRect(0, 0, 180, 180);
+        ctx.fillRect(0, 0, 512, 512);
 
-        // 2. Crisp outer bezel
+        // 2. Subtle outer ring
         ctx.strokeStyle = '#3b82f6';
-        ctx.lineWidth = 4;
-        ctx.strokeRect(6, 6, 168, 168);
+        ctx.lineWidth = 10;
+        ctx.strokeRect(18, 18, 476, 476);
 
-        // 3. Golden SEC Compliance Seal Circle
-        ctx.strokeStyle = '#f59e0b';
-        ctx.lineWidth = 3;
+        // Soft circular glow behind book
+        var glow = ctx.createRadialGradient(256, 210, 20, 256, 210, 180);
+        glow.addColorStop(0, 'rgba(59, 130, 246, 0.25)');
+        glow.addColorStop(1, 'rgba(15, 23, 42, 0)');
+        ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.arc(90, 72, 38, 0, Math.PI * 2);
-        ctx.stroke();
-
-        ctx.fillStyle = 'rgba(245, 158, 11, 0.16)';
+        ctx.arc(256, 210, 180, 0, Math.PI * 2);
         ctx.fill();
 
-        // 4. Institutional Pediment / Building Roof
-        ctx.fillStyle = '#ffffff';
+        // 3. Draw Book Cover Trim (Hardcover base)
+        ctx.fillStyle = '#1d4ed8';
         ctx.beginPath();
-        ctx.moveTo(90, 44);
-        ctx.lineTo(122, 60);
-        ctx.lineTo(58, 60);
+        ctx.moveTo(90, 275);
+        ctx.quadraticCurveTo(256, 315, 256, 305);
+        ctx.quadraticCurveTo(256, 315, 422, 275);
+        ctx.lineTo(430, 290);
+        ctx.quadraticCurveTo(256, 335, 256, 325);
+        ctx.quadraticCurveTo(256, 335, 82, 290);
         ctx.closePath();
         ctx.fill();
 
-        // Entablature architrave
-        ctx.fillRect(56, 62, 68, 4);
+        // 4. Open Book - Left Page
+        ctx.fillStyle = '#f8fafc';
+        ctx.beginPath();
+        ctx.moveTo(256, 130);
+        ctx.quadraticCurveTo(170, 110, 100, 125);
+        ctx.lineTo(100, 265);
+        ctx.quadraticCurveTo(170, 250, 256, 280);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 3;
+        ctx.stroke();
 
-        // 4 Columns
-        ctx.fillRect(62, 68, 8, 22);
-        ctx.fillRect(76, 68, 8, 22);
-        ctx.fillRect(96, 68, 8, 22);
-        ctx.fillRect(110, 68, 8, 22);
+        // Left Page Document Text Lines
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
+        for (var i = 0; i < 4; i++) {
+          var y = 160 + (i * 24);
+          ctx.beginPath();
+          ctx.moveTo(130, y);
+          ctx.lineTo(230, y + 6);
+          ctx.stroke();
+        }
 
-        // Base podium
-        ctx.fillRect(54, 92, 72, 6);
+        // 5. Open Book - Right Page
+        ctx.fillStyle = '#f1f5f9';
+        ctx.beginPath();
+        ctx.moveTo(256, 130);
+        ctx.quadraticCurveTo(342, 110, 412, 125);
+        ctx.lineTo(412, 265);
+        ctx.quadraticCurveTo(342, 250, 256, 280);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 3;
+        ctx.stroke();
 
-        // 5. Typography: "SEC"
+        // Right Page Document Text Lines
+        for (var j = 0; j < 3; j++) {
+          var yR = 160 + (j * 24);
+          ctx.beginPath();
+          ctx.moveTo(280, yR + 6);
+          ctx.lineTo(380, yR);
+          ctx.stroke();
+        }
+
+        // Book Center Spine Shadow
+        ctx.fillStyle = '#64748b';
+        ctx.beginPath();
+        ctx.moveTo(253, 130);
+        ctx.lineTo(259, 130);
+        ctx.lineTo(259, 285);
+        ctx.lineTo(253, 285);
+        ctx.closePath();
+        ctx.fill();
+
+        // 6. Draw Pencil (Diagonally writing on the book)
+        ctx.save();
+        ctx.translate(330, 210);
+        ctx.rotate(-Math.PI / 4.2); // angled pencil
+
+        // Pencil Body (Golden Amber Hexagon)
+        ctx.fillStyle = '#f59e0b';
+        ctx.fillRect(-18, -110, 36, 125);
+
+        // Pencil Facet Highlights
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillRect(-18, -110, 12, 125);
+        ctx.fillStyle = '#d97706';
+        ctx.fillRect(6, -110, 12, 125);
+
+        // Wooden Cone Tip
+        ctx.fillStyle = '#fde68a';
+        ctx.beginPath();
+        ctx.moveTo(-18, 15);
+        ctx.lineTo(18, 15);
+        ctx.lineTo(0, 52);
+        ctx.closePath();
+        ctx.fill();
+
+        // Graphite Lead
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.moveTo(-7, 38);
+        ctx.lineTo(7, 38);
+        ctx.lineTo(0, 52);
+        ctx.closePath();
+        ctx.fill();
+
+        // Silver Ferrule
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillRect(-18, -128, 36, 18);
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillRect(-18, -122, 36, 6);
+
+        // Pink Eraser
+        ctx.fillStyle = '#f43f5e';
+        ctx.beginPath();
+        ctx.arc(0, -128, 18, Math.PI, 0, false);
+        ctx.fill();
+
+        ctx.restore();
+
+        // 7. Text Banner: "SEC TRACKER"
         ctx.fillStyle = '#ffffff';
-        ctx.font = '900 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.font = '900 64px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('SEC', 90, 126);
+        ctx.fillText('SEC', 256, 385);
 
-        // 6. Subtitle: "TRACKER"
-        ctx.fillStyle = '#93c5fd';
-        ctx.font = '800 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-        ctx.fillText('TRACKER', 90, 148);
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = '800 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.fillText('TRACKER', 256, 435);
 
         var iconData = canvas.toDataURL('image/png');
 
-        // Apply dynamically to Apple Touch Icon tags
+        // Apply Icon to Apple & Favicon Links
         var appleIcon = document.getElementById('appleTouchIcon');
         var applePre = document.getElementById('appleTouchPrecomposed');
         var fav = document.getElementById('appFavicon');
@@ -102,20 +196,25 @@
             short_name: "SEC Tracker",
             start_url: ".",
             display: "standalone",
+            orientation: "any",
             background_color: "#0f172a",
             theme_color: "#0f172a",
-            icons: [{ src: iconData, sizes: "180x180", type: "image/png" }]
+            description: "Offline SEC Corporate Compliance and Client Transaction Management System",
+            icons: [
+              { src: iconData, sizes: "512x512", type: "image/png", purpose: "any maskable" },
+              { src: iconData, sizes: "180x180", type: "image/png" }
+            ]
           };
           manifestLink.href = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
         }
       } catch (e) {
-        console.error('App icon generator error:', e);
+        console.error('PWA Icon generator error:', e);
       }
     })();
   </script>
 
   <style>
-    /* 100% OFFLINE STYLING - NO EXTERNAL LIBRARIES OR INTERNET REQUIRED */
+    /* 100% OFFLINE STYLING */
     :root {
       --primary: #1e40af;
       --primary-hover: #1d4ed8;
@@ -279,6 +378,11 @@
         <h1>SEC TRANSACTIONS TRACKER</h1>
       </div>
       <div class="header-actions">
+        <!-- PWA One-Click Install Button (Visible when browser prompt is available) -->
+        <button type="button" id="pwaInstallBtn" onclick="installPWA()" class="btn btn-sm" style="display:none; background:#0284c7; color:#fff;" title="Install SEC Tracker as a standalone app">
+          📲 Install App
+        </button>
+
         <!-- Auto-Backup Toggle -->
         <label class="toggle-pill" title="Automatically downloads a fresh backup file every time you save or edit a transaction">
           <input type="checkbox" id="headerAutoBackupToggle" onchange="toggleAutoBackup(this.checked)" checked>
@@ -732,6 +836,7 @@
 
     let records = [];
     let activeViewingId = null;
+    let deferredInstallPrompt = null;
 
     try {
       records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -743,9 +848,52 @@
     window.onload = function() {
       initTheme();
       initAutoBackupSetting();
+      initServiceWorker();
       updateSummarySelectors();
       renderTable();
     };
+
+    /* -------------------------------------------------------------
+       PWA SERVICE WORKER & INSTALLATION LISTENER
+    -------------------------------------------------------------- */
+    function initServiceWorker() {
+      // Register Service Worker if running under HTTP/HTTPS
+      if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+        navigator.serviceWorker.register('./sw.js').then(function(reg) {
+          console.log('PWA Service Worker registered with scope:', reg.scope);
+        }).catch(function(err) {
+          console.log('ServiceWorker note (local file mode or sw.js not found):', err.message);
+        });
+      }
+
+      // Capture install prompt for Chrome/Edge/Android
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        const installBtn = document.getElementById('pwaInstallBtn');
+        if (installBtn) installBtn.style.display = 'inline-flex';
+      });
+
+      window.addEventListener('appinstalled', () => {
+        const installBtn = document.getElementById('pwaInstallBtn');
+        if (installBtn) installBtn.style.display = 'none';
+        deferredInstallPrompt = null;
+      });
+    }
+
+    function installPWA() {
+      if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User installed the PWA');
+          }
+          deferredInstallPrompt = null;
+          const installBtn = document.getElementById('pwaInstallBtn');
+          if (installBtn) installBtn.style.display = 'none';
+        });
+      }
+    }
 
     /* -------------------------------------------------------------
        AUTO-BACKUP ENGINE
