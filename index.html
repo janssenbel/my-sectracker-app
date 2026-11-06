@@ -19,7 +19,7 @@
   <link id="appFavicon" rel="icon" type="image/png" sizes="192x192" href="">
   <link id="appManifest" rel="manifest" href="">
 
-  <!-- Book with Pencil Icon Generator (Embedded, 100% Offline) -->
+  <!-- Seamless Borderless Book & Pencil Icon Generator -->
   <script>
     (function generateBookPencilAppIcon() {
       try {
@@ -29,7 +29,7 @@
         var ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        // 1. Solid background gradient (Deep executive navy)
+        // 1. Seamless, solid background gradient (No outer border or side lines)
         var bg = ctx.createLinearGradient(0, 0, 512, 512);
         bg.addColorStop(0, '#090e1a');
         bg.addColorStop(0.5, '#0f172a');
@@ -37,21 +37,16 @@
         ctx.fillStyle = bg;
         ctx.fillRect(0, 0, 512, 512);
 
-        // 2. Subtle outer ring
-        ctx.strokeStyle = '#3b82f6';
-        ctx.lineWidth = 10;
-        ctx.strokeRect(18, 18, 476, 476);
-
-        // Soft circular glow behind book
+        // 2. Soft circular ambient glow behind book
         var glow = ctx.createRadialGradient(256, 210, 20, 256, 210, 180);
-        glow.addColorStop(0, 'rgba(59, 130, 246, 0.25)');
+        glow.addColorStop(0, 'rgba(59, 130, 246, 0.22)');
         glow.addColorStop(1, 'rgba(15, 23, 42, 0)');
         ctx.fillStyle = glow;
         ctx.beginPath();
         ctx.arc(256, 210, 180, 0, Math.PI * 2);
         ctx.fill();
 
-        // 3. Draw Book Cover Trim (Hardcover base)
+        // 3. Book Cover Base Trim (Hardcover spine & wings)
         ctx.fillStyle = '#1d4ed8';
         ctx.beginPath();
         ctx.moveTo(90, 275);
@@ -76,7 +71,7 @@
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Left Page Document Text Lines
+        // Document Text Lines (Left Page)
         ctx.strokeStyle = '#94a3b8';
         ctx.lineWidth = 6;
         ctx.lineCap = 'round';
@@ -101,7 +96,7 @@
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Right Page Document Text Lines
+        // Document Text Lines (Right Page)
         for (var j = 0; j < 3; j++) {
           var yR = 160 + (j * 24);
           ctx.beginPath();
@@ -110,7 +105,7 @@
           ctx.stroke();
         }
 
-        // Book Center Spine Shadow
+        // Center Spine Shadow Crease
         ctx.fillStyle = '#64748b';
         ctx.beginPath();
         ctx.moveTo(253, 130);
@@ -120,22 +115,22 @@
         ctx.closePath();
         ctx.fill();
 
-        // 6. Draw Pencil (Diagonally writing on the book)
+        // 6. Angled Pencil (Writing on the document)
         ctx.save();
         ctx.translate(330, 210);
-        ctx.rotate(-Math.PI / 4.2); // angled pencil
+        ctx.rotate(-Math.PI / 4.2);
 
-        // Pencil Body (Golden Amber Hexagon)
+        // Pencil Body
         ctx.fillStyle = '#f59e0b';
         ctx.fillRect(-18, -110, 36, 125);
 
-        // Pencil Facet Highlights
+        // Pencil Facet 3D Highlights
         ctx.fillStyle = '#fbbf24';
         ctx.fillRect(-18, -110, 12, 125);
         ctx.fillStyle = '#d97706';
         ctx.fillRect(6, -110, 12, 125);
 
-        // Wooden Cone Tip
+        // Wood Cone Tip
         ctx.fillStyle = '#fde68a';
         ctx.beginPath();
         ctx.moveTo(-18, 15);
@@ -144,7 +139,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // Graphite Lead
+        // Graphite Lead Tip
         ctx.fillStyle = '#0f172a';
         ctx.beginPath();
         ctx.moveTo(-7, 38);
@@ -153,7 +148,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // Silver Ferrule
+        // Metal Ferrule Collar
         ctx.fillStyle = '#94a3b8';
         ctx.fillRect(-18, -128, 36, 18);
         ctx.fillStyle = '#cbd5e1';
@@ -167,7 +162,7 @@
 
         ctx.restore();
 
-        // 7. Text Banner: "SEC TRACKER"
+        // 7. Typography: "SEC TRACKER"
         ctx.fillStyle = '#ffffff';
         ctx.font = '900 64px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
         ctx.textAlign = 'center';
@@ -180,7 +175,7 @@
 
         var iconData = canvas.toDataURL('image/png');
 
-        // Apply Icon to Apple & Favicon Links
+        // Update Apple touch icon links
         var appleIcon = document.getElementById('appleTouchIcon');
         var applePre = document.getElementById('appleTouchPrecomposed');
         var fav = document.getElementById('appFavicon');
@@ -188,7 +183,7 @@
         if (applePre) applePre.href = iconData;
         if (fav) fav.href = iconData;
 
-        // Apply to Web App Manifest
+        // Update manifest icons
         var manifestLink = document.getElementById('appManifest');
         if (manifestLink) {
           var manifest = {
@@ -378,7 +373,7 @@
         <h1>SEC TRANSACTIONS TRACKER</h1>
       </div>
       <div class="header-actions">
-        <!-- PWA One-Click Install Button (Visible when browser prompt is available) -->
+        <!-- PWA One-Click Install Button -->
         <button type="button" id="pwaInstallBtn" onclick="installPWA()" class="btn btn-sm" style="display:none; background:#0284c7; color:#fff;" title="Install SEC Tracker as a standalone app">
           📲 Install App
         </button>
@@ -857,7 +852,6 @@
        PWA SERVICE WORKER & INSTALLATION LISTENER
     -------------------------------------------------------------- */
     function initServiceWorker() {
-      // Register Service Worker if running under HTTP/HTTPS
       if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
         navigator.serviceWorker.register('./sw.js').then(function(reg) {
           console.log('PWA Service Worker registered with scope:', reg.scope);
@@ -866,7 +860,6 @@
         });
       }
 
-      // Capture install prompt for Chrome/Edge/Android
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredInstallPrompt = e;
