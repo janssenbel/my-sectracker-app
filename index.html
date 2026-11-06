@@ -2,8 +2,118 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SEC TRANSACTIONS TRACKER</title>
+
+  <!-- iOS "Add to Home Screen" Web App & Icon Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SEC Tracker">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Apple Touch Icon & Favicon Links (Embedded Offline PNG) -->
+  <link id="appleTouchIcon" rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAAM0lEQVRYhe3OQQ0AIAwEsHMCF/jXDCBwEhdIaR922Xb7eup6AYC7B4DkAQBA8gAAIHkAAJA8/YUA77WnIukAAAAASUVORK5CYII=">
+  <link id="appleTouchPrecomposed" rel="apple-touch-icon-precomposed" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAAM0lEQVRYhe3OQQ0AIAwEsHMCF/jXDCBwEhdIaR922Xb7eup6AYC7B4DkAQBA8gAAIHkAAJA8/YUA77WnIukAAAAASUVORK5CYII=">
+  <link id="appFavicon" rel="icon" type="image/png" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAAM0lEQVRYhe3OQQ0AIAwEsHMCF/jXDCBwEhdIaR922Xb7eup6AYC7B4DkAQBA8gAAIHkAAJA8/YUA77WnIukAAAAASUVORK5CYII=">
+  <link id="appManifest" rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22SEC%20Transactions%20Tracker%22%2C%22short_name%22%3A%22SEC%20Tracker%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%7D">
+
+  <!-- Immediate High-Resolution iOS Touch Icon Generator -->
+  <script>
+    (function generateIOSAppIcon() {
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = 180;
+        canvas.height = 180;
+        var ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        // 1. Solid opaque navy gradient (Solid background prevents iOS from rendering black boxes)
+        var bg = ctx.createLinearGradient(0, 0, 180, 180);
+        bg.addColorStop(0, '#0f172a');
+        bg.addColorStop(0.5, '#1e293b');
+        bg.addColorStop(1, '#1e3a8a');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, 180, 180);
+
+        // 2. Crisp outer bezel
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(6, 6, 168, 168);
+
+        // 3. Golden SEC Compliance Seal Circle
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(90, 72, 38, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.16)';
+        ctx.fill();
+
+        // 4. Institutional Pediment / Building Roof
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(90, 44);
+        ctx.lineTo(122, 60);
+        ctx.lineTo(58, 60);
+        ctx.closePath();
+        ctx.fill();
+
+        // Entablature architrave
+        ctx.fillRect(56, 62, 68, 4);
+
+        // 4 Columns
+        ctx.fillRect(62, 68, 8, 22);
+        ctx.fillRect(76, 68, 8, 22);
+        ctx.fillRect(96, 68, 8, 22);
+        ctx.fillRect(110, 68, 8, 22);
+
+        // Base podium
+        ctx.fillRect(54, 92, 72, 6);
+
+        // 5. Typography: "SEC"
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 28px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('SEC', 90, 126);
+
+        // 6. Subtitle: "TRACKER"
+        ctx.fillStyle = '#93c5fd';
+        ctx.font = '800 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+        ctx.fillText('TRACKER', 90, 148);
+
+        var iconData = canvas.toDataURL('image/png');
+
+        // Apply dynamically to Apple Touch Icon tags
+        var appleIcon = document.getElementById('appleTouchIcon');
+        var applePre = document.getElementById('appleTouchPrecomposed');
+        var fav = document.getElementById('appFavicon');
+        if (appleIcon) appleIcon.href = iconData;
+        if (applePre) applePre.href = iconData;
+        if (fav) fav.href = iconData;
+
+        // Apply to Web App Manifest
+        var manifestLink = document.getElementById('appManifest');
+        if (manifestLink) {
+          var manifest = {
+            name: "SEC Transactions Tracker",
+            short_name: "SEC Tracker",
+            start_url: ".",
+            display: "standalone",
+            background_color: "#0f172a",
+            theme_color: "#0f172a",
+            icons: [{ src: iconData, sizes: "180x180", type: "image/png" }]
+          };
+          manifestLink.href = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+        }
+      } catch (e) {
+        console.error('App icon generator error:', e);
+      }
+    })();
+  </script>
+
   <style>
     /* 100% OFFLINE STYLING - NO EXTERNAL LIBRARIES OR INTERNET REQUIRED */
     :root {
@@ -516,7 +626,7 @@
                 <span>Remaining balance is fully paid</span>
               </label>
 
-              <!-- Dynamic Settlement Fields (visible when fully paid is checked) -->
+              <!-- Dynamic Settlement Fields -->
               <div id="fullyPaidDetailsGroup" class="form-grid" style="display: none; margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px dashed var(--border);">
                 <div class="form-group" style="margin-bottom: 0;">
                   <label style="color: var(--success);">Final Payment Amount (₱)</label>
@@ -938,7 +1048,7 @@
     }
 
     /* -------------------------------------------------------------
-       VIEW SUMMARY MODAL (Includes Full Settlement Details)
+       VIEW SUMMARY MODAL
     -------------------------------------------------------------- */
     function viewRecord(id) {
       const item = records.find(r => r.id === id);
@@ -956,7 +1066,6 @@
       document.getElementById('viewFee').innerText = formatPeso(item.fee);
       document.getElementById('viewInitialPayment').innerText = formatPeso(item.initialPayment);
 
-      // Final payment and settled details
       const finalPayRow = document.getElementById('viewFinalPaymentRow');
       const dateFullyPaidRow = document.getElementById('viewDateFullyPaidRow');
       const balRow = document.getElementById('viewBalanceRow');
@@ -995,7 +1104,6 @@
         balElem.style.fontWeight = '700';
       }
 
-      // Calculate Total Expenses & Render Multiple Items
       const expenseList = item.expenseItems || [];
       const totalExpenses = (expenseList.length > 0)
         ? expenseList.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0)
@@ -1089,7 +1197,6 @@
           document.getElementById('fee').value = item.fee;
           document.getElementById('initialPayment').value = item.initialPayment;
 
-          // Check if fully paid
           const isPaid = item.isFullyPaid || (item.fee > 0 && getRecordBalance(item) === 0);
           const cb = document.getElementById('isFullyPaid');
           cb.checked = isPaid;
@@ -1100,7 +1207,6 @@
             document.getElementById('dateFullyPaid').value = item.dateFullyPaid || '';
           }
 
-          // Populate multiple expenses
           if (Array.isArray(item.expenseItems) && item.expenseItems.length > 0) {
             item.expenseItems.forEach(exp => {
               addExpenseRow(exp.description, exp.amount);
